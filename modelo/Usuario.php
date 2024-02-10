@@ -10,6 +10,7 @@ class Usuario implements UsuarioInterface{
     private $login_usuario;
     private $senha_usuario;
     private $email_usuario;
+    private $perfil_usuario;
 
     public function setCodigo_Usuario($codigo_usuario){
         $this->codigo_usuario = $codigo_usuario;
@@ -36,7 +37,7 @@ class Usuario implements UsuarioInterface{
     }
 
     public function setSenha_Usuario($senha_usuario){
-        $this-> senha_usuario = $senha_usuario;
+        $this->senha_usuario = $senha_usuario;
     }
 
     public function getSenha_Usuario(){
@@ -44,22 +45,31 @@ class Usuario implements UsuarioInterface{
     }
 
     public function setEmail_Usuario($email_usuario){
-        $this-> email_usuario = $email_usuario;
+        $this->email_usuario = $email_usuario;
     }
 
     public function getEmail_Usuario(){
-        return $this-> email_usuario;
+        return $this->email_usuario;
+    }
+
+    public function setPerfil_Usuario($perfil_usuario){
+        $this->perfil_usuario = $perfil_usuario;
+    }
+
+    public function getPerfil_Usuario(){
+        return $this->perfil_usuario;
     }
 
     public function cadastroUsuario():int {
         try{
 
-            $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, login_usuario, senha_usuario, email_usuario) values(:recebeNomeUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebeEmailUsuario)";
+            $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, login_usuario, senha_usuario, email_usuario, perfil_usuario) values(:recebeNomeUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebeEmailUsuario, :recebePerfilUsuario)";
             $conexaoExecutada = Conexao::Obtem()->prepare($instrucaoCadastroUsuario);
             $conexaoExecutada->bindValue(":recebeNomeUsuario", $this->getNome_Usuario());
             $conexaoExecutada->bindValue(":recebeLoginUsuario", $this->getLogin_Usuario());
             $conexaoExecutada->bindValue(":recebeSenhaUsuario", $this->getSenha_Usuario());
             $conexaoExecutada->bindValue(":recebeEmailUsuario", $this->getEmail_Usuario());
+            $conexaoExecutada->bindValue(":recebePerfilUsuario", $this->getPerfil_Usuario());
             
             $resultadoCadastroUsuario = $conexaoExecutada->execute();
             $ultimoCodigoCadastrado = Conexao::Obtem()->lastInsertId();
