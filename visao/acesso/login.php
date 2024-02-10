@@ -92,7 +92,7 @@
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Não possui uma conta? <a href="pages-register.html">Crie uma conta</a></p>
+                      <p class="small mb-0">Não possui uma conta? <a href="cadastro_usuario.php">Crie uma conta</a></p>
                     </div>
                   </form>
 
@@ -132,5 +132,4 @@
   <script src="../assets/js/main.js"></script>
 
 </body>
-
 </html>
