@@ -13,6 +13,20 @@ header("Access-Control-Allow-Methods:");
 //com a variavel super global $_SERVER e verificado qual metodo de requisição e utilizado para acessar a API protocolosapi
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recebeProcessoUsuario = $_POST["processo_usuario"];
-    echo json_encode($recebeProcessoUsuario);
+if($recebeProcessoUsuario === "recebe_cadastro_usuario"){
+
+    $nomeUsuario = $_POST["nome-completo"];
+    $emailUsuario = $_POST["email-usuario"];
+    $nomeDeUsuario = $_POST["nome-de-usuario"];
+    $senhaUsuario = $_POST["senha-usuario"];
+    $repetirSenhaUsuario = $_POST["repetir-senha-usuario"];
+    $perfilUsuario = $_POST["perfil-usuario"];
+
+
+    $usuarioControladora = new UsuarioControladora();
+    $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeDeUsuario, $emailUsuario, $nomeDeUsuario, $senhaUsuario, $repetirSenhaUsuario, $perfilUsuario);
+    echo json_encode($recebeCadastroUsuario);
+    
+}
 
 }

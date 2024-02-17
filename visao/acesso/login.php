@@ -81,13 +81,6 @@
                       <div class="invalid-feedback"></div>
                     </div>
 
-                    <!-- <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Lembrar-me</label>
-                      </div>
-                    </div> -->
-
                     <div class="col-12 mt-4">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
@@ -99,6 +92,8 @@
 
                 </div>
               </div>
+
+
             <?php 
             require("cadastro_usuario.php");
             ?>
@@ -122,7 +117,7 @@
   </main><!-- End #main -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" ></script>
   <!-- Vendor JS Files -->
   <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -132,6 +127,7 @@
   <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/js/usuario.js"></script>
 
   <!-- Template Main JS File -->
   <script src="../assets/js/main.js"></script>

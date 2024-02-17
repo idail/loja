@@ -63,12 +63,12 @@ class Usuario implements UsuarioInterface{
     public function cadastroUsuario():int {
         try{
 
-            $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, login_usuario, senha_usuario, email_usuario, perfil_usuario) values(:recebeNomeUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebeEmailUsuario, :recebePerfilUsuario)";
+            $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, email_usuario, login_usuario, senha_usuario, perfil_usuario) values(:recebeNomeUsuario, :recebeEmailUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebePerfilUsuario)";
             $conexaoExecutada = Conexao::Obtem()->prepare($instrucaoCadastroUsuario);
             $conexaoExecutada->bindValue(":recebeNomeUsuario", $this->getNome_Usuario());
-            $conexaoExecutada->bindValue(":recebeLoginUsuario", $this->getLogin_Usuario());
-            $conexaoExecutada->bindValue(":recebeSenhaUsuario", $this->getSenha_Usuario());
             $conexaoExecutada->bindValue(":recebeEmailUsuario", $this->getEmail_Usuario());
+            $conexaoExecutada->bindValue(":recebeLoginUsuario", $this->getLogin_Usuario());
+            $conexaoExecutada->bindValue(":recebeSenhaUsuario", $this->getSenha_Usuario());  
             $conexaoExecutada->bindValue(":recebePerfilUsuario", $this->getPerfil_Usuario());
             
             $resultadoCadastroUsuario = $conexaoExecutada->execute();
