@@ -55,6 +55,15 @@
                  </div>
                </div>
 
+               <div class="col-12">
+                 <label for="inputNumber" class="col-sm-12 col-form-label">Imagem Perfil</label>
+                 <div class="col-sm-12">
+                   <input class="form-control" type="file" id="foto-perfil" name="foto-perfil">
+                 </div>
+               </div>
+
+               <img src="" id="exibi-foto-perfil" style="width: 150px;height: 85px;">
+
                <!-- <div class="col-12">
                  <div class="form-check">
                    <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
@@ -69,6 +78,18 @@
                <div class="col-12">
                  <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>
                </div>
+
+               <div class="col-12">
+                 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-realizado-usuario" role="alert">
+                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                 </div>
+               </div>
+
+               <div class="col-12">
+                 <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-usuario" role="alert">
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                 </div>
+               </div>
              </form>
            </div>
          </div>
@@ -81,4 +102,3 @@
    </div>
  </div>
  <!-- End Disabled Backdrop Modal-->
-

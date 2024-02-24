@@ -13,20 +13,36 @@ header("Access-Control-Allow-Methods:");
 //com a variavel super global $_SERVER e verificado qual metodo de requisição e utilizado para acessar a API protocolosapi
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recebeProcessoUsuario = $_POST["processo_usuario"];
-if($recebeProcessoUsuario === "recebe_cadastro_usuario"){
+    if ($recebeProcessoUsuario === "recebe_cadastro_usuario") {
 
-    $nomeUsuario = $_POST["nome-completo"];
-    $emailUsuario = $_POST["email-usuario"];
-    $nomeDeUsuario = $_POST["nome-de-usuario"];
-    $senhaUsuario = $_POST["senha-usuario"];
-    $repetirSenhaUsuario = $_POST["repetir-senha-usuario"];
-    $perfilUsuario = $_POST["perfil-usuario"];
+        $nomeUsuario = $_POST["nome-completo"];
+        $emailUsuario = $_POST["email-usuario"];
+        $nomeDeUsuario = $_POST["nome-de-usuario"];
+        $senhaUsuario = $_POST["senha-usuario"];
+        //$repetirSenhaUsuario = $_POST["repetir-senha-usuario"];
+        $perfilUsuario = $_POST["perfil-usuario"];
+        $recebeImagemUsuario = $_FILES["foto-perfil"];
+        $recebeNomeImagem = "";
 
+        if (!empty($recebeImagemUsuario)) {
+            $tipo_imagem = $recebeImagemUsuario["type"];
 
-    $usuarioControladora = new UsuarioControladora();
-    $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeDeUsuario, $emailUsuario, $nomeDeUsuario, $senhaUsuario, $repetirSenhaUsuario, $perfilUsuario);
-    echo json_encode($recebeCadastroUsuario);
-    
-}
+            if ($tipo_imagem === "image/png" || $tipo_imagem === "image/jpeg" || $tipo_imagem === "image/jpg") {
+                $destino_imagem = "../visao/usuario/imagem_perfil/" . $recebeImagemUsuario["name"];
+                $recebeNomeImagem = $recebeImagemUsuario["name"];
+                copy($recebeImagemUsuario["tmp_name"], $destino_imagem);
+            }
+        }
 
+        if (
+            !empty($nomeDeUsuario) && !empty($emailUsuario) && !empty($nomeDeUsuario) && !empty($senhaUsuario) && !empty($perfilUsuario)
+        ) {
+            $usuarioControladora = new UsuarioControladora();
+            $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeUsuario, $emailUsuario, $nomeDeUsuario,
+            $senhaUsuario, $perfilUsuario,$recebeNomeImagem);
+            echo json_encode($recebeCadastroUsuario);
+        } else {
+            echo json_encode("Favor verificar o preenchimento dos campos");
+        }
+    }
 }

@@ -10,13 +10,16 @@
 
         }
 
-        public function CadastroUsuario( $recebeNomeUsuario, $recebeLoginUsuario, $recebeSenhaUsuario, $recebeEmailUsuario, $recebePerfilUsuario){
+        public function CadastroUsuario( $recebeNomeUsuario, $recebeEmailUsuario , $recebeLoginUsuario, $recebeSenhaUsuario, $recebePerfilUsuario, $recebeImagemUsuario){
 
             $this->usuario->setNome_Usuario($recebeNomeUsuario);
             $this->usuario->setEmail_Usuario($recebeEmailUsuario);
             $this->usuario->setLogin_Usuario($recebeLoginUsuario);
             $this->usuario->setSenha_Usuario($recebeSenhaUsuario);
             $this->usuario->setPerfil_Usuario($recebePerfilUsuario);
+            
+            if(!empty($recebeImagemUsuario))
+                $this->usuario->setImagem_Usuario($recebeImagemUsuario);
 
             $resultadoUsuario = $this->usuario->cadastroUsuario();
             return $resultadoUsuario;
