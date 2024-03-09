@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         //$repetirSenhaUsuario = $_POST["repetir-senha-usuario"];
         $perfilUsuario = $_POST["perfil-usuario"];
         $recebeImagemUsuario = $_FILES["foto-perfil"];
-        $recebeNomeImagem = "";
+        $recebeNomeImagem = "usuario_sem_foto.jpg";
 
         if (!empty($recebeImagemUsuario)) {
             $tipo_imagem = $recebeImagemUsuario["type"];
