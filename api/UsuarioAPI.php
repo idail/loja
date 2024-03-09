@@ -1,8 +1,4 @@
 <?php
-//e verificado se a sesson nao existe e caso nao exista sessao a mesma sera inicializada
-if (!isset($_SESSION)) {
-    session_start();
-}
 //é importado a classe protocoloscontroladora.php
 require("../controladora/UsuarioControladora.php");
 //O valor diz aos navegadores para permitir que o código de solicitação de qualquer origem acesse o recurso

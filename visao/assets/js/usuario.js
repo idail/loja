@@ -25,7 +25,7 @@ $("#criacao-conta").click(function (e) {
   let nomeDeUsuario = $("#nome-de-usuario").val();
   let senhaUsuario = $("#senha-usuario").val();
   let repetirSenhaUsuario = $("#repetir-senha-usuario").val();
-  let recebePerfilUsuario = $('input[name="perfil_usuario"]:checked').val();
+  let recebePerfilUsuario = $('input[name="perfil-usuario"]:checked').val();
 
   if (
     nomeCompletoUsuario != "" &&
@@ -63,10 +63,10 @@ $("#criacao-conta").click(function (e) {
           $("#recebe-mensagem-cadastro-realizado-usuario").show();
           $("#recebe-mensagem-cadastro-realizado-usuario").fadeOut(4000);
 
-          // setTimeout(() => {
-          //   var url_inicio = "../../visao/index.php";
-          //   $(window.document.location).attr("href", url_inicio);
-          // }, 2000);
+          setTimeout(() => {
+            var url_inicio = "../../visao/index.php";
+            $(window.document.location).attr("href", url_inicio);
+          }, 2000);
         } else {
         }
       },

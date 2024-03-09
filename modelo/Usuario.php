@@ -2,7 +2,9 @@
 
 require("UsuarioInterface.php");
 require("Conexao.php");
-
+if (!isset($_SESSION)) {
+    session_start();
+}
 class Usuario implements UsuarioInterface
 {
 
@@ -117,6 +119,14 @@ class Usuario implements UsuarioInterface
 
                 $resultadoCadastroUsuario = $conexaoExecutada->execute();
                 $ultimoCodigoCadastrado = Conexao::Obtem()->lastInsertId();
+
+                if(!empty($resultadoCadastroUsuario))
+                {
+                    $_SESSION["nome_usuario"] = $this->getNome_Usuario();
+                    $_SESSION["perfil_usuario"] = $this->getPerfil_Usuario();
+                    $_SESSION["nome_imagem"] = $this->getImagem_Usuario();
+                    $_SESSION["codigo_usuario"] = $ultimoCodigoCadastrado;
+                }
 
                 if (!empty($ultimoCodigoCadastrado))
                     return $ultimoCodigoCadastrado;

@@ -56,11 +56,11 @@
                <div class="col-12">
                  <p>Perfil do Usuário é Administrador?</p>
                  <div class="form-check">
-                   <input class="form-check-input" type="radio" name="perfil_usuario" id="perfil-admin-sim" value="administrador">
+                   <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-sim" value="administrador">
                    <label class="form-check-label" for="perfil-sim">Sim</label>
                  </div>
                  <div class="form-check">
-                   <input class="form-check-input" type="radio" name="perfil_usuario" id="perfil-admin-nao" value="funcionario">
+                   <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-nao" value="funcionario">
                    <label class="form-check-label" for="perfil-nao">Não</label>
                  </div>
                </div>
