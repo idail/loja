@@ -23,7 +23,17 @@
 
             $resultadoUsuario = $this->usuario->cadastroUsuario();
             return $resultadoUsuario;
-        }        
+        }
+        
+        public function AutenticacaoUsuario($recebeLoginUsuario,$recebeSenhaUsuario)
+        {
+            $this->usuario->setLogin_Usuario($recebeLoginUsuario);
+            $this->usuario->setSenha_Usuario($recebeSenhaUsuario);
+
+            $resultadoAutenticacaoUsuario = $this->usuario->autenticacaoUsuario();
+
+            return $resultadoAutenticacaoUsuario;
+        }
     }
 
 ?>

@@ -86,7 +86,7 @@ class Usuario implements UsuarioInterface
         return $this->imagem_usuario;
     }
 
-    public function cadastroUsuario()
+    public function cadastroUsuario(): int
     {
         try {
 
@@ -94,8 +94,7 @@ class Usuario implements UsuarioInterface
                 !empty($this->getNome_Usuario()) && !empty($this->getEmail_Usuario()) && !empty($this->getLogin_Usuario()) &&
                 !empty($this->getSenha_Usuario()) && !empty($this->getPerfil_Usuario())
             ) {
-                if(!empty($this->getImagem_Usuario()))
-                {
+                if (!empty($this->getImagem_Usuario())) {
                     $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, email_usuario, login_usuario, senha_usuario, perfil_usuario, imagem_usuario)
                     values(:recebeNomeUsuario, :recebeEmailUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebePerfilUsuario, :recebeImagemUsuario)";
                     $conexaoExecutada = Conexao::Obtem()->prepare($instrucaoCadastroUsuario);
@@ -105,7 +104,7 @@ class Usuario implements UsuarioInterface
                     $conexaoExecutada->bindValue(":recebeSenhaUsuario", $this->getSenha_Usuario());
                     $conexaoExecutada->bindValue(":recebePerfilUsuario", $this->getPerfil_Usuario());
                     $conexaoExecutada->bindValue(":recebeImagemUsuario", $this->getImagem_Usuario());
-                }else{
+                } else {
                     $instrucaoCadastroUsuario = "insert into usuarios(nome_usuario, email_usuario, login_usuario, senha_usuario, perfil_usuario, imagem_usuario)
                     values(:recebeNomeUsuario, :recebeEmailUsuario, :recebeLoginUsuario, :recebeSenhaUsuario, :recebePerfilUsuario, :recebeImagemUsuario)";
                     $conexaoExecutada = Conexao::Obtem()->prepare($instrucaoCadastroUsuario);
@@ -115,13 +114,12 @@ class Usuario implements UsuarioInterface
                     $conexaoExecutada->bindValue(":recebeSenhaUsuario", $this->getSenha_Usuario());
                     $conexaoExecutada->bindValue(":recebePerfilUsuario", $this->getPerfil_Usuario());
                 }
-                
+
 
                 $resultadoCadastroUsuario = $conexaoExecutada->execute();
                 $ultimoCodigoCadastrado = Conexao::Obtem()->lastInsertId();
 
-                if(!empty($resultadoCadastroUsuario))
-                {
+                if (!empty($resultadoCadastroUsuario)) {
                     $_SESSION["nome_usuario"] = $this->getNome_Usuario();
                     $_SESSION["perfil_usuario"] = $this->getPerfil_Usuario();
                     $_SESSION["nome_imagem"] = $this->getImagem_Usuario();
@@ -135,6 +133,45 @@ class Usuario implements UsuarioInterface
             }
         } catch (PDOException $exception) {
             return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
+
+    public function autenticacaoUsuario(): array
+    {
+        $registro_autenticado = array();
+        try {
+            //e declarada a variavel $sql_ValidaUsuario que recebera o sql para busca de usuario no banco de dados
+            $sql_ValidaUsuario = "select * from usuarios where login_usuario = :login_recebido and senha_usuario = :senha_recebida";
+            //e declarada a variavel $comando_BuscaValidacaoUsuario que ira receber a consulta a ser realizada
+            $comando_BuscaValidacaoUsuario = Conexao::Obtem()->prepare($sql_ValidaUsuario);
+            //e atribuido aos parametros :login_recebido e :senha_recebida os valores setados na classe usuariocontroladora
+            $comando_BuscaValidacaoUsuario->bindValue(":login_recebido", $this->getLogin_Usuario());
+            $comando_BuscaValidacaoUsuario->bindValue(":senha_recebida", $this->getSenha_Usuario());
+            //e feita a execução
+            $comando_BuscaValidacaoUsuario->execute();
+            //e declarada a variavel $registro_UsuarioRetornado e atribuido a ele um array associativo com as informações do usuario localizado
+            $registro_autenticado = $comando_BuscaValidacaoUsuario->fetch(PDO::FETCH_ASSOC);
+
+
+            //ira verificar se a variavel $usuario_retornado nao e vazia e caso nao seja ira retornar "verdeiro" caso contrato retornara "falso"
+            if (!empty($registro_autenticado)) {
+                //$this->setNome_Usuario_Logado_PDF($registro_autenticado["nome_usuario"]);
+                //cria uma sessao chamado nome_usuario e recebe do banco de dados o nome da pessoa localizada que sera exibido na pagina
+                $_SESSION["nome_usuario"] = $registro_autenticado["nome_usuario"];
+                $_SESSION["perfil_usuario"] = $registro_autenticado["perfil_usuario"];
+                $_SESSION["nome_imagem"] = $registro_autenticado["imagem_usuario"];
+                $_SESSION["codigo_usuario"] = $registro_autenticado["codigo_usuario"];
+                return $registro_autenticado;
+            } else {
+                $registro_autenticado = array();
+                return $registro_autenticado;
+            }
+            //caso ocorra algum erro na execução do try sobre o pdo será retornado a mensagem de erro
+        } catch (PDOException $exception) {
+            return $exception->getMessage();
+            //caso ocorre algum erro na execução do try de exceção será retornado a mensagem de erro
         } catch (Exception $excecao) {
             return $excecao->getMessage();
         }

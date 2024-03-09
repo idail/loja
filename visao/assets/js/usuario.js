@@ -2,6 +2,10 @@ $(document).ready(function (e) {
   debugger;
   $("#recebe-mensagem-campo-vazio-cadastro-usuario").hide();
   $("#recebe-mensagem-cadastro-realizado-usuario").hide();
+  $("#recebe-mensagem-campo-falha-cadastro-usuario").hide();
+  $("#recebe-mensagem-campo-vazio-autentica-usuario").hide();
+  $("#recebe-mensagem-campo-falha-autentica-usuario").hide();
+  $("#recebe-mensagem-autenticacao-realizado-usuario").hide();
 
   document.getElementById("exibi-foto-perfil").src =
     "../usuario/imagem_perfil/usuario_sem_foto.jpg";
@@ -68,10 +72,15 @@ $("#criacao-conta").click(function (e) {
             $(window.document.location).attr("href", url_inicio);
           }, 2000);
         } else {
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").html("Falha ao cadastrar usuário");
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
         }
       },
       error: function (xhr, status, error) {
-        console.log(error);
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").html("Falha ao cadastrar usuário:" + error);
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
       },
     });
   } else if (nomeCompletoUsuario === "") {
@@ -104,8 +113,7 @@ $("#criacao-conta").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-cadastro-usuario").show();
     $("#recebe-mensagem-campo-vazio-cadastro-usuario").fadeOut(4000);
-  }else if (recebePerfilUsuario === undefined)
-  {
+  } else if (recebePerfilUsuario === undefined) {
     $("#recebe-mensagem-campo-vazio-cadastro-usuario").html(
       "Favor selecionar o perfil do usuário"
     );
@@ -114,11 +122,55 @@ $("#criacao-conta").click(function (e) {
   }
 });
 
+$("#autenticacao-usuario").click(function (e) {
+  e.preventDefault();
+
+  let recebeLoginUsuario = $("#login-usuario-autenticacao").val();
+  let recebeSenhaUsuario = $("#senha-usuario-autenticacao").val();
+
+  let recebeFormularioLogin = $("#formulario-autentica-usuario")[0];
+
+  let dadosFormularioLogin = new FormData(recebeFormularioLogin);
+
+  dadosFormularioLogin.append("processo_usuario", "recebe_autenticacao_usuario");
+
+  if (recebeLoginUsuario != "" && recebeSenhaUsuario != "") {
+    $.ajax({
+      // url: "http://localhost/software-medicos/api/UsuarioAPI.php",
+      url: "../../api/UsuarioAPI.php",
+      type: "POST",
+      dataType: "json",
+      processData: false,
+      contentType: false,
+      data: dadosFormularioLogin,
+      success: function (retorno) {
+        debugger;
+        console.log(retorno);
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+      }
+    });
+  } else if (recebeLoginUsuario === "") {
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").html(
+      "Favor preencher o login do usuário"
+    );
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").show();
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").fadeOut(4000);
+  } else if (recebeSenhaUsuario === "") {
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").html(
+      "Favor preencher a senha do usuário"
+    );
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").show();
+    $("#recebe-mensagem-campo-vazio-autentica-usuario").fadeOut(4000);
+  }
+});
+
 $("#cadastro-usuario").on("hidden.bs.modal", function (e) {
   debugger;
 
   document.getElementById("exibi-foto-perfil").src =
-  "../usuario/imagem_perfil/usuario_sem_foto.jpg";
+    "../usuario/imagem_perfil/usuario_sem_foto.jpg";
   $("#foto-perfil").val(null);
 });
 

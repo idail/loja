@@ -20,6 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recebeImagemUsuario = $_FILES["foto-perfil"];
         $recebeNomeImagem = "usuario_sem_foto.jpg";
 
+        $recebeSenhaUsuarioCriptograda = md5($senhaUsuario);
+
         if (!empty($recebeImagemUsuario)) {
             $tipo_imagem = $recebeImagemUsuario["type"];
 
@@ -35,10 +37,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ) {
             $usuarioControladora = new UsuarioControladora();
             $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeUsuario, $emailUsuario, $nomeDeUsuario,
-            $senhaUsuario, $perfilUsuario,$recebeNomeImagem);
+            $recebeSenhaUsuarioCriptograda, $perfilUsuario,$recebeNomeImagem);
             echo json_encode($recebeCadastroUsuario);
         } else {
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
+    }elseif($recebeProcessoUsuario === "recebe_autenticacao_usuario"){
+        $recebeLoginUsuario = $_POST["login-usuario-autenticacao"];
+        $recebeSenhaUsuario = $_POST["senha-usuario-autenticacao"];
+
+        $recebeSenhaCriptografadaUsuario = md5($recebeSenhaUsuario);
+
+        if(!empty($recebeLoginUsuario) && !empty($recebeSenhaUsuario)){
+            $usuarioControladora = new UsuarioControladora();
+            $recebeAutenticacaoUsuario = $usuarioControladora->AutenticacaoUsuario($recebeLoginUsuario,$recebeSenhaCriptografadaUsuario);
+            echo json_encode($recebeAutenticacaoUsuario);
+        }
     }
 }
+?>

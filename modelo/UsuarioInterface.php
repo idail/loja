@@ -1,6 +1,6 @@
 <?php 
     interface UsuarioInterface {
-        public function cadastroUsuario() ; 
-
+        public function cadastroUsuario():int;
+        public function autenticacaoUsuario():array;
     };
 ?>
