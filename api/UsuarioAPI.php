@@ -20,13 +20,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recebeImagemUsuario = $_FILES["foto-perfil"];
         $recebeNomeImagem = "usuario_sem_foto.jpg";
 
+        $recebeSenhaDescriptografadaCriacao = $senhaUsuario;
+
         $recebeSenhaUsuarioCriptograda = md5($senhaUsuario);
 
         if (!empty($recebeImagemUsuario)) {
             $tipo_imagem = $recebeImagemUsuario["type"];
 
             if ($tipo_imagem === "image/png" || $tipo_imagem === "image/jpeg" || $tipo_imagem === "image/jpg") {
-                $destino_imagem = "../visao/usuario/imagem_perfil/" . $recebeImagemUsuario["name"];
+                $destino_imagem = "../visao/acesso/imagem_perfil/" . $recebeImagemUsuario["name"];
                 $recebeNomeImagem = $recebeImagemUsuario["name"];
                 copy($recebeImagemUsuario["tmp_name"], $destino_imagem);
             }
@@ -37,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ) {
             $usuarioControladora = new UsuarioControladora();
             $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeUsuario, $emailUsuario, $nomeDeUsuario,
-            $recebeSenhaUsuarioCriptograda, $perfilUsuario,$recebeNomeImagem);
+            $recebeSenhaUsuarioCriptograda,$recebeSenhaDescriptografadaCriacao, $perfilUsuario,$recebeNomeImagem);
             echo json_encode($recebeCadastroUsuario);
         } else {
             echo json_encode("Favor verificar o preenchimento dos campos");
@@ -46,13 +48,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recebeLoginUsuario = $_POST["login-usuario-autenticacao"];
         $recebeSenhaUsuario = $_POST["senha-usuario-autenticacao"];
 
+        $recebeSenhaDescriptografadaAutenticacao = $recebeSenhaUsuario;
+
         $recebeSenhaCriptografadaUsuario = md5($recebeSenhaUsuario);
 
         if(!empty($recebeLoginUsuario) && !empty($recebeSenhaUsuario)){
             $usuarioControladora = new UsuarioControladora();
-            $recebeAutenticacaoUsuario = $usuarioControladora->AutenticacaoUsuario($recebeLoginUsuario,$recebeSenhaCriptografadaUsuario);
-            echo json_encode($recebeAutenticacaoUsuario);
+            $recebeAutenticacaoUsuario = $usuarioControladora->AutenticacaoUsuario($recebeLoginUsuario,$recebeSenhaCriptografadaUsuario,$recebeSenhaDescriptografadaAutenticacao);
+
+            if(!empty($recebeAutenticacaoUsuario))
+                echo json_encode($recebeAutenticacaoUsuario);
+            else
+                echo json_encode("Favor verificar os dados preenchidos");
         }
+    }elseif($recebeProcessoUsuario == "deslogar")
+    {
+            //é declarada a variavel $usuario_controladora que ira ser novo objeto de instancia da classe usuariocontroladora
+            $usuario_controladora = new UsuarioControladora();
+            //é declarada a variavel $resultado_DeslogarUsuario que ira receber o valor retornado do metodo para deslogar usuario
+            $resultado_DeslogarUsuario = $usuario_controladora->DeslogarUsuario();
+            //é imprimido o valor codificado em json para a api usuario
+            echo json_encode($resultado_DeslogarUsuario);
+    //é verificado se o valor da variavel $recebe_autenticacao_usuario é igual a cadastrar+isiarop e caso seja entrara no elseif
     }
 }
 ?>

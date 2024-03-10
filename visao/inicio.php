@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<?php session_start(); ?>
+<?php session_start();
+require("../api/VerificaSessao.php");
+?>
 
 <head>
     <meta charset="utf-8">
@@ -212,7 +214,7 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="usuario/imagem_perfil/<?php if (isset($_SESSION["nome_imagem"])) {
+                        <img src="acesso/imagem_perfil/<?php if (isset($_SESSION["nome_imagem"])) {
                                                             echo $_SESSION["nome_imagem"];
                                                         } ?>" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2"><?php if (isset($_SESSION["nome_usuario"])) {
@@ -234,7 +236,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#edicao-usuario" data-backdrop="static">
                                 <i class="bi bi-person"></i>
                                 <span>Minha Conta</span>
                             </a>
@@ -248,7 +250,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="#" id="sair">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sair</span>
                             </a>
@@ -261,6 +263,8 @@
         </nav><!-- End Icons Navigation -->
 
     </header><!-- End Header -->
+
+    <?php require("acesso/alterar_usuario.php"); ?>
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
@@ -502,24 +506,24 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Dashboard</h1>
-            <nav>
+            <h1>Inicio</h1>
+            <!-- <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-            </nav>
+            </nav> -->
         </div><!-- End Page Title -->
 
         <section class="section dashboard">
             <div class="row">
 
                 <!-- Sales Card -->
-                <div class="col-xxl-4 col-md-6">
+                <div class="col-xxl-4 col-md-4">
                     <div class="card info-card sales-card">
 
                         <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-1" class="bi bi-three-dots"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <!-- <li class="dropdown-header text-start">
                                     <h6>Filter</h6>
@@ -550,11 +554,11 @@
                 </div><!-- End Sales Card -->
 
                 <!-- Revenue Card -->
-                <div class="col-xxl-4 col-md-6">
+                <div class="col-xxl-4 col-md-4">
                     <div class="card info-card revenue-card">
 
                         <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-2" class="bi bi-three-dots"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <li class="dropdown-header text-start">
                                     <h6>Filter</h6>
@@ -567,15 +571,15 @@
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                            <h5 class="card-title"></span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-currency-dollar"></i>
+                                    <i class="bi bi-cart2"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>$3,264</h6>
-                                    <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                                    <h6>Consultar Produtos</h6>
+                                    <!-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
 
                                 </div>
                             </div>
@@ -585,12 +589,12 @@
                 </div><!-- End Revenue Card -->
 
                 <!-- Customers Card -->
-                <div class="col-xxl-4 col-xl-12">
+                <div class="col-xxl-4 col-xl-12 col-md-4">
 
                     <div class="card info-card customers-card">
 
                         <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-3" class="bi bi-three-dots"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <li class="dropdown-header text-start">
                                     <h6>Filter</h6>
@@ -603,15 +607,15 @@
                         </div>
 
                         <div class="card-body">
-                            <h5 class="card-title">Customers <span>| This Year</span></h5>
+                            <h5 class="card-title"></span></h5>
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-people"></i>
+                                    <i class="bi bi-handbag"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>1244</h6>
-                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                                    <h6>Consultar Vendas</h6>
+                                    <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
 
                                 </div>
                             </div>
@@ -636,7 +640,7 @@
     </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -649,7 +653,7 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
+    <script src="assets/js//usuario.js"></script>
+    <script src="assets/js/inicio.js"></script>
 </body>
-
 </html>

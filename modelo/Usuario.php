@@ -12,6 +12,7 @@ class Usuario implements UsuarioInterface
     private $nome_usuario;
     private $login_usuario;
     private $senha_usuario;
+    private $senha_descriptografada;
     private $email_usuario;
     private $perfil_usuario;
     private $imagem_usuario;
@@ -54,6 +55,16 @@ class Usuario implements UsuarioInterface
     public function getSenha_Usuario()
     {
         return $this->senha_usuario;
+    }
+
+    public function setSenha_Descritgrafada($senha_descriptografada)
+    {
+        $this->senha_descriptografada = $senha_descriptografada;
+    }
+
+    public function getSenha_Descritgrafada()
+    {
+        return $this->senha_descriptografada;
     }
 
     public function setEmail_Usuario($email_usuario)
@@ -121,6 +132,9 @@ class Usuario implements UsuarioInterface
 
                 if (!empty($resultadoCadastroUsuario)) {
                     $_SESSION["nome_usuario"] = $this->getNome_Usuario();
+                    $_SESSION["email_usuario"] = $this->getEmail_Usuario();
+                    $_SESSION["login_usuario"] = $this->getLogin_Usuario();
+                    $_SESSION["senha_usuario"] = $this->getSenha_Descritgrafada();
                     $_SESSION["perfil_usuario"] = $this->getPerfil_Usuario();
                     $_SESSION["nome_imagem"] = $this->getImagem_Usuario();
                     $_SESSION["codigo_usuario"] = $ultimoCodigoCadastrado;
@@ -160,6 +174,9 @@ class Usuario implements UsuarioInterface
                 //$this->setNome_Usuario_Logado_PDF($registro_autenticado["nome_usuario"]);
                 //cria uma sessao chamado nome_usuario e recebe do banco de dados o nome da pessoa localizada que sera exibido na pagina
                 $_SESSION["nome_usuario"] = $registro_autenticado["nome_usuario"];
+                $_SESSION["email_usuario"] = $registro_autenticado["email_usuario"];
+                $_SESSION["login_usuario"] = $registro_autenticado["login_usuario"];
+                $_SESSION["senha_usuario"] = $this->getSenha_Descritgrafada();
                 $_SESSION["perfil_usuario"] = $registro_autenticado["perfil_usuario"];
                 $_SESSION["nome_imagem"] = $registro_autenticado["imagem_usuario"];
                 $_SESSION["codigo_usuario"] = $registro_autenticado["codigo_usuario"];
