@@ -47,7 +47,7 @@ require("../api/VerificaSessao.php");
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="index.php" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Painel Loja</span>
             </a>
@@ -272,7 +272,7 @@ require("../api/VerificaSessao.php");
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="index.html">
+                <a class="nav-link " href="index.php">
                     <i class="bi bi-grid"></i>
                     <span>Inicio</span>
                 </a>
@@ -284,12 +284,12 @@ require("../api/VerificaSessao.php");
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="components-alerts.html">
+                        <a href="index.php?pagina=consulta_clientes">
                             <i class="bi bi-circle"></i><span>Consultar Clientes</span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-accordion.html">
+                        <a href="index.php?pagina=cadastro_clientes">
                             <i class="bi bi-circle"></i><span>Cadastrar Clientes</span>
                         </a>
                     </li>
@@ -517,114 +517,20 @@ require("../api/VerificaSessao.php");
 
         <section class="section dashboard">
             <div class="row">
-
-                <!-- Sales Card -->
-                <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card sales-card">
-
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-1" class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <!-- <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li> -->
-                            </ul>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title"> <span></span></h5>
-
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-person-lines-fill"></i>
-                                </div>
-                                <div class="ps-3">
-                                    <h6>Consultar Clientes</h6>
-                                    <!-- <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div><!-- End Sales Card -->
-
-                <!-- Revenue Card -->
-                <div class="col-xxl-4 col-md-4">
-                    <div class="card info-card revenue-card">
-
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-2" class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title"></span></h5>
-
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart2"></i>
-                                </div>
-                                <div class="ps-3">
-                                    <h6>Consultar Produtos</h6>
-                                    <!-- <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span> -->
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div><!-- End Revenue Card -->
-
-                <!-- Customers Card -->
-                <div class="col-xxl-4 col-xl-12 col-md-4">
-
-                    <div class="card info-card customers-card">
-
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i id="remove-ponteiros-3" class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
-
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title"></span></h5>
-
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-handbag"></i>
-                                </div>
-                                <div class="ps-3">
-                                    <h6>Consultar Vendas</h6>
-                                    <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div><!-- End Customers Card -->
-
+                <?php
+                if(isset($_GET["pagina"]))
+                {
+                    if($_GET["pagina"] === "cadastro_clientes")
+                    {
+                        require("clientes/clientes.php");
+                    }elseif($_GET["pagina"] === "consulta_clientes")
+                    {
+                        require("clientes/consulta_clientes.php");
+                    }
+                }else{
+                    require("menu_rapido/menu_rapido.php");
+                }
+                ?>
             </div>
         </section>
 

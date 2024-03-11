@@ -15,9 +15,9 @@ $url = array_filter(explode('/', $url));
 //e verificado se e diferente de vazio o valor do primeiro indice do array $url e como sera vai entrar na condição
 if (!empty($url[0])) {
     //e verificado se o valor do primeiro indice e inicio , como no primeiro acesso o parametro pagina esta vazio ira ser sim igual a inicio e sera importado o arquivo inicio.php
-    if ($url[0] === "inicio") {
+    if ($url[0] === "inicio" || $url[0] === "cadastro_clientes" || $url[0] === "consulta_clientes") {
         //e criada uma variavel $url_final que recebe o valor do array no seu primeiro indice concatenado com .php
-        $url_final = $url[0] . '.php';
+        $url_final = "inicio.php";
         //e feito a importacao do arquivo inicio.php
         require($url_final);
         //e verificado se o valor do primeiro indice e cadastros_insumos, como foi clicado na opção no menu para cadastro de insumos ira ser igual sim e entrada na condicao e sera importado o arquivo inicio.php
