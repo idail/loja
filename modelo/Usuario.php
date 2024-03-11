@@ -193,4 +193,28 @@ class Usuario implements UsuarioInterface
             return $excecao->getMessage();
         }
     }
+
+    public function alterarUsuario()
+    {
+        if(!empty($this->getNome_Usuario()) && !empty($this->getEmail_Usuario()) && !empty($this->getLogin_Usuario())
+         && !empty($this->getSenha_Usuario()) && !empty($this->getPerfil_Usuario()) && !empty($this->getImagem_Usuario())){
+            $instrucaoAlterarUsuario = "update usuarios set nome_usuario = :recebe_nome_usuario,email_usuario = :recebe_email_usuario,
+            login_usuario = :recebe_login_usuario, senha_usuario = :recebe_senha_usuario, perfil_usuario = :recebe_perfil_usuario,
+            imagem_usuario = :recebe_imagem_usuario";
+            $comando_AlterarUsuario = Conexao::Obtem()->prepare($instrucaoAlterarUsuario);
+            $comando_AlterarUsuario->bindValue(":recebe_nome_usuario",$this->getNome_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_login_usuario",$this->getLogin_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_senha_usuario",$this->getSenha_Usuario());
+            $comando_AlterarUsuario->bindValue(":perfil_usuario",$this->getPerfil_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_imagem_usuario",$this->getImagem_Usuario());
+
+            $resultadoAlterarUsuario = $comando_AlterarUsuario->execute();
+
+            if(!empty($resultadoAlterarUsuario))
+            {
+                return $resultadoAlterarUsuario;
+            }
+        }
+    }
 };
