@@ -113,7 +113,7 @@
                </div> -->
 
                             <div class="col-12">
-                                <button id="criacao-conta" class="btn btn-primary w-100" type="button">Alterar Conta</button>
+                                <button id="alterar-conta-usuario" class="btn btn-primary w-100" type="button">Alterar Conta</button>
                             </div>
                             <!-- <div class="col-12">
                                 <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>

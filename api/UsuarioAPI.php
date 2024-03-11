@@ -2,9 +2,10 @@
 //é importado a classe protocoloscontroladora.php
 require("../controladora/UsuarioControladora.php");
 //O valor diz aos navegadores para permitir que o código de solicitação de qualquer origem acesse o recurso
-header("Access-Control-Allow-Origin: ");
+header("Access-Control-Allow-Origin: *");
 //Especifica um ou mais métodos permitidos ao acessar um recurso em resposta a uma solicitação de comprovação
-header("Access-Control-Allow-Methods:");
+header("Access-Control-Allow-Methods: *");
+
 
 //com a variavel super global $_SERVER e verificado qual metodo de requisição e utilizado para acessar a API protocolosapi
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -15,7 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $emailUsuario = $_POST["email-usuario"];
         $nomeDeUsuario = $_POST["nome-de-usuario"];
         $senhaUsuario = $_POST["senha-usuario"];
-        //$repetirSenhaUsuario = $_POST["repetir-senha-usuario"];
         $perfilUsuario = $_POST["perfil-usuario"];
         $recebeImagemUsuario = $_FILES["foto-perfil"];
         $recebeNomeImagem = "usuario_sem_foto.jpg";
@@ -71,5 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo json_encode($resultado_DeslogarUsuario);
     //é verificado se o valor da variavel $recebe_autenticacao_usuario é igual a cadastrar+isiarop e caso seja entrara no elseif
     }
+}else if($_SERVER["REQUEST_METHOD"] === "PUT")
+{
+    $informacoes_altera_usuario = json_decode(file_get_contents("php://input", true));
+
+    echo json_encode($informacoes_altera_usuario);
 }
 ?>

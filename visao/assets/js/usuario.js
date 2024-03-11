@@ -254,3 +254,56 @@ $("#sair").click(function (e) {
     },
   });
 });
+
+$("#alterar-conta-usuario").click(function (e) {
+  e.preventDefault();
+
+  $.ajax({
+    // url: "http://localhost/software-medicos/api/UsuarioAPI.php",
+    url: "../../api/UsuarioAPI.php",
+    type: "PUT",
+    dataType: "json",
+    processData: false,
+    contentType: false,
+    data: JSON.stringify({
+      processo_usuario: "recebe_alteracao_usuario",
+      //email_informado_usuario: recebe_email_alterar_senha,
+    }),
+    beforeSend: function () {
+      debugger;
+      // $("#corpo-mensagem-alteracao-encaminhada-email-sucesso").html(
+      //   "Aguarde a alteração da senha"
+      // );
+      // $("#mensagem-alteracao-encaminhada-email-sucesso").show();
+    },
+    success: function (retorno) {
+      debugger;
+      console.log(retorno);
+      // if (
+      //   retorno ===
+      //   "Senha alterada com sucesso , e-mail com a nova senha enviado com sucesso, favor verificar seu e-mail"
+      // ) {
+      //   $("#corpo-mensagem-alteracao-encaminhada-email-sucesso").html(
+      //     retorno
+      //   );
+      //   $("#mensagem-alteracao-encaminhada-email-sucesso").show();
+      //   $("#mensagem-alteracao-encaminhada-email-sucesso").fadeOut(4000);
+      // } else {
+      //   $("#corpo-mensagem-falha-alteracao-encaminhada-email-sucesso").html(
+      //     retorno
+      //   );
+      //   $("#mensagem-falha-alteracao-encaminhada-email-sucesso").show();
+      //   $("#mensagem-falha-alteracao-encaminhada-email-sucesso").fadeOut(
+      //     4000
+      //   );
+      // }
+    },
+    error: function (xhr, status, error) {
+      $("#corpo-mensagem-falha-alteracao-encaminhada-email-sucesso").html(
+        "Falha ao alterar a senha:" + error
+      );
+      $("#mensagem-falha-alteracao-encaminhada-email-sucesso").show();
+      $("#mensagem-falha-alteracao-encaminhada-email-sucesso").fadeOut(4000);
+    },
+  });
+});

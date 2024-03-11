@@ -49,4 +49,20 @@ class UsuarioControladora
         //e retornado o valor da variavel $recebe_sessao_usuario_deslogado
         return $recebe_sessao_usuario_deslogado;
     }
+
+    public function AlterarUsuario($recebeNomeUsuario, $recebeEmailUsuario, $recebeLoginUsuario, $recebeSenhaUsuario,$recebeSenhaDescriptgrafada, $recebePerfilUsuario, $recebeImagemUsuario)
+    {
+        $this->usuario->setNome_Usuario($recebeNomeUsuario);
+        $this->usuario->setEmail_Usuario($recebeEmailUsuario);
+        $this->usuario->setLogin_Usuario($recebeLoginUsuario);
+        $this->usuario->setSenha_Usuario($recebeSenhaUsuario);
+        $this->usuario->setSenha_Descritgrafada($recebeSenhaDescriptgrafada);
+        $this->usuario->setPerfil_Usuario($recebePerfilUsuario);
+
+        if (!empty($recebeImagemUsuario))
+            $this->usuario->setImagem_Usuario($recebeImagemUsuario);
+
+        $resultadoUsuarioAlterado = $this->usuario->alterarUsuario();
+        return $resultadoUsuarioAlterado;
+    }
 }
