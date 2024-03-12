@@ -8,6 +8,7 @@ header("Access-Control-Allow-Methods: *");
 
 
 //com a variavel super global $_SERVER e verificado qual metodo de requisição e utilizado para acessar a API protocolosapi
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recebeProcessoUsuario = $_POST["processo_usuario"];
     if ($recebeProcessoUsuario === "recebe_cadastro_usuario") {
@@ -63,13 +64,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }elseif($recebeProcessoUsuario == "deslogar")
     {
-            //é declarada a variavel $usuario_controladora que ira ser novo objeto de instancia da classe usuariocontroladora
+            
             $usuario_controladora = new UsuarioControladora();
-            //é declarada a variavel $resultado_DeslogarUsuario que ira receber o valor retornado do metodo para deslogar usuario
+            
             $resultado_DeslogarUsuario = $usuario_controladora->DeslogarUsuario();
-            //é imprimido o valor codificado em json para a api usuario
+            
             echo json_encode($resultado_DeslogarUsuario);
-    //é verificado se o valor da variavel $recebe_autenticacao_usuario é igual a cadastrar+isiarop e caso seja entrara no elseif
+    
     }
 }else if($_SERVER["REQUEST_METHOD"] === "PUT")
 {
