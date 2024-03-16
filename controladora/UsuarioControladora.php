@@ -64,4 +64,14 @@ class UsuarioControladora
         $resultadoUsuarioAlterado = $this->usuario->alterarUsuario();
         return $resultadoUsuarioAlterado;
     }
+
+    public function buscarUsuarioAlteracao($recebeCodigoUsuarioLogado)
+    {
+        $this->usuario->setCodigo_Usuario($recebeCodigoUsuarioLogado);
+
+        $resultadoBuscarUsuarioAlteracao = $this->usuario->buscarUsuarioAlteracao();
+
+        if(!empty($resultadoBuscarUsuarioAlteracao))
+            return $resultadoBuscarUsuarioAlteracao;
+    }
 }

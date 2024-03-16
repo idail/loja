@@ -217,4 +217,27 @@ class Usuario implements UsuarioInterface
             }
         }
     }
-};
+
+    public function buscarUsuarioAlteracao():array
+    {
+        $registro_usuario = array();
+
+        if(!empty($this->getCodigo_Usuario()))
+        {
+            //e declarada a variavel $sql_ValidaUsuario que recebera o sql para busca de usuario no banco de dados
+            $sql_BuscaUsuarioAlteracao = "select codigo_usuario,nome_usuario,email_usuario,login_usuario,perfil_usuario,imagem_usuario from usuarios where codigo_usuario = :recebe_codigo_usuario";
+            //e declarada a variavel $comando_BuscaValidacaoUsuario que ira receber a consulta a ser realizada
+            $comando_BuscaUsuarioAlteracao = Conexao::Obtem()->prepare($sql_BuscaUsuarioAlteracao);
+            //e atribuido aos parametros :login_recebido e :senha_recebida os valores setados na classe usuariocontroladora
+            $comando_BuscaUsuarioAlteracao->bindValue(":recebe_codigo_usuario", $this->getCodigo_Usuario());
+            //e feita a execução
+            $comando_BuscaUsuarioAlteracao->execute();
+            //e declarada a variavel $registro_UsuarioRetornado e atribuido a ele um array associativo com as informações do usuario localizado
+            $registro_usuario = $comando_BuscaUsuarioAlteracao->fetch(PDO::FETCH_ASSOC);
+        }
+
+        array_push($registro_usuario,$_SESSION["senha_usuario"]);
+
+        return $registro_usuario;
+    }
+}

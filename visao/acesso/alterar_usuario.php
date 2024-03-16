@@ -28,57 +28,39 @@
                         <form class="row g-3" id="formulario-edicao-usuario" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">Nome Completo</label>
-                                <input type="text" name="nome-completo" class="form-control" id="nome-completo" required value="<?php if (isset($_SESSION["nome_usuario"])) {
-                                                                                                                                    echo $_SESSION["nome_usuario"];
-                                                                                                                                } ?>">
+                                <input type="text" name="nome-completo" class="form-control" id="nome-completo" required>
                             </div>
 
                             <div class="col-12">
                                 <label for="yourEmail" class="form-label">Seu Email</label>
-                                <input type="email" name="email-usuario" class="form-control" id="email-usuario" required value="<?php if (isset($_SESSION["email_usuario"])) {
-                                                                                                                                        echo $_SESSION["email_usuario"];
-                                                                                                                                    } ?>">
+                                <input type="email" name="email-usuario" class="form-control" id="email-usuario" required>
                             </div>
 
                             <div class="col-12">
                                 <label for="yourUsername" class="form-label">Nome de Usuário</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" name="nome-de-usuario" class="form-control" id="nome-de-usuario" required value="<?php if (isset($_SESSION["login_usuario"])) {
-                                                                                                                                            echo $_SESSION["login_usuario"];
-                                                                                                                                        } ?>">
+                                    <input type="text" name="nome-de-usuario" class="form-control" id="nome-de-usuario" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <label for="yourPassword" class="form-label">Senha</label>
-                                <input type="password" name="senha-usuario" class="form-control" id="senha-usuario" required value="<?php if (isset($_SESSION["senha_usuario"])) {
-                                                                                                                                        echo $_SESSION["senha_usuario"];
-                                                                                                                                    } ?>">
+                                <input type="password" name="senha-usuario" class="form-control" id="senha-usuario" required>
                             </div>
 
                             <div class="col-12">
                                 <label for="yourPassword" class="form-label">Repetir Senha</label>
-                                <input type="password" name="repetir-senha-usuario" class="form-control" id="repetir-senha-usuario" required value="<?php if (isset($_SESSION["senha_usuario"])) {
-                                                                                                                                                        echo $_SESSION["senha_usuario"];
-                                                                                                                                                    } ?>">
+                                <input type="password" name="repetir-senha-usuario" class="form-control" id="repetir-senha-usuario" required>
                             </div>
 
                             <div class="col-12">
                                 <p>Perfil do Usuário é Administrador?</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-sim" value="administrador" selected <?php if (isset($_SESSION["perfil_usuario"])) {
-                                                                                                                                                        if ($_SESSION["perfil_usuario"] === "administrador") {
-                                                                                                                                                            echo "checked";
-                                                                                                                                                        }
-                                                                                                                                                    } ?>>
+                                    <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-sim" value="administrador" selected>
                                     <label class="form-check-label" for="perfil-sim">Sim</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-nao" value="funcionario" <?php if (isset($_SESSION["perfil_usuario"])) {
-                                                                                                                                                        if ($_SESSION["perfil_usuario"] === "funcionario") {
-                                                                                                                                                            echo "checked";
-                                                                                                                                                        }
-                                                                                                                                                    } ?>>
+                                    <input class="form-check-input" type="radio" name="perfil-usuario" id="perfil-admin-nao" value="funcionario">
                                     <label class="form-check-label" for="perfil-nao">Não</label>
                                 </div>
                             </div>
@@ -90,13 +72,11 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="col-4 news">
                                 <div class="news">
                                     <div class="post-item clearfix">
-                                        <img src="acesso/imagem_perfil/<?php if (isset($_SESSION["nome_imagem"])) {
-                                                                            echo $_SESSION["nome_imagem"];
-                                                                        } ?>" style="width: 80px;height: 85px;" id="exibi-foto-perfil">
+                                        <img src="" style="width: 80px;height: 85px;" id="exibi-foto-perfil">
                                         <!-- <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
                      <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p> -->
                                     </div>
@@ -111,6 +91,8 @@
                    <div class="invalid-feedback">Você deve concordar antes de enviar.</div>
                  </div>
                </div> -->
+
+                            <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado">
 
                             <div class="col-12">
                                 <button id="alterar-conta-usuario" class="btn btn-primary w-100" type="button">Alterar Conta</button>

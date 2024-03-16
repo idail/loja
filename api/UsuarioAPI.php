@@ -102,12 +102,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 !empty($recebeNomeUsuarioAlterar) && !empty($recebeEmailUsuarioAlterar) && !empty($recebeUsuarioAlterar) && !empty($recebeSenhaUsuarioAlterar)
                 && !empty($recebePerfilUsuarioAlterar)
             ) {
-                $recebeAlterarUsuario = $usuarioControladora->AlterarUsuario($recebeNomeUsuarioAlterar,$recebeEmailUsuarioAlterar,$recebeUsuarioAlterar,$recebeSenhaUsuarioCriptografadaAlterar,
-            $recebePerfilUsuarioAlterar,$recebeNomeImagemAlterar);
+                $recebeAlterarUsuario = $usuarioControladora->AlterarUsuario(
+                    $recebeNomeUsuarioAlterar,
+                    $recebeEmailUsuarioAlterar,
+                    $recebeUsuarioAlterar,
+                    $recebeSenhaUsuarioCriptografadaAlterar,
+                    $recebePerfilUsuarioAlterar,
+                    $recebeNomeImagemAlterar
+                );
                 echo json_encode($recebeAlterarUsuario);
             } else {
                 echo json_encode("Favor verificar os dados preenchidos");
             }
+        }
+    }
+} else if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    $recebeProcessoUsuario = $_GET["processo_usuario"];
+
+    if ($recebeProcessoUsuario === "recebe_buscar_usuario_logado") {
+        if(isset($_GET["valor_codigo_usuario"]))
+        {
+            $recebeRegistroUsuarioAlterar = $usuarioControladora->buscarUsuarioAlteracao($_GET["valor_codigo_usuario"]);
+            echo json_encode($recebeRegistroUsuarioAlterar);
         }
     }
 }

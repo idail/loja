@@ -273,6 +273,58 @@ $("#sair").click(function (e) {
   });
 });
 
+$("#carregar-dados-usuario").click(function (e) {
+  e.preventDefault();
+  debugger;
+
+  $.ajax({
+    // url: "http://localhost/software-medicos/api/ProtocolosAPI.php",
+    url: "../api/UsuarioAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_usuario: "recebe_buscar_usuario_logado",
+      valor_codigo_usuario: $("#codigo-usuario-logado").val(),
+    },
+    success: function (retorno) {
+      debugger;
+      if (retorno != "") {
+        $("#nome-completo").val(retorno.nome_usuario);
+        $("#email-usuario").val(retorno.email_usuario);
+        $("#nome-de-usuario").val(retorno.login_usuario);
+
+        if (retorno[0]) {
+          $("#senha-usuario").val(retorno[0]);
+          $("#repetir-senha-usuario").val(retorno[0]);
+        }
+
+        if (retorno.perfil_usuario === "administrador")
+          $("#perfil-admin-sim").prop("checked", "true");
+        else $("#perfil-admin-nao").prop("checked", "true");
+
+        const campo_imagem_usuario = document.querySelector('input[type="file"]');
+        const arquivo = new File(
+          [retorno.imagem_usuario],
+          retorno.imagem_usuario,
+          {
+            type: "image/jpg",
+          }
+        );
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(arquivo);
+        campo_imagem_usuario.files = dataTransfer.files;
+
+        document.getElementById("exibi-foto-perfil").src =
+          "acesso/imagem_perfil/" + retorno.imagem_usuario;
+
+        $("#codigo-usuario-logado").val(retorno.codigo_usuario);
+      }
+    },
+    error: function (xhr, error, status) {},
+  });
+});
+
 $("#alterar-conta-usuario").click(function (e) {
   e.preventDefault();
 
@@ -332,13 +384,12 @@ $("#alterar-conta-usuario").click(function (e) {
       success: function (retorno) {
         debugger;
 
-        if(retorno != "")
-        {
-          if(retorno === "Usuário alterado com sucesso , no próximo acesso utilize a nova senha")
-          {
-            $("#recebe-mensagem-alterar-realizado-usuario").html(
-              retorno
-            );
+        if (retorno != "") {
+          if (
+            retorno ===
+            "Usuário alterado com sucesso , no próximo acesso utilize a nova senha"
+          ) {
+            $("#recebe-mensagem-alterar-realizado-usuario").html(retorno);
             $("#recebe-mensagem-alterar-realizado-usuario").show();
             $("#recebe-mensagem-alterar-realizado-usuario").fadeOut(4000);
 
@@ -347,7 +398,7 @@ $("#alterar-conta-usuario").click(function (e) {
               $(window.document.location).attr("href", url_inicio);
             }, 2000);
           }
-        }else{
+        } else {
           $("#recebe-mensagem-campo-falha-alterar-usuario").html(
             "Falha ao alterar o usuário:" + retorno
           );

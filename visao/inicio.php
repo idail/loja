@@ -238,7 +238,8 @@ require("../api/VerificaSessao.php");
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#edicao-usuario" data-backdrop="static">
                                 <i class="bi bi-person"></i>
-                                <span>Minha Conta</span>
+                                <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado" value="<?php if(isset($_SESSION["codigo_usuario"])){echo $_SESSION["codigo_usuario"];} ?>">
+                                <span id="carregar-dados-usuario">Minha Conta</span>
                             </a>
                         </li>
                         <li>
