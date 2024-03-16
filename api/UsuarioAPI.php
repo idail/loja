@@ -77,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode($resultado_DeslogarUsuario);
     } elseif ($recebeProcessoUsuario === "recebe_alteracao_usuario") {
         if ($_POST["metodo"] === "PUT") {
+            $recebeCodigoUsuarioAlterar = $_POST["codigo-usuario-logado"];
             $recebeNomeUsuarioAlterar = $_POST["nome-completo"];
             $recebeEmailUsuarioAlterar = $_POST["email-usuario"];
             $recebeUsuarioAlterar = $_POST["nome-de-usuario"];
@@ -99,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if (
-                !empty($recebeNomeUsuarioAlterar) && !empty($recebeEmailUsuarioAlterar) && !empty($recebeUsuarioAlterar) && !empty($recebeSenhaUsuarioAlterar)
+                !empty($recebeCodigoUsuarioAlterar) && !empty($recebeNomeUsuarioAlterar) && !empty($recebeEmailUsuarioAlterar) && !empty($recebeUsuarioAlterar) && !empty($recebeSenhaUsuarioAlterar)
                 && !empty($recebePerfilUsuarioAlterar)
             ) {
                 $recebeAlterarUsuario = $usuarioControladora->AlterarUsuario(
@@ -108,7 +109,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $recebeUsuarioAlterar,
                     $recebeSenhaUsuarioCriptografadaAlterar,
                     $recebePerfilUsuarioAlterar,
-                    $recebeNomeImagemAlterar
+                    $recebeNomeImagemAlterar,
+                    $recebeCodigoUsuarioAlterar,
                 );
                 echo json_encode($recebeAlterarUsuario);
             } else {
@@ -120,8 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recebeProcessoUsuario = $_GET["processo_usuario"];
 
     if ($recebeProcessoUsuario === "recebe_buscar_usuario_logado") {
-        if(isset($_GET["valor_codigo_usuario"]))
-        {
+        if (isset($_GET["valor_codigo_usuario"])) {
             $recebeRegistroUsuarioAlterar = $usuarioControladora->buscarUsuarioAlteracao($_GET["valor_codigo_usuario"]);
             echo json_encode($recebeRegistroUsuarioAlterar);
         }

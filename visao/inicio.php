@@ -562,5 +562,6 @@ require("../api/VerificaSessao.php");
     <script src="assets/js/main.js"></script>
     <script src="assets/js//usuario.js"></script>
     <script src="assets/js/inicio.js"></script>
+    <script src="assets/js/cliente.js"></script>
 </body>
 </html>

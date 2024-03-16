@@ -318,7 +318,7 @@ $("#carregar-dados-usuario").click(function (e) {
         document.getElementById("exibi-foto-perfil").src =
           "acesso/imagem_perfil/" + retorno.imagem_usuario;
 
-        $("#codigo-usuario-logado").val(retorno.codigo_usuario);
+        $("#codigo-usuario-logado-alterar").val(retorno.codigo_usuario);
       }
     },
     error: function (xhr, error, status) {},

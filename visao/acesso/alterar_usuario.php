@@ -92,7 +92,7 @@
                  </div>
                </div> -->
 
-                            <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado">
+                            <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado-alterar">
 
                             <div class="col-12">
                                 <button id="alterar-conta-usuario" class="btn btn-primary w-100" type="button">Alterar Conta</button>

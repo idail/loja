@@ -200,7 +200,7 @@ class Usuario implements UsuarioInterface
          && !empty($this->getSenha_Usuario()) && !empty($this->getPerfil_Usuario()) && !empty($this->getImagem_Usuario())){
             $instrucaoAlterarUsuario = "update usuarios set nome_usuario = :recebe_nome_usuario,email_usuario = :recebe_email_usuario,
             login_usuario = :recebe_login_usuario, senha_usuario = :recebe_senha_usuario, perfil_usuario = :recebe_perfil_usuario,
-            imagem_usuario = :recebe_imagem_usuario";
+            imagem_usuario = :recebe_imagem_usuario where codigo_usuario = :recebe_codigo_usuario";
             $comando_AlterarUsuario = Conexao::Obtem()->prepare($instrucaoAlterarUsuario);
             $comando_AlterarUsuario->bindValue(":recebe_nome_usuario",$this->getNome_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
@@ -208,6 +208,7 @@ class Usuario implements UsuarioInterface
             $comando_AlterarUsuario->bindValue(":recebe_senha_usuario",$this->getSenha_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_perfil_usuario",$this->getPerfil_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_imagem_usuario",$this->getImagem_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_codigo_usuario",$this->getCodigo_Usuario());
 
             $resultadoAlterarUsuario = $comando_AlterarUsuario->execute();
 
