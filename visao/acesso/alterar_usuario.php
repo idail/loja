@@ -25,7 +25,7 @@
                             <p class="text-center small">Insira os dados para alterar seus dados</p>
                         </div>
 
-                        <form class="row g-3" id="formulario-cadastro-usuario" novalidate>
+                        <form class="row g-3" id="formulario-edicao-usuario" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">Nome Completo</label>
                                 <input type="text" name="nome-completo" class="form-control" id="nome-completo" required value="<?php if (isset($_SESSION["nome_usuario"])) {
@@ -96,7 +96,7 @@
                                     <div class="post-item clearfix">
                                         <img src="acesso/imagem_perfil/<?php if (isset($_SESSION["nome_imagem"])) {
                                                                             echo $_SESSION["nome_imagem"];
-                                                                        } ?>" style="width: 80px;height: 85px;">
+                                                                        } ?>" style="width: 80px;height: 85px;" id="exibi-foto-perfil">
                                         <!-- <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
                      <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p> -->
                                     </div>
@@ -119,23 +119,29 @@
                                 <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>
                             </div> -->
 
-                            <!-- <div class="col-12">
-                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-realizado-usuario" role="alert">
+                            <div class="col-12">
+                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-alterar-realizado-usuario" role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-usuario" role="alert">
+                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-alteraracao-sendo-realizada-usuario" role="alert">
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-alterar-usuario" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-cadastro-usuario" role="alert">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-alterar-usuario" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                            </div> -->
+                            </div>
                         </form>
                     </div>
                 </div>

@@ -7,8 +7,17 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-falha-autentica-usuario").hide();
   $("#recebe-mensagem-autenticacao-realizado-usuario").hide();
 
-  document.getElementById("exibi-foto-perfil").src =
-    "../acesso/imagem_perfil/usuario_sem_foto.jpg";
+  $("#recebe-mensagem-alterar-realizado-usuario").hide();
+  $("#recebe-mensagem-campo-vazio-alterar-usuario").hide();
+  $("#recebe-mensagem-campo-falha-alterar-usuario").hide();
+  $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").hide();
+
+  let url_login = window.location.href;
+
+  if (url_login === "http://localhost/loja/visao/acesso/login.php") {
+    document.getElementById("exibi-foto-perfil").src =
+      "../acesso/imagem_perfil/usuario_sem_foto.jpg";
+  }
 
   // let imagem_perfil = new Image();
 
@@ -72,13 +81,17 @@ $("#criacao-conta").click(function (e) {
             $(window.document.location).attr("href", url_inicio);
           }, 2000);
         } else {
-          $("#recebe-mensagem-campo-falha-cadastro-usuario").html("Falha ao cadastrar usuário");
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").html(
+            "Falha ao cadastrar usuário"
+          );
           $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
           $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
         }
       },
       error: function (xhr, status, error) {
-        $("#recebe-mensagem-campo-falha-cadastro-usuario").html("Falha ao cadastrar usuário:" + error);
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").html(
+          "Falha ao cadastrar usuário:" + error
+        );
         $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
         $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
       },
@@ -134,7 +147,10 @@ $("#autenticacao-usuario").click(function (e) {
 
   let dadosFormularioLogin = new FormData(recebeFormularioLogin);
 
-  dadosFormularioLogin.append("processo_usuario", "recebe_autenticacao_usuario");
+  dadosFormularioLogin.append(
+    "processo_usuario",
+    "recebe_autenticacao_usuario"
+  );
 
   if (recebeLoginUsuario != "" && recebeSenhaUsuario != "") {
     $.ajax({
@@ -150,9 +166,7 @@ $("#autenticacao-usuario").click(function (e) {
 
         if (retorno != "") {
           if (retorno === "Favor verificar os dados preenchidos") {
-            $("#recebe-mensagem-campo-falha-autentica-usuario").html(
-              retorno
-            );
+            $("#recebe-mensagem-campo-falha-autentica-usuario").html(retorno);
             $("#recebe-mensagem-campo-falha-autentica-usuario").show();
             $("#recebe-mensagem-campo-falha-autentica-usuario").fadeOut(4000);
           } else {
@@ -181,7 +195,7 @@ $("#autenticacao-usuario").click(function (e) {
         );
         $("#recebe-mensagem-campo-falha-autentica-usuario").show();
         $("#recebe-mensagem-campo-falha-autentica-usuario").fadeOut(4000);
-      }
+      },
     });
   } else if (recebeLoginUsuario === "") {
     $("#recebe-mensagem-campo-vazio-autentica-usuario").html(
@@ -250,7 +264,11 @@ $("#sair").click(function (e) {
       }
     },
     error: function (xhr, status, error) {
-      console.log(status, error);
+      $("#recebe-mensagem-campo-falha-autentica-usuario").html(
+        "Falha ao autenticar:" + error
+      );
+      $("#recebe-mensagem-campo-falha-autentica-usuario").show();
+      $("#recebe-mensagem-campo-falha-autentica-usuario").fadeOut(4000);
     },
   });
 });
@@ -258,52 +276,123 @@ $("#sair").click(function (e) {
 $("#alterar-conta-usuario").click(function (e) {
   e.preventDefault();
 
-  $.ajax({
-    // url: "http://localhost/software-medicos/api/UsuarioAPI.php",
-    url: "../api/UsuarioAPI.php",
-    type: "PUT",
-    dataType: "json",
-    processData: false,
-    contentType: false,
-    data: JSON.stringify({
-      processo_usuario: "recebe_alteracao_usuario",
-      //email_informado_usuario: recebe_email_alterar_senha,
-    }),
-    beforeSend: function () {
-      debugger;
-      // $("#corpo-mensagem-alteracao-encaminhada-email-sucesso").html(
-      //   "Aguarde a alteração da senha"
-      // );
-      // $("#mensagem-alteracao-encaminhada-email-sucesso").show();
-    },
-    success: function (retorno) {
-      debugger;
-      console.log(retorno);
-      // if (
-      //   retorno ===
-      //   "Senha alterada com sucesso , e-mail com a nova senha enviado com sucesso, favor verificar seu e-mail"
-      // ) {
-      //   $("#corpo-mensagem-alteracao-encaminhada-email-sucesso").html(
-      //     retorno
-      //   );
-      //   $("#mensagem-alteracao-encaminhada-email-sucesso").show();
-      //   $("#mensagem-alteracao-encaminhada-email-sucesso").fadeOut(4000);
-      // } else {
-      //   $("#corpo-mensagem-falha-alteracao-encaminhada-email-sucesso").html(
-      //     retorno
-      //   );
-      //   $("#mensagem-falha-alteracao-encaminhada-email-sucesso").show();
-      //   $("#mensagem-falha-alteracao-encaminhada-email-sucesso").fadeOut(
-      //     4000
-      //   );
-      // }
-    },
-    error: function (xhr, status, error) {
-      $("#corpo-mensagem-falha-alteracao-encaminhada-email-sucesso").html(
-        "Falha ao alterar a senha:" + error
-      );
-      $("#mensagem-falha-alteracao-encaminhada-email-sucesso").show();
-      $("#mensagem-falha-alteracao-encaminhada-email-sucesso").fadeOut(4000);
-    },
-  });
+  debugger;
+
+  let recebeNomeUsuarioAlterar = $("#nome-completo").val();
+
+  let recebeEmailUsuarioAlterar = $("#email-usuario").val();
+
+  let recebeNomedeUsuarioAlterar = $("#email-usuario").val();
+
+  let recebeSenhaUsuarioAlterar = $("#senha-usuario").val();
+
+  let recebeRepetirSenhaUsuarioAlterar = $("#repetir-senha-usuario").val();
+
+  let recebePerfilUsuarioAlterar = $(
+    'input[name="perfil-usuario"]:checked'
+  ).val();
+
+  let formulario_alterar_usuario = $("#formulario-edicao-usuario")[0];
+
+  let dados_formulario_alterar_usuario = new FormData(
+    formulario_alterar_usuario
+  );
+
+  dados_formulario_alterar_usuario.append(
+    "processo_usuario",
+    "recebe_alteracao_usuario"
+  );
+
+  dados_formulario_alterar_usuario.append("metodo", "PUT");
+  if (
+    recebeNomeUsuarioAlterar != "" &&
+    recebeEmailUsuarioAlterar != "" &&
+    recebeNomedeUsuarioAlterar != "" &&
+    recebeSenhaUsuarioAlterar != "" &&
+    recebeRepetirSenhaUsuarioAlterar != "" &&
+    recebePerfilUsuarioAlterar != ""
+  ) {
+    $.ajax({
+      // url: "http://localhost/software-medicos/api/UsuarioAPI.php",
+      url: "../api/UsuarioAPI.php",
+      type: "POST",
+      dataType: "json",
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      data: dados_formulario_alterar_usuario,
+      beforeSend: function () {
+        debugger;
+        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").html(
+          "Aguarde a alteração do usuário"
+        );
+        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").show();
+        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").fadeOut(2000);
+      },
+      success: function (retorno) {
+        debugger;
+
+        if(retorno != "")
+        {
+          if(retorno === "Usuário alterado com sucesso , no próximo acesso utilize a nova senha")
+          {
+            $("#recebe-mensagem-alterar-realizado-usuario").html(
+              retorno
+            );
+            $("#recebe-mensagem-alterar-realizado-usuario").show();
+            $("#recebe-mensagem-alterar-realizado-usuario").fadeOut(4000);
+          }
+        }else{
+          $("#recebe-mensagem-campo-falha-alterar-usuario").html(
+            "Falha ao alterar o usuário:" + retorno
+          );
+          $("#recebe-mensagem-campo-falha-alterar-usuario").show();
+          $("#recebe-mensagem-campo-falha-alterar-usuario").fadeOut(4000);
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-alterar-usuario").html(
+          "Falha ao alterar o usuário:" + error
+        );
+        $("#recebe-mensagem-campo-falha-alterar-usuario").show();
+        $("#recebe-mensagem-campo-falha-alterar-usuario").fadeOut(4000);
+      },
+    });
+  } else if (recebeNomeUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  } else if (recebeEmailUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  } else if (recebeNomedeUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  } else if (recebeSenhaUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  } else if (recebeRepetirSenhaUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  } else if (recebePerfilUsuarioAlterar === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").html(
+      "Favor preencher o nome completo"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  }
 });

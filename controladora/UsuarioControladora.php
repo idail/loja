@@ -50,13 +50,12 @@ class UsuarioControladora
         return $recebe_sessao_usuario_deslogado;
     }
 
-    public function AlterarUsuario($recebeNomeUsuario, $recebeEmailUsuario, $recebeLoginUsuario, $recebeSenhaUsuario,$recebeSenhaDescriptgrafada, $recebePerfilUsuario, $recebeImagemUsuario)
+    public function AlterarUsuario($recebeNomeUsuario, $recebeEmailUsuario, $recebeLoginUsuario, $recebeSenhaUsuario, $recebePerfilUsuario, $recebeImagemUsuario)
     {
         $this->usuario->setNome_Usuario($recebeNomeUsuario);
         $this->usuario->setEmail_Usuario($recebeEmailUsuario);
         $this->usuario->setLogin_Usuario($recebeLoginUsuario);
         $this->usuario->setSenha_Usuario($recebeSenhaUsuario);
-        $this->usuario->setSenha_Descritgrafada($recebeSenhaDescriptgrafada);
         $this->usuario->setPerfil_Usuario($recebePerfilUsuario);
 
         if (!empty($recebeImagemUsuario))

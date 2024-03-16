@@ -194,7 +194,7 @@ class Usuario implements UsuarioInterface
         }
     }
 
-    public function alterarUsuario()
+    public function alterarUsuario():string
     {
         if(!empty($this->getNome_Usuario()) && !empty($this->getEmail_Usuario()) && !empty($this->getLogin_Usuario())
          && !empty($this->getSenha_Usuario()) && !empty($this->getPerfil_Usuario()) && !empty($this->getImagem_Usuario())){
@@ -206,14 +206,14 @@ class Usuario implements UsuarioInterface
             $comando_AlterarUsuario->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_login_usuario",$this->getLogin_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_senha_usuario",$this->getSenha_Usuario());
-            $comando_AlterarUsuario->bindValue(":perfil_usuario",$this->getPerfil_Usuario());
+            $comando_AlterarUsuario->bindValue(":recebe_perfil_usuario",$this->getPerfil_Usuario());
             $comando_AlterarUsuario->bindValue(":recebe_imagem_usuario",$this->getImagem_Usuario());
 
             $resultadoAlterarUsuario = $comando_AlterarUsuario->execute();
 
             if(!empty($resultadoAlterarUsuario))
             {
-                return $resultadoAlterarUsuario;
+                return "Usuário alterado com sucesso , no próximo acesso utilize a nova senha";
             }
         }
     }

@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: *");
 
 
 //com a variavel super global $_SERVER e verificado qual metodo de requisição e utilizado para acessar a API protocolosapi
-
+$usuarioControladora = new UsuarioControladora();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $recebeProcessoUsuario = $_POST["processo_usuario"];
     if ($recebeProcessoUsuario === "recebe_cadastro_usuario") {
@@ -38,14 +38,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (
             !empty($nomeDeUsuario) && !empty($emailUsuario) && !empty($nomeDeUsuario) && !empty($senhaUsuario) && !empty($perfilUsuario)
         ) {
-            $usuarioControladora = new UsuarioControladora();
-            $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario($nomeUsuario, $emailUsuario, $nomeDeUsuario,
-            $recebeSenhaUsuarioCriptograda,$recebeSenhaDescriptografadaCriacao, $perfilUsuario,$recebeNomeImagem);
+            $recebeCadastroUsuario = $usuarioControladora->CadastroUsuario(
+                $nomeUsuario,
+                $emailUsuario,
+                $nomeDeUsuario,
+                $recebeSenhaUsuarioCriptograda,
+                $recebeSenhaDescriptografadaCriacao,
+                $perfilUsuario,
+                $recebeNomeImagem
+            );
             echo json_encode($recebeCadastroUsuario);
         } else {
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
-    }elseif($recebeProcessoUsuario === "recebe_autenticacao_usuario"){
+    } elseif ($recebeProcessoUsuario === "recebe_autenticacao_usuario") {
         $recebeLoginUsuario = $_POST["login-usuario-autenticacao"];
         $recebeSenhaUsuario = $_POST["senha-usuario-autenticacao"];
 
@@ -53,29 +59,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $recebeSenhaCriptografadaUsuario = md5($recebeSenhaUsuario);
 
-        if(!empty($recebeLoginUsuario) && !empty($recebeSenhaUsuario)){
-            $usuarioControladora = new UsuarioControladora();
-            $recebeAutenticacaoUsuario = $usuarioControladora->AutenticacaoUsuario($recebeLoginUsuario,$recebeSenhaCriptografadaUsuario,$recebeSenhaDescriptografadaAutenticacao);
+        if (!empty($recebeLoginUsuario) && !empty($recebeSenhaUsuario)) {
+            //$usuarioControladora = new UsuarioControladora();
+            $recebeAutenticacaoUsuario = $usuarioControladora->AutenticacaoUsuario($recebeLoginUsuario, $recebeSenhaCriptografadaUsuario, $recebeSenhaDescriptografadaAutenticacao);
 
-            if(!empty($recebeAutenticacaoUsuario))
+            if (!empty($recebeAutenticacaoUsuario))
                 echo json_encode($recebeAutenticacaoUsuario);
             else
                 echo json_encode("Favor verificar os dados preenchidos");
         }
-    }elseif($recebeProcessoUsuario == "deslogar")
-    {
-            
-            $usuario_controladora = new UsuarioControladora();
-            
-            $resultado_DeslogarUsuario = $usuario_controladora->DeslogarUsuario();
-            
-            echo json_encode($resultado_DeslogarUsuario);
-    
-    }
-}else if($_SERVER["REQUEST_METHOD"] === "PUT")
-{
-    $informacoes_altera_usuario = json_decode(file_get_contents("php://input", true));
+    } elseif ($recebeProcessoUsuario == "deslogar") {
 
-    echo json_encode($informacoes_altera_usuario);
+        //$usuario_controladora = new UsuarioControladora();
+
+        $resultado_DeslogarUsuario = $usuarioControladora->DeslogarUsuario();
+
+        echo json_encode($resultado_DeslogarUsuario);
+    } elseif ($recebeProcessoUsuario === "recebe_alteracao_usuario") {
+        if ($_POST["metodo"] === "PUT") {
+            $recebeNomeUsuarioAlterar = $_POST["nome-completo"];
+            $recebeEmailUsuarioAlterar = $_POST["email-usuario"];
+            $recebeUsuarioAlterar = $_POST["nome-de-usuario"];
+            $recebeSenhaUsuarioAlterar = $_POST["senha-usuario"];
+            $recebePerfilUsuarioAlterar = $_POST["perfil-usuario"];
+            $recebeImagemUsuarioAlterar = $_FILES["foto-perfil"];
+
+            $recebeSenhaUsuarioCriptografadaAlterar = md5($recebeSenhaUsuarioAlterar);
+
+            $recebeNomeImagemAlterar = "usuario_sem_foto.jpg";
+
+            if (!empty($recebeImagemUsuarioAlterar)) {
+                $tipo_imagem = $recebeImagemUsuarioAlterar["type"];
+
+                if ($tipo_imagem === "image/png" || $tipo_imagem === "image/jpeg" || $tipo_imagem === "image/jpg") {
+                    $destino_imagem = "../visao/acesso/imagem_perfil/" . $recebeImagemUsuarioAlterar["name"];
+                    $recebeNomeImagemAlterar = $recebeImagemUsuarioAlterar["name"];
+                    copy($recebeImagemUsuarioAlterar["tmp_name"], $destino_imagem);
+                }
+            }
+
+            if (
+                !empty($recebeNomeUsuarioAlterar) && !empty($recebeEmailUsuarioAlterar) && !empty($recebeUsuarioAlterar) && !empty($recebeSenhaUsuarioAlterar)
+                && !empty($recebePerfilUsuarioAlterar)
+            ) {
+                $recebeAlterarUsuario = $usuarioControladora->AlterarUsuario($recebeNomeUsuarioAlterar,$recebeEmailUsuarioAlterar,$recebeUsuarioAlterar,$recebeSenhaUsuarioCriptografadaAlterar,
+            $recebePerfilUsuarioAlterar,$recebeNomeImagemAlterar);
+                echo json_encode($recebeAlterarUsuario);
+            } else {
+                echo json_encode("Favor verificar os dados preenchidos");
+            }
+        }
+    }
 }
-?>
