@@ -323,11 +323,11 @@ $("#alterar-conta-usuario").click(function (e) {
       data: dados_formulario_alterar_usuario,
       beforeSend: function () {
         debugger;
-        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").html(
-          "Aguarde a alteração do usuário"
-        );
-        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").show();
-        $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").fadeOut(2000);
+        // $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").html(
+        //   "Aguarde a alteração do usuário"
+        // );
+        // $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").show();
+        // $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").fadeOut(2000);
       },
       success: function (retorno) {
         debugger;
@@ -341,6 +341,11 @@ $("#alterar-conta-usuario").click(function (e) {
             );
             $("#recebe-mensagem-alterar-realizado-usuario").show();
             $("#recebe-mensagem-alterar-realizado-usuario").fadeOut(4000);
+
+            setTimeout(() => {
+              var url_inicio = "../";
+              $(window.document.location).attr("href", url_inicio);
+            }, 2000);
           }
         }else{
           $("#recebe-mensagem-campo-falha-alterar-usuario").html(
