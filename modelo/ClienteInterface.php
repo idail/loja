@@ -1,5 +1,5 @@
 <?php
-interface ClientesInterface{
+interface ClienteInterface{
     public function cadastrarCliente():int;
 }
 ?>

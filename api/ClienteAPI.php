@@ -1,10 +1,11 @@
 <?php
 //é importado a classe protocoloscontroladora.php
-//require("../controladora/UsuarioControladora.php");
+require("../controladora/ClienteControladora.php");
 //O valor diz aos navegadores para permitir que o código de solicitação de qualquer origem acesse o recurso
 header("Access-Control-Allow-Origin: *");
 //Especifica um ou mais métodos permitidos ao acessar um recurso em resposta a uma solicitação de comprovação
 header("Access-Control-Allow-Methods: *");
+$clienteControladora = new ClienteControladora();
 
 if($_SERVER["REQUEST_METHOD"] === "POST")
 {
@@ -19,7 +20,27 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
         if(!empty($recebeNomeCliente) && !empty($recebeTelefoneCliente) && !empty($recebeEnderecoCliente) && !empty($recebeStatusCliente))
         {
-            echo json_encode($recebeStatusCliente);
+            $recebeCadastroCliente = $clienteControladora->CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEnderecoCliente,$recebeStatusCliente);
+
+            echo json_encode($recebeCadastroCliente);
+        }else{
+            echo json_encode("Favor verificar o preenchimento dos campos");
+        }
+    }
+}else if($_SERVER["REQUEST_METHOD"] === "GET")
+{
+    $recebeProcessoCliente = $_GET["processo_cliente"];
+
+    if($recebeProcessoCliente === "recebe_consultar_clientes")
+    {
+        $recebeFiltroCliente = $_GET["filtro_cliente"];
+        $recebeValorFiltroCliente = $_GET["valor_filtro_cliente"];
+
+        if(!empty($recebeFiltroCliente) && !empty($recebeValorFiltroCliente))
+        {
+            $recebeConsultaCliente = $clienteControladora->ConsultarClientes($recebeFiltroCliente,$recebeValorFiltroCliente);
+
+            echo json_encode($recebeConsultaCliente);
         }else{
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
