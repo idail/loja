@@ -103,7 +103,7 @@ class Cliente implements ClienteInterface
         }
     }
 
-    public function consultarClientes(): array
+    public function consultarClientes():array
     {
         $registro_clientes = array();
 
@@ -128,11 +128,17 @@ class Cliente implements ClienteInterface
                     $registro_clientes = $comandoConsultaClientes->fetchAll(PDO::FETCH_ASSOC);
                 }
             }
-            return $registro_clientes;
+
+            if(!empty($registro_clientes))
+                return $registro_clientes;
+            else
+                return $registro_clientes;
         } catch (PDOException $exception) {
-            return $exception->getMessage();
+            array_push($registro_clientes,$exception->getMessage());
+            return $registro_clientes;
         } catch (Exception $excecao) {
-            return $excecao->getMessage();
+            array_push($registro_clientes,$excecao->getMessage());
+            return $registro_clientes;
         }
 
         return $registro_clientes;
