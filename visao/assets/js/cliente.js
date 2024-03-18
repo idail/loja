@@ -77,8 +77,8 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
               "<td>" +
               recebe_status_cliente +
               "</td>" +
-              "<td><i class='bi bi-person-lines-fill' title='Editar Cliente'></i></td>" +
-              "<td><i class='bi bi-trash-fill' style='font-size:20px;' title='Excluir Cliente'></i></td>" +
+              "<td><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente'></i></td>" +
+              "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente'></i></td>" +
               "</tr>";
           }
           $("#registros-clientes").append(recebe_tabela_clientes);
@@ -181,5 +181,19 @@ $("#cadastro-cliente").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").fadeOut(4000);
+  }
+});
+
+$("#buscar-cliente").click(function(e){
+  e.preventDefault();
+  let recebeFiltroCliente = $("#filtro-cliente").val();
+  let recebeValorFiltroCliente = $("#valor-filtro-cliente").val();
+
+  if(recebeFiltroCliente === "nome_cliente" || recebeFiltroCliente === "status_cliente" || recebeFiltroCliente === "todos")
+  {
+    if(recebeFiltroCliente === "nome_cliente")
+    {
+      
+    }
   }
 });
