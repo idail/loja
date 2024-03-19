@@ -44,6 +44,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         }else{
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
+    }else if($recebeProcessoCliente === "recebe_consultar_cliente_especifico")
+    {
+        $recebeCodigoCliente = $_GET["valor_codigo_cliente"];
+
+        if(!empty($recebeCodigoCliente))
+        {
+            $recebeConsultaClienteEspecifico = $clienteControladora->ConsultarClienteEspecifico($recebeCodigoCliente);
+
+            echo json_encode($recebeConsultaClienteEspecifico);
+        }
     }
 }
 ?>

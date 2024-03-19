@@ -238,7 +238,9 @@ require("../api/VerificaSessao.php");
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#edicao-usuario" data-backdrop="static">
                                 <i class="bi bi-person"></i>
-                                <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado" value="<?php if(isset($_SESSION["codigo_usuario"])){echo $_SESSION["codigo_usuario"];} ?>">
+                                <input type="hidden" name="codigo-usuario-logado" id="codigo-usuario-logado" value="<?php if (isset($_SESSION["codigo_usuario"])) {
+                                                                                                                        echo $_SESSION["codigo_usuario"];
+                                                                                                                    } ?>">
                                 <span id="carregar-dados-usuario">Minha Conta</span>
                             </a>
                         </li>
@@ -265,7 +267,10 @@ require("../api/VerificaSessao.php");
 
     </header><!-- End Header -->
 
-    <?php require("acesso/alterar_usuario.php"); ?>
+    <?php
+    require("acesso/alterar_usuario.php");
+    require("clientes/alterar_cliente.php");
+    ?>
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
@@ -519,16 +524,13 @@ require("../api/VerificaSessao.php");
         <section class="section dashboard">
             <div class="row">
                 <?php
-                if(isset($_GET["pagina"]))
-                {
-                    if($_GET["pagina"] === "cadastro_clientes")
-                    {
+                if (isset($_GET["pagina"])) {
+                    if ($_GET["pagina"] === "cadastro_clientes") {
                         require("clientes/clientes.php");
-                    }elseif($_GET["pagina"] === "consulta_clientes")
-                    {
+                    } elseif ($_GET["pagina"] === "consulta_clientes") {
                         require("clientes/consulta_clientes.php");
                     }
-                }else{
+                } else {
                     require("menu_rapido/menu_rapido.php");
                 }
                 ?>
@@ -563,5 +565,8 @@ require("../api/VerificaSessao.php");
     <script src="assets/js//usuario.js"></script>
     <script src="assets/js/inicio.js"></script>
     <script src="assets/js/cliente.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
 </body>
+
 </html>

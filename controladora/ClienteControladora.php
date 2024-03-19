@@ -29,5 +29,14 @@ class ClienteControladora{
         $registrosClientes = $this->cliente->ConsultarClientes();
         return $registrosClientes;
     }
+
+    public function ConsultarClienteEspecifico($recebeCodigoCliente)
+    {
+        $this->cliente->setCodigo_Cliente($recebeCodigoCliente);
+
+        $registroClienteEspecifico = $this->cliente->ConsultarClienteEspecifico();
+
+        return $registroClienteEspecifico;
+    }
 }
 ?>

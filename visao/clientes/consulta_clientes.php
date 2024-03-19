@@ -20,6 +20,11 @@
             <div class="col-sm-3">
                 <button type="button" class="btn btn-primary" id="buscar-cliente">Pesquisar</button>
             </div>
+            <div class="col-12">
+                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show mt-3" id="recebe-mensagem-campo-vazio-buscar-cliente" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
         </div>
         <!-- Default Table -->
         <table class="table">

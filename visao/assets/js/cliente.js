@@ -5,6 +5,13 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").hide();
   $("#recebe-mensagem-campo-falha-cadastro-alterar-cliente").hide();
   $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
+
+  $("#recebe-mensagem-alterar-realizado-cliente").hide();
+  $("#recebe-mensagem-alteraracao-sendo-realizada-cliente").hide();
+  $("#recebe-mensagem-campo-vazio-alterar-cliente").hide();
+  $("#recebe-mensagem-campo-falha-alterar-cliente").hide();
+
+  $("#recebe-mensagem-campo-vazio-buscar-cliente").hide();
   let url_atual_cliente = window.location.href;
 
   if (
@@ -12,6 +19,26 @@ $(document).ready(function (e) {
     "http://localhost/loja/visao/index.php?pagina=consulta_clientes"
   )
     listarClientes("todos", "todos");
+
+  // jQuery("#telefone-cliente")
+  //   .mask("(99) 99999-9999?9")
+  //   .focusout(function (event) {
+  //     var target, phone, element;
+  //     target = event.currentTarget ? event.currentTarget : event.srcElement;
+  //     phone = target.value.replace(/\D/g, "");
+  //     element = $(target);
+  //     element.unmask();
+  //     if (phone.length > 10) {
+  //       element.mask("(99) 99999-9999");
+  //     } else {
+  //       element.mask("(99) 99999-9999?");
+  //     }
+  //   });
+
+  $(function ($) {
+    $("#telefone-cliente").mask("(99)99999-9999?9");
+    $("#telefone-cliente-edicao").mask("(99)99999-9999?9");
+  });
 });
 
 function listarClientes(filtroCliente, valorFiltroCliente) {
@@ -77,7 +104,9 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
               "<td>" +
               recebe_status_cliente +
               "</td>" +
-              "<td><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente'></i></td>" +
+              "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+              retorno_clientes[clientes].codigo_cliente +
+              ",event)'></i></a></td>" +
               "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente'></i></td>" +
               "</tr>";
           }
@@ -92,6 +121,46 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
     },
     error: function (xhr, error, status) {},
   });
+}
+
+function carrega_dados_cliente(recebe_codigo_cliente, e) {
+  e.preventDefault();
+  debugger;
+
+  if (recebe_codigo_cliente != "") {
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/ClienteAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_cliente: "recebe_consultar_cliente_especifico",
+        valor_codigo_cliente: recebe_codigo_cliente,
+      },
+      success: function (retorno_clientes) {
+        debugger;
+        if (retorno_clientes != "") {
+          $("#nome-cliente-edicao").val(retorno_clientes.nome_cliente);
+          $("#telefone-cliente-edicao").val(retorno_clientes.telefone_cliente);
+          $("#endereco-cliente-edicao").val(retorno_clientes.endereco_cliente);
+          $("#status-cliente-edicao").val(retorno_clientes.status_cliente);
+        } else {
+          $("#recebe-mensagem-campo-falha-alterar-cliente").html(
+            "Falha ao buscar cliente:" + retorno_clientes
+          );
+          $("#recebe-mensagem-campo-falha-alterar-cliente").show();
+          $("#recebe-mensagem-campo-falha-alterar-cliente").fadeOut(4000);
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-alterar-cliente").html(
+          "Falha ao buscar cliente:" + error
+        );
+        $("#recebe-mensagem-campo-falha-alterar-cliente").show();
+        $("#recebe-mensagem-campo-falha-alterar-cliente").fadeOut(4000);
+      },
+    });
+  }
 }
 
 $("#cadastro-cliente").click(function (e) {
@@ -184,16 +253,92 @@ $("#cadastro-cliente").click(function (e) {
   }
 });
 
-$("#buscar-cliente").click(function(e){
+$("#buscar-cliente").click(function (e) {
   e.preventDefault();
+  debugger;
   let recebeFiltroCliente = $("#filtro-cliente").val();
   let recebeValorFiltroCliente = $("#valor-filtro-cliente").val();
 
-  if(recebeFiltroCliente === "nome_cliente" || recebeFiltroCliente === "status_cliente" || recebeFiltroCliente === "todos")
-  {
-    if(recebeFiltroCliente === "nome_cliente")
-    {
-      
+  if (
+    recebeFiltroCliente === "nome_cliente" ||
+    recebeFiltroCliente === "status_cliente" ||
+    recebeFiltroCliente === "todos"
+  ) {
+    if (recebeFiltroCliente === "nome_cliente") {
+      if (recebeValorFiltroCliente != "") {
+        $.ajax({
+          //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+          url: "../api/ClienteAPI.php",
+          dataType: "json",
+          type: "get",
+          data: {
+            processo_cliente: "recebe_consultar_clientes",
+            filtro_cliente: recebeFiltroCliente,
+            valor_filtro_cliente: recebeValorFiltroCliente,
+          },
+          beforeSend: function () {
+            debugger;
+            $("#registros-clientes").html("");
+            $("#registros-clientes").append(
+              "<td colspan='5' class='text-center'>Carregando dados</td>"
+            );
+            $("#registros-clientes").html("");
+          },
+          success: function (retorno_clientes) {
+            debugger;
+            if (retorno_clientes.length > 0) {
+              let recebe_tabela_clientes = document.querySelector(
+                "#registros-clientes"
+              );
+              let recebe_quantidade_clientes = retorno_clientes.length;
+
+              $("#exibi-quantidade-clientes").html(
+                "Quantidade de clientes:" + recebe_quantidade_clientes
+              );
+
+              let recebe_status_cliente = "";
+              for (
+                let clientes = 0;
+                clientes < retorno_clientes.length;
+                clientes++
+              ) {
+                if (retorno_clientes[clientes].status_cliente === 1)
+                  recebe_status_cliente = "Ativo";
+                else recebe_status_cliente = "Inativo";
+
+                recebe_tabela_clientes.innerHTML +=
+                  "<tr>" +
+                  "<td>" +
+                  retorno_clientes[clientes].nome_cliente +
+                  "</td>" +
+                  "<td>" +
+                  retorno_clientes[clientes].telefone_cliente +
+                  "</td>" +
+                  "<td>" +
+                  retorno_clientes[clientes].endereco_cliente +
+                  "</td>" +
+                  "<td>" +
+                  recebe_status_cliente +
+                  "</td>" +
+                  "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                  retorno_clientes[clientes].codigo_cliente +
+                  ",event)'></i></a></td>" +
+                  "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente'></i></td>" +
+                  "</tr>";
+              }
+              $("#registros-clientes").append(recebe_tabela_clientes);
+            } else {
+            }
+          },
+          error: function (xhr, status, error) {},
+        });
+      } else {
+        $("#recebe-mensagem-campo-vazio-buscar-cliente").html(
+          "Favor preencher o nome que deseja pesquisar"
+        );
+        $("#recebe-mensagem-campo-vazio-buscar-cliente").show();
+        $("#recebe-mensagem-campo-vazio-buscar-cliente").fadeOut(4000);
+      }
     }
   }
 });

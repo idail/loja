@@ -103,20 +103,21 @@ class Cliente implements ClienteInterface
         }
     }
 
-    public function consultarClientes():array
+    public function consultarClientes(): array
     {
         $registro_clientes = array();
 
         try {
             if (!empty($this->getFiltro_Cliente()) && !empty($this->getValor_Filtro_Cliente())) {
                 if ($this->getFiltro_Cliente() === "nome_cliente") {
-                    $instrucaoConsultaClientes = "select * from clientes where nome_cliente like = :recebe_nome_cliente";
+                    $recebeNomeCliente = $this->getValor_Filtro_Cliente();
+                    $instrucaoConsultaClientes = "select * from clientes where nome_cliente like :recebe_nome_cliente";
                     $comandoConsultaClientes = Conexao::Obtem()->prepare($instrucaoConsultaClientes);
-                    $comandoConsultaClientes->bindValue(":recebe_nome_cliente", $this->getValor_Filtro_Cliente());
+                    $comandoConsultaClientes->bindValue(":recebe_nome_cliente", "%$recebeNomeCliente%");
                     $comandoConsultaClientes->execute();
                     $registro_clientes = $comandoConsultaClientes->fetchAll(PDO::FETCH_ASSOC);
                 } else if ($this->getFiltro_Cliente() === "status_cliente") {
-                    $instrucaoConsultaClientes = "select * from clientes where status_cliente like = :recebe_status_cliente";
+                    $instrucaoConsultaClientes = "select * from clientes where status_cliente = :recebe_status_cliente";
                     $comandoConsultaClientes = Conexao::Obtem()->prepare($instrucaoConsultaClientes);
                     $comandoConsultaClientes->bindValue(":recebe_status_cliente", $this->getValor_Filtro_Cliente());
                     $comandoConsultaClientes->execute();
@@ -129,18 +130,40 @@ class Cliente implements ClienteInterface
                 }
             }
 
-            if(!empty($registro_clientes))
+            if (!empty($registro_clientes))
                 return $registro_clientes;
             else
                 return $registro_clientes;
         } catch (PDOException $exception) {
-            array_push($registro_clientes,$exception->getMessage());
+            array_push($registro_clientes, $exception->getMessage());
             return $registro_clientes;
         } catch (Exception $excecao) {
-            array_push($registro_clientes,$excecao->getMessage());
+            array_push($registro_clientes, $excecao->getMessage());
             return $registro_clientes;
         }
 
         return $registro_clientes;
+    }
+
+    public function consultarClienteEspecifico(): array
+    {
+        $registro_cliente = array();
+
+        try {
+            if (!empty($this->getCodigo_Cliente())) {
+                $instrucaoConsultaClienteEspecifico = "select * from clientes where codigo_cliente = :recebe_codigo_cliente";
+                $instrucaoConsultaClienteEspecifico = Conexao::Obtem()->prepare($instrucaoConsultaClienteEspecifico);
+                $instrucaoConsultaClienteEspecifico->bindValue(":recebe_codigo_cliente", $this->getCodigo_Cliente());
+                $instrucaoConsultaClienteEspecifico->execute();
+                $registro_cliente = $instrucaoConsultaClienteEspecifico->fetch(PDO::FETCH_ASSOC);
+            }
+            return $registro_cliente;
+        } catch (PDOException $exception) {
+            array_push($registro_cliente, $exception->getMessage());
+            return $registro_cliente;
+        } catch (Exception $excecao) {
+            array_push($registro_cliente, $excecao->getMessage());
+            return $registro_cliente;
+        }
     }
 }
