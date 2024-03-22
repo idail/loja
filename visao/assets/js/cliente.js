@@ -342,3 +342,9 @@ $("#buscar-cliente").click(function (e) {
     }
   }
 });
+
+$("#alterar-cliente").click(function(e){
+  e.preventDefault();
+  debugger;
+  alert("Olá");
+});

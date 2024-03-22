@@ -166,4 +166,32 @@ class Cliente implements ClienteInterface
             return $registro_cliente;
         }
     }
+
+    public function alterarClienteEspecifico():string
+    {
+        try{
+            if(!empty($this->getNome_Cliente()) && !empty($this->getTelefone_Cliente()) && !empty($this->getEndereco_Cliente()) && !empty($this->getStatus_Cliente()))
+            {
+                $instrucaoAlteraClienteEspecifico = "update clientes set nome_cliente = :recebe_nome_cliente, telefone_cliente = :recebe_telefone_cliente, endereco_cliente = :recebe_endereco_cliente, status_cliente = :recebe_status_cliente where codigo_cliente = :recebe_codigo_cliente";
+                $comandoAlteraClienteEspecifico = Conexao::Obtem()->prepare($instrucaoAlteraClienteEspecifico);
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_nome_cliente",$this->getNome_Cliente());
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_telefone_cliente",$this->getTelefone_Cliente());
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_endereco_cliente",$this->getEndereco_Cliente());
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_status_cliente",$this->getStatus_Cliente());
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_codigo_cliente",$this->getCodigo_Cliente());
+                $resultadoAlteraClienteEspecifico = $comandoAlteraClienteEspecifico->execute();
+
+                if($resultadoAlteraClienteEspecifico)
+                    return "Cliente alterado com sucesso";
+                else
+                    return "Cliente não foi alterado";
+            }
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
 }

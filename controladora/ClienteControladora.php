@@ -38,5 +38,17 @@ class ClienteControladora{
 
         return $registroClienteEspecifico;
     }
+
+    public function AlteraClienteEspecifico($recebeNomeCienteAltera,$recebeTelefoneClienteAltera,$recebeEnderecoClienteAltera,$recebeStatusClienteAltera,$recebeCodigoClienteAltera)
+    {
+        $this->cliente->setNome_Cliente($recebeNomeCienteAltera);
+        $this->cliente->setTelefone_Cliente($recebeTelefoneClienteAltera);
+        $this->cliente->setEndereco_Cliente($recebeEnderecoClienteAltera);
+        $this->cliente->setStatus_Cliente($recebeStatusClienteAltera);
+        $this->cliente->setCodigo_Cliente($recebeCodigoClienteAltera);
+
+        $resultadoAlteraCliente = $this->cliente->alterarClienteEspecifico();
+        return $resultadoAlteraCliente;
+    }
 }
 ?>
