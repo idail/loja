@@ -12,6 +12,14 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-falha-alterar-cliente").hide();
 
   $("#recebe-mensagem-campo-vazio-buscar-cliente").hide();
+
+  $("#recebe-mensagem-excluir-realizado-cliente").hide();
+  $("#recebe-mensagem-exclusao-sendo-realizada-cliente").hide();
+  $("#recebe-mensagem-campo-vazio-excluir-cliente").hide();
+  $("#recebe-mensagem-campo-falha-excluir-cliente").hide();
+
+  $("#recebe-mensagem-exclusao-realizado-cliente").hide();
+  $("#recebe-mensagem-campo-falha-exclusao-cliente").hide();
   let url_atual_cliente = window.location.href;
 
   if (
@@ -81,6 +89,8 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
           );
 
           let recebe_status_cliente = "";
+
+          $("#registros-clientes").html("");
           for (
             let clientes = 0;
             clientes < retorno_clientes.length;
@@ -107,7 +117,9 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
               "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
               retorno_clientes[clientes].codigo_cliente +
               ",event)'></i></a></td>" +
-              "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente'></i></td>" +
+              "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+              retorno_clientes[clientes].codigo_cliente +
+              ",event)></i></a></td>" +
               "</tr>";
           }
           $("#registros-clientes").append(recebe_tabela_clientes);
@@ -121,6 +133,53 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
     },
     error: function (xhr, error, status) {},
   });
+}
+
+function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
+  e.preventDefault();
+  debugger;
+
+  if (recebeCodigoClienteEspecifico != "") {
+    let recebeConfirmacaoExcluiClienteEspecifico = window.confirm(
+      "Tem certeza que deseja excluir o cliente?"
+    );
+
+    if (recebeConfirmacaoExcluiClienteEspecifico) {
+      $.ajax({
+        url: "../api/ClienteAPI.php",
+        type: "DELETE",
+        dataType: "json",
+        cache: false,
+        data: JSON.stringify({
+          processo_cliente: "recebe_exclui_cliente",
+          valor_codigo_cliente_exclui:recebeCodigoClienteEspecifico
+        }),
+        success: function (retorno) {
+          debugger;
+          if(retorno != "")
+          {
+            if(retorno === "Cliente excluido com sucesso")
+            {
+              $("#recebe-mensagem-exclusao-realizado-cliente").html(retorno);
+              $("#recebe-mensagem-exclusao-realizado-cliente").show();
+              $("#recebe-mensagem-exclusao-realizado-cliente").fadeOut(4000);
+
+              listarClientes("todos", "todos");
+            }else{
+              $("#recebe-mensagem-campo-falha-exclusao-cliente").html("Falha ao excluir cliente:" + retorno)
+              $("#recebe-mensagem-campo-falha-exclusao-cliente").show();
+              $("#recebe-mensagem-campo-falha-exclusao-cliente").fadeOut(4000);
+            }
+          }
+        },
+        error: function (xhr, status, error) {
+          $("#recebe-mensagem-campo-falha-exclusao-cliente").html("Falha ao excluir cliente:" + error)
+          $("#recebe-mensagem-campo-falha-exclusao-cliente").show();
+          $("#recebe-mensagem-campo-falha-exclusao-cliente").fadeOut(4000);
+        },
+      });
+    }
+  }
 }
 
 function carrega_dados_cliente(recebe_codigo_cliente, e) {
@@ -144,6 +203,7 @@ function carrega_dados_cliente(recebe_codigo_cliente, e) {
           $("#telefone-cliente-edicao").val(retorno_clientes.telefone_cliente);
           $("#endereco-cliente-edicao").val(retorno_clientes.endereco_cliente);
           $("#status-cliente-edicao").val(retorno_clientes.status_cliente);
+          $("#codigo-cliente-edicao").val(retorno_clientes.codigo_cliente);
         } else {
           $("#recebe-mensagem-campo-falha-alterar-cliente").html(
             "Falha ao buscar cliente:" + retorno_clientes
@@ -323,7 +383,7 @@ $("#buscar-cliente").click(function (e) {
                   "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
                   retorno_clientes[clientes].codigo_cliente +
                   ",event)'></i></a></td>" +
-                  "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente'></i></td>" +
+                  "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' data-bs-toggle='modal' data-bs-target='#exclusao-cliente' data-backdrop='static'></i></td>" +
                   "</tr>";
               }
               $("#registros-clientes").append(recebe_tabela_clientes);
@@ -343,8 +403,90 @@ $("#buscar-cliente").click(function (e) {
   }
 });
 
-$("#alterar-cliente").click(function(e){
+$("#alterar-cliente").click(function (e) {
   e.preventDefault();
   debugger;
-  alert("Olá");
+
+  let recebeNomeClienteAlteracao = $("#nome-cliente-edicao").val();
+  let recebeTelefoneClienteAlteracao = $("#telefone-cliente-edicao").val();
+  let recebeEnderecoClienteAlteracao = $("#endereco-cliente-edicao").val();
+  let recebeStatusClienteAlteracao = $("#status-cliente-edicao").val();
+
+  if (
+    recebeNomeClienteAlteracao != "" &&
+    recebeTelefoneClienteAlteracao != "" &&
+    recebeEnderecoClienteAlteracao != "" &&
+    recebeStatusClienteAlteracao != ""
+  ) {
+    let valores_formulario_cliente_alteracao = $(
+      "#formulario-alteracao-cliente"
+    )[0];
+    let dados_formulario_cliente_alteracao = new FormData(
+      valores_formulario_cliente_alteracao
+    );
+    dados_formulario_cliente_alteracao.append(
+      "processo_cliente",
+      "recebe_alteracao_cliente"
+    );
+    dados_formulario_cliente_alteracao.append("metodo", "PUT");
+    $.ajax({
+      url: "../api/ClienteAPI.php",
+      type: "post",
+      dataType: "json",
+      processData: false,
+      contentType: false,
+      data: dados_formulario_cliente_alteracao,
+      success: function (retorno) {
+        debugger;
+        if (retorno != "") {
+          if (retorno === "Cliente alterado com sucesso") {
+            $("#recebe-mensagem-alterar-realizado-cliente").html(
+              "Cliente alterado com sucesso"
+            );
+            $("#recebe-mensagem-alterar-realizado-cliente").show();
+            $("#recebe-mensagem-alterar-realizado-cliente").fadeOut(4000);
+
+            listarClientes("todos", "todos");
+          } else {
+            $("#recebe-mensagem-campo-falha-alterar-cliente").html(
+              "Falha ao alterar cliente:" + retorno
+            );
+            $("#recebe-mensagem-campo-falha-alterar-cliente").show();
+            $("#recebe-mensagem-campo-falha-alterar-cliente").fadeOut(4000);
+          }
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-alterar-cliente").html(
+          "Falha ao alterar cliente:" + error
+        );
+        $("#recebe-mensagem-campo-falha-alterar-cliente").show();
+        $("#recebe-mensagem-campo-falha-alterar-cliente").fadeOut(4000);
+      },
+    });
+  } else if (recebeNomeClienteAlteracao === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
+      "Favor preencher o campo nome cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
+  } else if (recebeTelefoneClienteAlteracao === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
+      "Favor preencher o campo telefone cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
+  } else if (recebeEnderecoClienteAlteracao === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
+      "Favor preencher o campo endereço cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
+  } else if (recebeStatusClienteAlteracao === "") {
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
+      "Favor selecionar o status do cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
+  }
 });

@@ -24,7 +24,7 @@
                             <h5 class="card-title text-center pb-0 fs-4">Alteração de Cliente</h5>
                         </div>
 
-                        <form class="row g-3" id="formulario-edicao-usuario" novalidate>
+                        <form class="row g-3" id="formulario-alteracao-cliente" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">Nome</label>
                                 <input type="text" name="nome-cliente-edicao" class="form-control" id="nome-cliente-edicao" required>
@@ -32,7 +32,7 @@
 
                             <div class="col-12">
                                 <label for="yourEmail" class="form-label">Telefone</label>
-                                <input type="email" name="telefone-cliente-edicao" class="form-control" id="telefone-cliente-edicao" required>
+                                <input type="text" name="telefone-cliente-edicao" class="form-control" id="telefone-cliente-edicao" required>
                             </div>
 
                             <div class="col-12">

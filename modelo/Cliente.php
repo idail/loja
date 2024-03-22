@@ -172,7 +172,8 @@ class Cliente implements ClienteInterface
         try{
             if(!empty($this->getNome_Cliente()) && !empty($this->getTelefone_Cliente()) && !empty($this->getEndereco_Cliente()) && !empty($this->getStatus_Cliente()))
             {
-                $instrucaoAlteraClienteEspecifico = "update clientes set nome_cliente = :recebe_nome_cliente, telefone_cliente = :recebe_telefone_cliente, endereco_cliente = :recebe_endereco_cliente, status_cliente = :recebe_status_cliente where codigo_cliente = :recebe_codigo_cliente";
+                $instrucaoAlteraClienteEspecifico = "update clientes set nome_cliente = :recebe_nome_cliente, telefone_cliente = :recebe_telefone_cliente,
+                 endereco_cliente = :recebe_endereco_cliente, status_cliente = :recebe_status_cliente where codigo_cliente = :recebe_codigo_cliente";
                 $comandoAlteraClienteEspecifico = Conexao::Obtem()->prepare($instrucaoAlteraClienteEspecifico);
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_nome_cliente",$this->getNome_Cliente());
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_telefone_cliente",$this->getTelefone_Cliente());
@@ -185,6 +186,30 @@ class Cliente implements ClienteInterface
                     return "Cliente alterado com sucesso";
                 else
                     return "Cliente não foi alterado";
+            }
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
+
+    public function excluirClienteEspecifico():string
+    {
+        try{
+            if(!empty($this->getCodigo_Cliente()))
+            {
+                $instrucaoExcluiClienteEspecifico = "delete from clientes where codigo_cliente = :recebe_codigo_cliente";
+                $comandoExcluirClienteEspecifico = Conexao::Obtem()->prepare($instrucaoExcluiClienteEspecifico);
+                $comandoExcluirClienteEspecifico->bindValue(":recebe_codigo_cliente",$this->getCodigo_Cliente());
+                $resultadoExcluiClienteEspecifico = $comandoExcluirClienteEspecifico->execute();
+
+                if($resultadoExcluiClienteEspecifico)
+                    return "Cliente excluido com sucesso";
+                else
+                    return "Cliente não foi excluido";
             }
         }catch (PDOException $exception) {
             $recebe_erro =  $exception->getMessage();

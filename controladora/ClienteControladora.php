@@ -50,5 +50,14 @@ class ClienteControladora{
         $resultadoAlteraCliente = $this->cliente->alterarClienteEspecifico();
         return $resultadoAlteraCliente;
     }
+
+    public function ExcluiClienteEspecifico($recebeCodigoClienteExclui)
+    {
+        $this->cliente->setCodigo_Cliente($recebeCodigoClienteExclui);
+
+        $resultadoExcluiCliente = $this->cliente->excluirClienteEspecifico();
+
+        return $resultadoExcluiCliente;
+    }
 }
 ?>

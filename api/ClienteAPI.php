@@ -26,6 +26,26 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         }else{
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
+    }else if($recebeProcessoCliente === "recebe_alteracao_cliente")
+    {
+        if($_POST["metodo"] === "PUT")
+        {
+            $recebeNomeClienteAlteracao = $_POST["nome-cliente-edicao"];
+            $recebeTelefoneClienteAlteracao = $_POST["telefone-cliente-edicao"];
+            $recebeEnderecoClienteAlteracao = $_POST["endereco-cliente-edicao"];
+            $recebeStatusClienteAlteracao = $_POST["status-cliente-edicao"];
+            $recebeCodigoClienteAlteracao = $_POST["codigo-cliente-edicao"];
+
+            if(!empty($recebeNomeClienteAlteracao) && !empty($recebeTelefoneClienteAlteracao) && !empty($recebeEnderecoClienteAlteracao) && !empty($recebeStatusClienteAlteracao))
+            {
+                $recebeAlterarCliente = $clienteControladora->AlteraClienteEspecifico($recebeNomeClienteAlteracao,$recebeTelefoneClienteAlteracao,
+                $recebeEnderecoClienteAlteracao,$recebeStatusClienteAlteracao,$recebeCodigoClienteAlteracao);
+
+                echo json_encode($recebeAlterarCliente);
+            }else{
+                echo json_encode("Favor verificar o preenchimento dos campos");
+            }
+        }
     }
 }else if($_SERVER["REQUEST_METHOD"] === "GET")
 {
@@ -53,6 +73,20 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             $recebeConsultaClienteEspecifico = $clienteControladora->ConsultarClienteEspecifico($recebeCodigoCliente);
 
             echo json_encode($recebeConsultaClienteEspecifico);
+        }
+    }
+}else if($_SERVER["REQUEST_METHOD"] === "DELETE")
+{
+    $recebeProcessoCliente = json_decode(file_get_contents("php://input", true));
+
+    if($recebeProcessoCliente->processo_cliente === "recebe_exclui_cliente")
+    {
+        if(!empty($recebeProcessoCliente->valor_codigo_cliente_exclui))
+        {
+            $recebeExcluiClienteEspecifico = $clienteControladora->ExcluiClienteEspecifico($recebeProcessoCliente->valor_codigo_cliente_exclui);
+            echo json_encode($recebeExcluiClienteEspecifico);
+        }else{
+            echo json_encode("Falha ao excluir o cliente devido não ter codigo");
         }
     }
 }
