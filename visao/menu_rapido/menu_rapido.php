@@ -18,7 +18,7 @@
         <div class="card-body">
             <h5 class="card-title"> <span></span></h5>
 
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" id="clique-para-consultar-clientes">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-person-lines-fill"></i>
                 </div>
@@ -104,3 +104,5 @@
     </div>
 
 </div><!-- End Customers Card -->
+
+<script src="../assets/js/menu-principal.js"></script>
