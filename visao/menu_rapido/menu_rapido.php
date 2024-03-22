@@ -104,5 +104,3 @@
     </div>
 
 </div><!-- End Customers Card -->
-
-<script src="../assets/js/menu-principal.js"></script>
