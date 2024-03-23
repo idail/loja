@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-body table-responsive">
         <h5 class="card-title">Clientes</h5>
-        <div class="row mb-3 col-lg-12">
+        <div class="row mb-4 col-lg-12">
             <label class="col-sm-1 col-form-label">Filtro</label>
             <div class="col-sm-2">
                 <select class="form-select" aria-label="Default select example" id="filtro-cliente">
@@ -14,7 +14,17 @@
                     <option value="todos">Todos</option>
                 </select>
             </div>
-            <div class="col-sm-6">
+
+            <!-- <label class="col-sm-1 col-form-label"></label> -->
+            <div class="col-sm-2" id="selecao-status">
+                <select class="form-select" aria-label="Default select example" id="valor-filtro-status-cliente">
+                    <option selected>Selecione</option>
+                    <option value="1">Ativo</option>
+                    <option value="0">Inativo</option>
+                </select>
+            </div>
+
+            <div class="col-sm-4">
                 <input type="text" class="form-control" name="valor-filtro-cliente" placeholder="Informe o nome do cliente" id="valor-filtro-cliente">
             </div>
             <div class="col-sm-3">
