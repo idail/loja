@@ -28,7 +28,7 @@
                 <div class="row mb-3">
 
                     <div class="col-sm-10 col-lg-7">
-                        <label class="col-sm-2 col-form-label">Cliente</label>
+                        <label class="col-sm-2 col-form-label">Situação</label>
                         <select class="form-select" aria-label="Default select example" name="status-cliente" id="status-cliente">
                             <option selected value="selecione">Selecione</option>
                             <option value="1">Ativo</option>
