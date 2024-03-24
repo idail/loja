@@ -133,19 +133,22 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
         );
       }
     },
-    error: function (xhr, error, status) {},
+    error: function (xhr, error, status) { },
   });
 }
 
-$("#filtro-cliente").change(function(e){
+$("#filtro-cliente").change(function (e) {
   e.preventDefault();
 
   let recebeValorFiltroEscolhido = $(this).val();
 
-  if(recebeValorFiltroEscolhido === "status_cliente")
+  if (recebeValorFiltroEscolhido === "status_cliente") {
     $("#selecao-status").show();
-  else
-  $("#selecao-status").hide();
+    $("#valor-filtro-cliente").attr("disabled", true);
+  } else {
+    $("#selecao-status").hide();
+    $("#valor-filtro-cliente").attr("disabled", false);
+  }
 });
 
 function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
@@ -165,20 +168,18 @@ function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
         cache: false,
         data: JSON.stringify({
           processo_cliente: "recebe_exclui_cliente",
-          valor_codigo_cliente_exclui:recebeCodigoClienteEspecifico
+          valor_codigo_cliente_exclui: recebeCodigoClienteEspecifico
         }),
         success: function (retorno) {
           debugger;
-          if(retorno != "")
-          {
-            if(retorno === "Cliente excluido com sucesso")
-            {
+          if (retorno != "") {
+            if (retorno === "Cliente excluido com sucesso") {
               $("#recebe-mensagem-exclusao-realizado-cliente").html(retorno);
               $("#recebe-mensagem-exclusao-realizado-cliente").show();
               $("#recebe-mensagem-exclusao-realizado-cliente").fadeOut(4000);
 
               listarClientes("todos", "todos");
-            }else{
+            } else {
               $("#recebe-mensagem-campo-falha-exclusao-cliente").html("Falha ao excluir cliente:" + retorno)
               $("#recebe-mensagem-campo-falha-exclusao-cliente").show();
               $("#recebe-mensagem-campo-falha-exclusao-cliente").fadeOut(4000);
@@ -414,9 +415,10 @@ $("#buscar-cliente").click(function (e) {
         $("#recebe-mensagem-campo-vazio-buscar-cliente").show();
         $("#recebe-mensagem-campo-vazio-buscar-cliente").fadeOut(4000);
       }
-    }else if(recebeFiltroCliente === "status_cliente")
-    {
-      if (recebeValorFiltroCliente != "") {
+    } else if (recebeFiltroCliente === "status_cliente") {
+
+      let recebeValorFiltroClienteStatus = $("#valor-filtro-status-cliente").val();
+      if (recebeValorFiltroClienteStatus != "") {
         let recebeValorFiltroStatus = 0;
         $.ajax({
           //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -426,7 +428,7 @@ $("#buscar-cliente").click(function (e) {
           data: {
             processo_cliente: "recebe_consultar_clientes",
             filtro_cliente: recebeFiltroCliente,
-            valor_filtro_cliente: recebeValorFiltroCliente,
+            valor_filtro_cliente: recebeValorFiltroClienteStatus,
           },
           beforeSend: function () {
             debugger;
@@ -493,8 +495,7 @@ $("#buscar-cliente").click(function (e) {
         $("#recebe-mensagem-campo-vazio-buscar-cliente").show();
         $("#recebe-mensagem-campo-vazio-buscar-cliente").fadeOut(4000);
       }
-    }else if(recebeFiltroCliente === "todos")
-    {
+    } else if (recebeFiltroCliente === "todos") {
       $.ajax({
         //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ClienteAPI.php",
