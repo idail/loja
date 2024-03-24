@@ -20,7 +20,7 @@
                 <select class="form-select" aria-label="Default select example" id="valor-filtro-status-cliente">
                     <option selected>Selecione</option>
                     <option value="1">Ativo</option>
-                    <option value="0">Inativo</option>
+                    <option value="2">Inativo</option>
                 </select>
             </div>
 

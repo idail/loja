@@ -133,7 +133,7 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
         );
       }
     },
-    error: function (xhr, error, status) { },
+    error: function (xhr, error, status) {},
   });
 }
 
@@ -144,6 +144,9 @@ $("#filtro-cliente").change(function (e) {
 
   if (recebeValorFiltroEscolhido === "status_cliente") {
     $("#selecao-status").show();
+    $("#valor-filtro-cliente").attr("disabled", true);
+  } else if (recebeValorFiltroEscolhido === "todos") {
+    $("#selecao-status").hide();
     $("#valor-filtro-cliente").attr("disabled", true);
   } else {
     $("#selecao-status").hide();
@@ -168,7 +171,7 @@ function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
         cache: false,
         data: JSON.stringify({
           processo_cliente: "recebe_exclui_cliente",
-          valor_codigo_cliente_exclui: recebeCodigoClienteEspecifico
+          valor_codigo_cliente_exclui: recebeCodigoClienteEspecifico,
         }),
         success: function (retorno) {
           debugger;
@@ -180,14 +183,18 @@ function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
 
               listarClientes("todos", "todos");
             } else {
-              $("#recebe-mensagem-campo-falha-exclusao-cliente").html("Falha ao excluir cliente:" + retorno)
+              $("#recebe-mensagem-campo-falha-exclusao-cliente").html(
+                "Falha ao excluir cliente:" + retorno
+              );
               $("#recebe-mensagem-campo-falha-exclusao-cliente").show();
               $("#recebe-mensagem-campo-falha-exclusao-cliente").fadeOut(4000);
             }
           }
         },
         error: function (xhr, status, error) {
-          $("#recebe-mensagem-campo-falha-exclusao-cliente").html("Falha ao excluir cliente:" + error)
+          $("#recebe-mensagem-campo-falha-exclusao-cliente").html(
+            "Falha ao excluir cliente:" + error
+          );
           $("#recebe-mensagem-campo-falha-exclusao-cliente").show();
           $("#recebe-mensagem-campo-falha-exclusao-cliente").fadeOut(4000);
         },
@@ -331,7 +338,6 @@ $("#buscar-cliente").click(function (e) {
   e.preventDefault();
   debugger;
   let recebeFiltroCliente = $("#filtro-cliente").val();
-  let recebeValorFiltroCliente = $("#valor-filtro-cliente").val();
 
   if (
     recebeFiltroCliente === "nome_cliente" ||
@@ -339,6 +345,7 @@ $("#buscar-cliente").click(function (e) {
     recebeFiltroCliente === "todos"
   ) {
     if (recebeFiltroCliente === "nome_cliente") {
+      let recebeValorFiltroCliente = $("#valor-filtro-cliente").val();
       if (recebeValorFiltroCliente != "") {
         $.ajax({
           //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -397,7 +404,9 @@ $("#buscar-cliente").click(function (e) {
                   "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
                   retorno_clientes[clientes].codigo_cliente +
                   ",event)'></i></a></td>" +
-                  "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' data-bs-toggle='modal' data-bs-target='#exclusao-cliente' data-backdrop='static'></i></td>" +
+                  "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                  retorno_clientes[clientes].codigo_cliente +
+                  ",event)></i></a></td>" +
                   "</tr>";
               }
               $("#registros-clientes").append(recebe_tabela_clientes);
@@ -416,8 +425,9 @@ $("#buscar-cliente").click(function (e) {
         $("#recebe-mensagem-campo-vazio-buscar-cliente").fadeOut(4000);
       }
     } else if (recebeFiltroCliente === "status_cliente") {
-
-      let recebeValorFiltroClienteStatus = $("#valor-filtro-status-cliente").val();
+      let recebeValorFiltroClienteStatus = $(
+        "#valor-filtro-status-cliente"
+      ).val();
       if (recebeValorFiltroClienteStatus != "") {
         let recebeValorFiltroStatus = 0;
         $.ajax({
@@ -477,7 +487,9 @@ $("#buscar-cliente").click(function (e) {
                   "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
                   retorno_clientes[clientes].codigo_cliente +
                   ",event)'></i></a></td>" +
-                  "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' data-bs-toggle='modal' data-bs-target='#exclusao-cliente' data-backdrop='static'></i></td>" +
+                  "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                  retorno_clientes[clientes].codigo_cliente +
+                  ",event)></i></a></td>" +
                   "</tr>";
               }
               $("#registros-clientes").append(recebe_tabela_clientes);
@@ -496,6 +508,7 @@ $("#buscar-cliente").click(function (e) {
         $("#recebe-mensagem-campo-vazio-buscar-cliente").fadeOut(4000);
       }
     } else if (recebeFiltroCliente === "todos") {
+      let recebeValorFiltroCliente = "todos";
       $.ajax({
         //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ClienteAPI.php",
@@ -553,7 +566,9 @@ $("#buscar-cliente").click(function (e) {
                 "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
                 retorno_clientes[clientes].codigo_cliente +
                 ",event)'></i></a></td>" +
-                "<td><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' data-bs-toggle='modal' data-bs-target='#exclusao-cliente' data-backdrop='static'></i></td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)></i></a></td>" +
                 "</tr>";
             }
             $("#registros-clientes").append(recebe_tabela_clientes);
