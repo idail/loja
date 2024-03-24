@@ -30,7 +30,7 @@
                     <div class="col-sm-10 col-lg-7">
                         <label class="col-sm-2 col-form-label">Cliente</label>
                         <select class="form-select" aria-label="Default select example" name="status-cliente" id="status-cliente">
-                            <option selected>Selecione</option>
+                            <option selected value="selecione">Selecione</option>
                             <option value="1">Ativo</option>
                             <option value="2">Inativo</option>
                         </select>
@@ -43,7 +43,7 @@
                     <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-primary" id="cadastro-cliente">Cadastrar</button>
-                        <button type="button" class="btn btn-secondary">Limpar</button>
+                        <button type="button" class="btn btn-secondary" id="limpar-campos-cadastro-cliente">Limpar</button>
                     </div>
                 </div>
 

@@ -1,5 +1,5 @@
 <div class="col-lg-3 mb-4">
-    <button type="button" class="btn btn-primary">Cadastrar Cliente</button>
+    <a href="index.php?pagina=cadastro_clientes" class="btn btn-primary">Cadastrar Cliente</a>
 </div>
 <div class="card">
     <div class="card-body table-responsive">

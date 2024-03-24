@@ -670,3 +670,13 @@ $("#alterar-cliente").click(function (e) {
     $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
   }
 });
+
+$("#limpar-campos-cadastro-cliente").click(function(e){
+  e.preventDefault();
+
+  $("#nome-cliente").val("");
+  $("#telefone-cliente").val("");
+  $("#endereco-cliente").val("");
+  let elemento_select_status = document.querySelector("#status-cliente");
+  elemento_select_status.selectedIndex = 0;
+});
