@@ -368,12 +368,12 @@ require("../api/VerificaSessao.php");
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="forms-elements.html">
+                        <a href="#">
                             <i class="bi bi-circle"></i><span>Consultar Produtos</span>
                         </a>
                     </li>
                     <li>
-                        <a href="forms-layouts.html">
+                        <a href="index.php?pagina=cadastro_produtos">
                             <i class="bi bi-circle"></i><span>Cadastrar Produtos</span>
                         </a>
                     </li>
@@ -529,6 +529,8 @@ require("../api/VerificaSessao.php");
                         require("clientes/clientes.php");
                     } elseif ($_GET["pagina"] === "consulta_clientes") {
                         require("clientes/consulta_clientes.php");
+                    } elseif($_GET["pagina"] === "cadastro_produtos"){
+                        require("produtos/cadastro_produtos.php");
                     }
                 } else {
                     require("menu_rapido/menu_rapido.php");
