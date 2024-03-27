@@ -28,26 +28,13 @@ $(document).ready(function (e) {
     url_atual_cliente ===
     "http://localhost/loja/visao/index.php?pagina=consulta_clientes"
   )
-    listarClientes("todos", "todos");
+    listarClientes("todos", "todos")
 
-  // jQuery("#telefone-cliente")
-  //   .mask("(99) 99999-9999?9")
-  //   .focusout(function (event) {
-  //     var target, phone, element;
-  //     target = event.currentTarget ? event.currentTarget : event.srcElement;
-  //     phone = target.value.replace(/\D/g, "");
-  //     element = $(target);
-  //     element.unmask();
-  //     if (phone.length > 10) {
-  //       element.mask("(99) 99999-9999");
-  //     } else {
-  //       element.mask("(99) 99999-9999?");
-  //     }
-  //   });
 
+ // Maskara para funcionamento do telefone 
   $(function ($) {
-    $("#telefone-cliente").mask("(99)99999-9999?9");
-    $("#telefone-cliente-edicao").mask("(99)99999-9999?9");
+    $("#telefone-cliente").mask("(99)99999-9999?");
+    $("#telefone-cliente-edicao").mask("(99)99999-9999?");
   });
 });
 

@@ -8,25 +8,33 @@
             <form id="formulario-cadastro-cliente">
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
-                        <label for="inputText" class="col-sm-2 col-form-label">Nome</label>
+                        <label for="inputText" class="col-sm-2 col-form-label">Nome Completo</label>
                         <input type="text" class="form-control" name="nome-cliente" placeholder="Informe o nome do cliente" id="nome-cliente">
                     </div>
                 </div>
+
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Telefone</label>
-                        <input type="text" class="form-control" name="telefone-cliente" placeholder="Informe o telefone do cliente" id="telefone-cliente">
+                        <input type="text" class="form-control" name="telefone-cliente" placeholder="Somente números" id="telefone-cliente">
                     </div>
                 </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-10 col-lg-7">
+                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                        <input type="text" class="form-control" name="telefone-cliente" placeholder="Informe o email do cliente" id="telefone-cliente">
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputPassword" class="col-sm-2 col-form-label">Endereço</label>
-                        <input type="text" class="form-control" name="endereco-cliente" placeholder="Informe o endereço do cliente" id="endereco-cliente">
+                        <input type="text" class="form-control" name="endereco-cliente" placeholder="Exemplo: Rua, Avenida, BR KM" id="endereco-cliente">
                     </div>
                 </div>
 
                 <div class="row mb-3">
-
                     <div class="col-sm-10 col-lg-7">
                         <label class="col-sm-2 col-form-label">Situação</label>
                         <select class="form-select" aria-label="Default select example" name="status-cliente" id="status-cliente">
