@@ -15,12 +15,15 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
     {
         $recebeNomeCliente = $_POST["nome-cliente"];
         $recebeTelefoneCliente = $_POST["telefone-cliente"];
+        $recebeEmailCliente = $_POST["email-cliente"];
         $recebeEnderecoCliente = $_POST["endereco-cliente"];
         $recebeStatusCliente = $_POST["status-cliente"];
 
-        if(!empty($recebeNomeCliente) && !empty($recebeTelefoneCliente) && !empty($recebeEnderecoCliente) && !empty($recebeStatusCliente))
+        if(!empty($recebeNomeCliente) && !empty($recebeTelefoneCliente) && !empty($recebeEmailCliente) &&
+        !empty($recebeEnderecoCliente) && !empty($recebeStatusCliente))
         {
-            $recebeCadastroCliente = $clienteControladora->CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEnderecoCliente,$recebeStatusCliente);
+            $recebeCadastroCliente = $clienteControladora->CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEmailCliente,
+            $recebeEnderecoCliente,$recebeStatusCliente);
 
             echo json_encode($recebeCadastroCliente);
         }else{
@@ -32,14 +35,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         {
             $recebeNomeClienteAlteracao = $_POST["nome-cliente-edicao"];
             $recebeTelefoneClienteAlteracao = $_POST["telefone-cliente-edicao"];
+            $recebeEmailClienteAlteracao = $_POST["email-cliente-edicao"];
             $recebeEnderecoClienteAlteracao = $_POST["endereco-cliente-edicao"];
             $recebeStatusClienteAlteracao = $_POST["status-cliente-edicao"];
             $recebeCodigoClienteAlteracao = $_POST["codigo-cliente-edicao"];
 
-            if(!empty($recebeNomeClienteAlteracao) && !empty($recebeTelefoneClienteAlteracao) && !empty($recebeEnderecoClienteAlteracao) && !empty($recebeStatusClienteAlteracao))
+            if(!empty($recebeNomeClienteAlteracao) && !empty($recebeTelefoneClienteAlteracao) && !empty($recebeEmailClienteAlteracao) &&
+            !empty($recebeEnderecoClienteAlteracao)
+            && !empty($recebeStatusClienteAlteracao))
             {
                 $recebeAlterarCliente = $clienteControladora->AlteraClienteEspecifico($recebeNomeClienteAlteracao,$recebeTelefoneClienteAlteracao,
-                $recebeEnderecoClienteAlteracao,$recebeStatusClienteAlteracao,$recebeCodigoClienteAlteracao);
+                $recebeEmailClienteAlteracao,$recebeEnderecoClienteAlteracao,$recebeStatusClienteAlteracao,$recebeCodigoClienteAlteracao);
 
                 echo json_encode($recebeAlterarCliente);
             }else{

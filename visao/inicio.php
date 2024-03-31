@@ -145,12 +145,12 @@ require("../api/VerificaSessao.php");
 
                 </li><!-- End Notification Nav -->
 
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
 
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-chat-left-text"></i>
                         <span class="badge bg-success badge-number">3</span>
-                    </a><!-- End Messages Icon -->
+                    </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                         <li class="dropdown-header">
@@ -207,9 +207,9 @@ require("../api/VerificaSessao.php");
                             <a href="#">Show all messages</a>
                         </li>
 
-                    </ul><!-- End Messages Dropdown Items -->
+                    </ul>
 
-                </li><!-- End Messages Nav -->
+                </li> -->
 
                 <li class="nav-item dropdown pe-3">
 

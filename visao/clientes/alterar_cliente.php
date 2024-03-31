@@ -36,6 +36,11 @@
                             </div>
 
                             <div class="col-12">
+                                <label for="yourEmail" class="form-label">Email</label>
+                                <input type="text" name="email-cliente-edicao" class="form-control" id="email-cliente-edicao" required>
+                            </div>
+
+                            <div class="col-12">
                                 <label for="yourUsername" class="form-label">Endereço</label>
                                 <div class="input-group has-validation">
                                     <input type="text" name="endereco-cliente-edicao" class="form-control" id="endereco-cliente-edicao" required>

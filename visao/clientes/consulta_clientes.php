@@ -42,6 +42,7 @@
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Telefone</th>
+                    <th scope="col">E-mail</th>
                     <th scope="col">Endereço</th>
                     <th scope="col">Situação</th>
                     <th scope="col" colspan="2">Opções</th>

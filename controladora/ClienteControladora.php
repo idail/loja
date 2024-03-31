@@ -9,7 +9,7 @@ class ClienteControladora{
         $this->cliente = new Cliente();
     }
 
-    public function CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEnderecoCliente,$recebeStatusCliente)
+    public function CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEmailCliente,$recebeEnderecoCliente,$recebeStatusCliente)
     {
         $this->cliente->setNome_Cliente($recebeNomeCliente);
         $this->cliente->setTelefone_Cliente($recebeTelefoneCliente);
@@ -39,10 +39,12 @@ class ClienteControladora{
         return $registroClienteEspecifico;
     }
 
-    public function AlteraClienteEspecifico($recebeNomeCienteAltera,$recebeTelefoneClienteAltera,$recebeEnderecoClienteAltera,$recebeStatusClienteAltera,$recebeCodigoClienteAltera)
+    public function AlteraClienteEspecifico($recebeNomeCienteAltera,$recebeTelefoneClienteAltera,$recebeEmailClienteAltera,
+    $recebeEnderecoClienteAltera,$recebeStatusClienteAltera,$recebeCodigoClienteAltera)
     {
         $this->cliente->setNome_Cliente($recebeNomeCienteAltera);
         $this->cliente->setTelefone_Cliente($recebeTelefoneClienteAltera);
+        $this->cliente->setEmail_Cliente($recebeEmailClienteAltera);
         $this->cliente->setEndereco_Cliente($recebeEnderecoClienteAltera);
         $this->cliente->setStatus_Cliente($recebeStatusClienteAltera);
         $this->cliente->setCodigo_Cliente($recebeCodigoClienteAltera);

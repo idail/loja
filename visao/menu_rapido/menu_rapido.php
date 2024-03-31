@@ -1,5 +1,5 @@
 <!-- Sales Card -->
-<div class="col-xxl-4 col-md-4">
+<div class="col-xl-4 col-md-4">
     <div class="card info-card sales-card">
 
         <div class="filter">
@@ -69,7 +69,7 @@
 </div><!-- End Revenue Card -->
 
 <!-- Customers Card -->
-<div class="col-xxl-4 col-xl-12 col-md-4">
+<div class="col-xxl-4 col-md-4">
 
     <div class="card info-card customers-card">
 

@@ -6,6 +6,7 @@ class Cliente implements ClienteInterface
     private $codigo_cliente;
     private $nome_cliente;
     private $telefone_cliente;
+    private $email_cliente;
     private $endereco_cliente;
     private $status_cliente;
     private $filtro_cliente;
@@ -39,6 +40,16 @@ class Cliente implements ClienteInterface
     public function getTelefone_Cliente()
     {
         return $this->telefone_cliente;
+    }
+
+    public function setEmail_Cliente($email_cliente)
+    {
+        $this->email_cliente = $email_cliente;
+    }
+
+    public function getEmail_Cliente()
+    {
+        return $this->email_cliente;
     }
 
     public function setEndereco_Cliente($endereco_cliente)
@@ -84,11 +95,13 @@ class Cliente implements ClienteInterface
     public function cadastrarCliente(): int
     {
         try {
-            $instrucaoCadastroCliente = "insert into clientes(nome_cliente,telefone_cliente,endereco_cliente,status_cliente)values(:recebe_nome_cliente,:recebe_telefone_cliente,:recebe_endereco_cliente,
+            $instrucaoCadastroCliente = "insert into clientes(nome_cliente,telefone_cliente,email_cliente,endereco_cliente,status_cliente)
+            values(:recebe_nome_cliente,:recebe_telefone_cliente,:recebe_email_cliente,:recebe_endereco_cliente,
             :recebe_status_cliente)";
             $comandoCadastroCliente = Conexao::Obtem()->prepare($instrucaoCadastroCliente);
             $comandoCadastroCliente->bindValue(":recebe_nome_cliente", $this->getNome_Cliente());
             $comandoCadastroCliente->bindValue(":recebe_telefone_cliente", $this->getTelefone_Cliente());
+            $comandoCadastroCliente->bindValue(":recebe_email_cliente",$this->getEmail_Cliente());
             $comandoCadastroCliente->bindValue(":recebe_endereco_cliente", $this->getEndereco_Cliente());
             $comandoCadastroCliente->bindValue(":recebe_status_cliente", $this->getStatus_Cliente());
 
@@ -173,10 +186,12 @@ class Cliente implements ClienteInterface
             if(!empty($this->getNome_Cliente()) && !empty($this->getTelefone_Cliente()) && !empty($this->getEndereco_Cliente()) && !empty($this->getStatus_Cliente()))
             {
                 $instrucaoAlteraClienteEspecifico = "update clientes set nome_cliente = :recebe_nome_cliente, telefone_cliente = :recebe_telefone_cliente,
-                 endereco_cliente = :recebe_endereco_cliente, status_cliente = :recebe_status_cliente where codigo_cliente = :recebe_codigo_cliente";
+                email_cliente = :recebe_email_cliente, endereco_cliente = :recebe_endereco_cliente, 
+                status_cliente = :recebe_status_cliente where codigo_cliente = :recebe_codigo_cliente";
                 $comandoAlteraClienteEspecifico = Conexao::Obtem()->prepare($instrucaoAlteraClienteEspecifico);
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_nome_cliente",$this->getNome_Cliente());
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_telefone_cliente",$this->getTelefone_Cliente());
+                $comandoAlteraClienteEspecifico->bindValue(":recebe_email_cliente",$this->getEmail_Cliente());
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_endereco_cliente",$this->getEndereco_Cliente());
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_status_cliente",$this->getStatus_Cliente());
                 $comandoAlteraClienteEspecifico->bindValue(":recebe_codigo_cliente",$this->getCodigo_Cliente());

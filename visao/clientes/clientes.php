@@ -23,7 +23,7 @@
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <input type="text" class="form-control" name="telefone-cliente" placeholder="Informe o email do cliente" id="telefone-cliente">
+                        <input type="text" class="form-control" name="email-cliente" placeholder="Informe o email do cliente" id="email-cliente">
                     </div>
                 </div>
 

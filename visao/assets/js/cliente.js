@@ -98,6 +98,9 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
               retorno_clientes[clientes].telefone_cliente +
               "</td>" +
               "<td>" +
+              retorno_clientes[clientes].email_cliente +
+              "</td>" +
+              "<td>" +
               retorno_clientes[clientes].endereco_cliente +
               "</td>" +
               "<td>" +
@@ -209,6 +212,7 @@ function carrega_dados_cliente(recebe_codigo_cliente, e) {
         if (retorno_clientes != "") {
           $("#nome-cliente-edicao").val(retorno_clientes.nome_cliente);
           $("#telefone-cliente-edicao").val(retorno_clientes.telefone_cliente);
+          $("#email-cliente-edicao").val(retorno_clientes.email_cliente);
           $("#endereco-cliente-edicao").val(retorno_clientes.endereco_cliente);
           $("#status-cliente-edicao").val(retorno_clientes.status_cliente);
           $("#codigo-cliente-edicao").val(retorno_clientes.codigo_cliente);
@@ -233,9 +237,11 @@ function carrega_dados_cliente(recebe_codigo_cliente, e) {
 
 $("#cadastro-cliente").click(function (e) {
   e.preventDefault();
+
   debugger;
   let recebeNomeCliente = $("#nome-cliente").val();
   let recebeTelefoneCliente = $("#telefone-cliente").val();
+  let recebeEmailCliente = $("#email-cliente").val();
   let recebeEnderecoCliente = $("#endereco-cliente").val();
   let recebeStatusCliente = $("#status-cliente").val();
 
@@ -251,6 +257,7 @@ $("#cadastro-cliente").click(function (e) {
   if (
     recebeNomeCliente != "" &&
     recebeTelefoneCliente != "" &&
+    recebeEmailCliente != "" &&
     recebeEnderecoCliente != "" &&
     recebeStatusCliente != "Selecione"
   ) {
@@ -303,6 +310,12 @@ $("#cadastro-cliente").click(function (e) {
   } else if (recebeTelefoneCliente === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").html(
       "Favor preencher o campo telefone do cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").fadeOut(4000);
+  } else if(recebeEmailCliente === "") {
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").html(
+      "Favor preencher o campo e-mail do cliente"
     );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").fadeOut(4000);
@@ -576,12 +589,14 @@ $("#alterar-cliente").click(function (e) {
 
   let recebeNomeClienteAlteracao = $("#nome-cliente-edicao").val();
   let recebeTelefoneClienteAlteracao = $("#telefone-cliente-edicao").val();
+  let recebeEmailClienteAlteracao = $("#email-cliente-edicao").val();
   let recebeEnderecoClienteAlteracao = $("#endereco-cliente-edicao").val();
   let recebeStatusClienteAlteracao = $("#status-cliente-edicao").val();
 
   if (
     recebeNomeClienteAlteracao != "" &&
     recebeTelefoneClienteAlteracao != "" &&
+    recebeEmailClienteAlteracao != "" &&
     recebeEnderecoClienteAlteracao != "" &&
     recebeStatusClienteAlteracao != ""
   ) {
@@ -640,6 +655,12 @@ $("#alterar-cliente").click(function (e) {
   } else if (recebeTelefoneClienteAlteracao === "") {
     $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
       "Favor preencher o campo telefone cliente"
+    );
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
+  } else if(recebeEmailClienteAlteracao === ""){
+    $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
+      "Favor preencher o campo e-mail cliente"
     );
     $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
     $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);

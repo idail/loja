@@ -215,8 +215,12 @@ $("#autenticacao-usuario").click(function (e) {
 $("#cadastro-usuario").on("hidden.bs.modal", function (e) {
   debugger;
 
-  document.getElementById("exibi-foto-perfil").src =
-    "../usuario/imagem_perfil/usuario_sem_foto.jpg";
+  /*document.getElementById("exibi-foto-perfil").src =
+    "../usuario/imagem_perfil/usuario_sem_foto.jpg";*/
+
+    document.getElementById("exibi-foto-perfil").src =
+    "../acesso/imagem_perfil/usuario_sem_foto.jpg";
+   
   $("#foto-perfil").val(null);
 });
 
