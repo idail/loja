@@ -5,6 +5,7 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").hide();
   $("#recebe-mensagem-campo-falha-cadastro-alterar-cliente").hide();
   $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
+  $("#recebe-mensagem-falha-buscar-clientes-filtro").hide();
 
   $("#recebe-mensagem-alterar-realizado-cliente").hide();
   $("#recebe-mensagem-alteraracao-sendo-realizada-cliente").hide();
@@ -31,7 +32,7 @@ $(document).ready(function (e) {
     listarClientes("todos", "todos")
 
 
- // Maskara para funcionamento do telefone 
+  // Maskara para funcionamento do telefone 
   $(function ($) {
     $("#telefone-cliente").mask("(99)99999-9999?");
     $("#telefone-cliente-edicao").mask("(99)99999-9999?");
@@ -123,7 +124,11 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
         );
       }
     },
-    error: function (xhr, error, status) {},
+    error: function (xhr, error, status) {
+      $("#recebe-mensagem-falha-buscar-clientes-filtro").html("Falha ao buscar clientes:" + error);
+      $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+      $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
+    },
   });
 }
 
@@ -313,7 +318,7 @@ $("#cadastro-cliente").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").fadeOut(4000);
-  } else if(recebeEmailCliente === "") {
+  } else if (recebeEmailCliente === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-cliente").html(
       "Favor preencher o campo e-mail do cliente"
     );
@@ -396,6 +401,9 @@ $("#buscar-cliente").click(function (e) {
                   retorno_clientes[clientes].telefone_cliente +
                   "</td>" +
                   "<td>" +
+                  retorno_clientes[clientes].email_cliente +
+                  "</td>" +
+                  "<td>" +
                   retorno_clientes[clientes].endereco_cliente +
                   "</td>" +
                   "<td>" +
@@ -411,10 +419,16 @@ $("#buscar-cliente").click(function (e) {
               }
               $("#registros-clientes").append(recebe_tabela_clientes);
             } else {
+              $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+              $("#registros-clientes").append(
+                "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+              );
             }
           },
           error: function (xhr, status, error) {
-            console.log(error);
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").html("Falha ao buscar clientes:" + error);
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
           },
         });
       } else {
@@ -479,6 +493,9 @@ $("#buscar-cliente").click(function (e) {
                   retorno_clientes[clientes].telefone_cliente +
                   "</td>" +
                   "<td>" +
+                  retorno_clientes[clientes].email_cliente +
+                  "</td>" +
+                  "<td>" +
                   retorno_clientes[clientes].endereco_cliente +
                   "</td>" +
                   "<td>" +
@@ -494,10 +511,16 @@ $("#buscar-cliente").click(function (e) {
               }
               $("#registros-clientes").append(recebe_tabela_clientes);
             } else {
+              $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+              $("#registros-clientes").append(
+                "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+              );
             }
           },
           error: function (xhr, status, error) {
-            console.log(error);
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").html("Falha ao buscar clientes:" + error);
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+            $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
           },
         });
       } else {
@@ -558,6 +581,9 @@ $("#buscar-cliente").click(function (e) {
                 retorno_clientes[clientes].telefone_cliente +
                 "</td>" +
                 "<td>" +
+                retorno_clientes[clientes].email_cliente +
+                "</td>" +
+                "<td>" +
                 retorno_clientes[clientes].endereco_cliente +
                 "</td>" +
                 "<td>" +
@@ -573,10 +599,16 @@ $("#buscar-cliente").click(function (e) {
             }
             $("#registros-clientes").append(recebe_tabela_clientes);
           } else {
+            $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+            $("#registros-clientes").append(
+              "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+            );
           }
         },
         error: function (xhr, status, error) {
-          console.log(error);
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").html("Falha ao buscar clientes:" + error);
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
         },
       });
     }
@@ -658,7 +690,7 @@ $("#alterar-cliente").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-alterar-cliente").show();
     $("#recebe-mensagem-campo-vazio-alterar-cliente").fadeOut(4000);
-  } else if(recebeEmailClienteAlteracao === ""){
+  } else if (recebeEmailClienteAlteracao === "") {
     $("#recebe-mensagem-campo-vazio-alterar-cliente").html(
       "Favor preencher o campo e-mail cliente"
     );
@@ -679,7 +711,7 @@ $("#alterar-cliente").click(function (e) {
   }
 });
 
-$("#limpar-campos-cadastro-cliente").click(function(e){
+$("#limpar-campos-cadastro-cliente").click(function (e) {
   e.preventDefault();
 
   $("#nome-cliente").val("");
