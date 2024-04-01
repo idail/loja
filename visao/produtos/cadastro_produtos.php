@@ -1,5 +1,5 @@
 <style>
-    #imagens-produtos{
+    #imagens-produtos {
         opacity: 0;
         margin: -10px;
     }
@@ -18,7 +18,7 @@
                         <label class="col-sm-2 col-form-label">Categoria</label>
                         <select class="form-select" aria-label="Default select example" name="status-cliente" id="categoria-produto">
                             <option selected value="selecione">Selecione</option>
-                            <option value="short">Short</option>
+                            <!-- <option value="short">Short</option>
                             <option value="camisa">Camisa</option>
                             <option value="camiseta">Camiseta</option>
                             <option value="blusa">Blusa</option>
@@ -28,8 +28,11 @@
                             <option value="bolsa">Bolsa</option>
                             <option value="joia">Joia</option>
                             <option value="colar">Colar</option>
-                            <option value="anel">Anel</option>
+                            <option value="anel">Anel</option> -->
                         </select>
+                    </div>
+                    <div class="col-lg-3" style="margin-top: 35px;">
+                        <a href="#"><i class="bi bi-bookmark-plus-fill fs-3" title="Adicionar Categoria"></i></a>
                     </div>
                 </div>
 
