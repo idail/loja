@@ -13,6 +13,7 @@ class ClienteControladora{
     {
         $this->cliente->setNome_Cliente($recebeNomeCliente);
         $this->cliente->setTelefone_Cliente($recebeTelefoneCliente);
+        $this->cliente->setEmail_Cliente($recebeEmailCliente);
         $this->cliente->setEndereco_Cliente($recebeEnderecoCliente);
         $this->cliente->setStatus_Cliente($recebeStatusCliente);
 

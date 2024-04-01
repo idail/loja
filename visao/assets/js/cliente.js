@@ -28,9 +28,12 @@ $(document).ready(function (e) {
   if (
     url_atual_cliente ===
     "http://localhost/loja/visao/index.php?pagina=consulta_clientes"
-  )
+  ){
     listarClientes("todos", "todos")
-
+    $("#valor-filtro-cliente").attr("disabled", true);
+    $("#buscar-cliente").attr("disabled",true);
+  }
+    
 
   // Maskara para funcionamento do telefone 
   $(function ($) {
@@ -140,12 +143,19 @@ $("#filtro-cliente").change(function (e) {
   if (recebeValorFiltroEscolhido === "status_cliente") {
     $("#selecao-status").show();
     $("#valor-filtro-cliente").attr("disabled", true);
+    $("#buscar-cliente").attr("disabled",false);
   } else if (recebeValorFiltroEscolhido === "todos") {
     $("#selecao-status").hide();
     $("#valor-filtro-cliente").attr("disabled", true);
+    $("#buscar-cliente").attr("disabled",false);
+  } else if(recebeValorFiltroEscolhido === "selecione"){
+    $("#selecao-status").hide();
+    $("#valor-filtro-cliente").attr("disabled", true);
+    $("#buscar-cliente").attr("disabled",true);
   } else {
     $("#selecao-status").hide();
     $("#valor-filtro-cliente").attr("disabled", false);
+    $("#buscar-cliente").attr("disabled",false);
   }
 });
 

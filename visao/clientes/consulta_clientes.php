@@ -8,7 +8,7 @@
             <label class="col-sm-1 col-form-label">Filtro</label>
             <div class="col-sm-2">
                 <select class="form-select" aria-label="Default select example" id="filtro-cliente">
-                    <option selected>Selecione</option>
+                    <option selected value="selecione">Selecione</option>
                     <option value="nome_cliente">Nome</option>
                     <option value="status_cliente">Status</option>
                     <option value="todos">Todos</option>

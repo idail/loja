@@ -32,7 +32,8 @@
                         </select>
                     </div>
                     <div class="col-lg-3" style="margin-top: 35px;">
-                        <a href="#"><i class="bi bi-bookmark-plus-fill fs-3" title="Adicionar Categoria"></i></a>
+                        <a href="#"><i class="bi bi-bookmark-plus-fill fs-3" title="Adicionar Categoria"
+                         data-bs-toggle='modal' data-bs-target='#inserir-categoria' data-backdrop='static'></i></a>
                     </div>
                 </div>
 

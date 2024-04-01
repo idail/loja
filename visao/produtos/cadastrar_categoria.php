@@ -1,5 +1,5 @@
 <!-- Disabled Backdrop Modal -->
-<div class="modal fade" id="cadastro-categoria" tabindex="-1" data-bs-backdrop="false">
+<div class="modal fade" id="inserir-categoria" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
                             <h5 class="card-title text-center pb-0 fs-4">Cadastro de Categoria</h5>
                         </div>
 
-                        <form class="row g-3" id="formulario-alteracao-cliente" novalidate>
+                        <form class="row g-3" id="formulario-cadastro-categoria" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">Nome</label>
                                 <input type="text" name="nome-categoria" class="form-control" id="nome-categoria" required>
@@ -49,7 +49,7 @@
                             <input type="hidden" name="codigo-cliente-edicao" id="codigo-cliente-edicao"> -->
 
                             <div class="col-12">
-                                <button id="alterar-cliente" class="btn btn-primary w-100" type="button">Cadastrar Categoria</button>
+                                <button id="cadastro-categoria" class="btn btn-primary w-100" type="button">Cadastrar Categoria</button>
                             </div>
                             <!-- <div class="col-12">
                                 <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>
@@ -68,13 +68,13 @@
                             </div> -->
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-alterar-cliente" role="alert">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-categoria" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-alterar-cliente" role="alert">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-cadastro-categoria" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>

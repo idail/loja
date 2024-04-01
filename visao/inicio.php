@@ -270,6 +270,7 @@ require("../api/VerificaSessao.php");
     <?php
     require("acesso/alterar_usuario.php");
     require("clientes/alterar_cliente.php");
+    require("produtos/cadastrar_categoria.php");
     ?>
 
     <!-- ======= Sidebar ======= -->
@@ -570,6 +571,7 @@ require("../api/VerificaSessao.php");
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
     <script src="assets/js/menu-principal.js"></script>
+    <script src="assets/js/categoria.js"></script>
 </body>
 
 </html>
