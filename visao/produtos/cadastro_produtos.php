@@ -40,8 +40,14 @@
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputText" class="col-sm-2 col-lg-12 mb-3 col-form-label">Imagens</label>
-                        <i class="bi bi-paperclip"><input type="file" name="imagens-produtos" id="imagens-produtos" title="Selecione as imagens" multiple></i>
+                        <i class="bi bi-paperclip"><input type="file" name="imagens-produtos[]" id="imagens-produtos" title="Selecione as imagens" multiple></i>
                     </div>
+                </div>
+
+                <div class="col-lg-12" style="display: block ruby;">
+
+                    <div id="exibi-imagens-produtos"></div>
+
                 </div>
 
 

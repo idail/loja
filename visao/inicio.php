@@ -572,6 +572,7 @@ require("../api/VerificaSessao.php");
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
     <script src="assets/js/menu-principal.js"></script>
     <script src="assets/js/categoria.js"></script>
+    <script src="assets/js/jquery.imgcheckbox.js"></script>
 </body>
 
 </html>
