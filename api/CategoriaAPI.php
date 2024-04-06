@@ -24,4 +24,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
     }
+}else if($_SERVER["REQUEST_METHOD"] === "GET")
+{
+    $recebeProcessoCategoria = $_GET["processo_categoria"];
+
+    if($recebeProcessoCategoria === "recebe_consultar_categorias")
+    {
+        $recebeConsultaCategoria = $categoriaControladora->ConsultaCategoria();
+
+        echo json_encode($recebeConsultaCategoria);
+    }
 }

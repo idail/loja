@@ -17,7 +17,7 @@
                     <div class="col-sm-10 col-lg-7">
                         <label class="col-sm-2 col-form-label">Categoria</label>
                         <select class="form-select" aria-label="Default select example" name="status-cliente" id="categoria-produto">
-                            <option selected value="selecione">Selecione</option>
+                            <!-- <option selected value="selecione">Selecione</option> -->
                             <!-- <option value="short">Short</option>
                             <option value="camisa">Camisa</option>
                             <option value="camiseta">Camiseta</option>

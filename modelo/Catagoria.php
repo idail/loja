@@ -47,5 +47,22 @@ class Categoria implements CategoriaInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function consultarCategoria():array
+    {
+        $registros_categoria = array();
+        try{
+            $instrucaoConsultaCategoria = "select * from categorias";
+            $comandoConsultaCategoria = Conexao::Obtem()->prepare($instrucaoConsultaCategoria);
+            $comandoConsultaCategoria->execute();
+            $registros_categoria = $comandoConsultaCategoria->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros_categoria;
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

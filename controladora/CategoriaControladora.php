@@ -18,5 +18,12 @@ class CategoriaControladora
 
         return $resultadoCadastroCategoria;
     }
+
+    public function ConsultaCategoria()
+    {
+        $resultadoConsultaCategoria = $this->categoria->consultarCategoria();
+
+        return $resultadoConsultaCategoria;
+    }
 }
 ?>
