@@ -3,6 +3,7 @@ require("Conexao.php");
 require("ProdutoInterface.php");
 class Produto implements ProdutoInterface{
     private $codigo_produto;
+    private $categoria_produto;
     private $nome_produto;
     private $estoque_produto;
     private $valor_produto;
@@ -15,6 +16,16 @@ class Produto implements ProdutoInterface{
     public function getCodigo_Produto()
     {
         return $this->codigo_produto;
+    }
+
+    public function setCategoria_Produto($categoria_produto)
+    {
+        $this->categoria_produto = $categoria_produto;
+    }
+
+    public function getCategoria_Produto()
+    {
+        return $this->categoria_produto;
     }
 
     public function setNome_Produto($nome_produto)
@@ -52,8 +63,9 @@ class Produto implements ProdutoInterface{
         try{
             if(!empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto()))
             {
-                $instrucaoCadastroProduto = "insert into produtos(nome_produto,estoque_produto,valor_produto)values(:recebe_nome_produto,:recebe_estoque_produto,:recebe_valor_produto)";
+                $instrucaoCadastroProduto = "insert into produtos(categoria_produto,nome_produto,estoque_produto,valor_produto)values(:recebe_categoria_produto,:recebe_nome_produto,:recebe_estoque_produto,:recebe_valor_produto)";
                 $comandoCadastroProduto = Conexao::Obtem()->prepare($instrucaoCadastroProduto);
+                $comandoCadastroProduto->bindValue(":recebe_categoria_produto",$this->getCategoria_Produto());
                 $comandoCadastroProduto->bindValue(":recebe_nome_produto",$this->getNome_Produto());
                 $comandoCadastroProduto->bindValue(":recebe_estoque_produto",$this->getEstoque_Produto());
                 $comandoCadastroProduto->bindValue(":recebe_valor_produto",$this->getValor_Produto());
