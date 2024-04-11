@@ -49,7 +49,28 @@ class Produto implements ProdutoInterface{
 
     public function cadastrarProduto():int
     {
-        return 1;
+        try{
+            if(!empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto()))
+            {
+                $instrucaoCadastroProduto = "insert into produtos(nome_produto,estoque_produto,valor_produto)values(:recebe_nome_produto,:recebe_estoque_produto,:recebe_valor_produto)";
+                $comandoCadastroProduto = Conexao::Obtem()->prepare($instrucaoCadastroProduto);
+                $comandoCadastroProduto->bindValue(":recebe_nome_produto",$this->getNome_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_estoque_produto",$this->getEstoque_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_valor_produto",$this->getValor_Produto());
+
+                $resultadoCadastroProduto = $comandoCadastroProduto->execute();
+
+                $ultimoCodigoGeradoCadastroProduto = Conexao::Obtem()->lastInsertId();
+
+                return $ultimoCodigoGeradoCadastroProduto;
+            }
+        }catch (PDOException $exception) {
+            array_push($registro_cliente, $exception->getMessage());
+            return $registro_cliente;
+        } catch (Exception $excecao) {
+            array_push($registro_cliente, $excecao->getMessage());
+            return $registro_cliente;
+        }
     }
 
     public function consultarProdutos(): array
