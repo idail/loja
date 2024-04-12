@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $recebeImagensProduto = $_FILES["imagens-produtos"];
 
         $imagens_produto = array();
+        $codigos_produto_imagem = array();
 
         foreach ($recebeImagensProduto["name"] as $indice => $valor) {
             array_push($imagens_produto, $valor);
@@ -30,7 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         if ($imagem_copiada === "sucesso") {
-            $resultadoCadastroImagem = $imagemControladora->cadastrarImagem($imagens_produto, $resultadoCadastroProduto);
+
+            for ($codigo_produto_imagem = 0; $codigo_produto_imagem < count($recebeImagensProduto["name"]); $codigo_produto_imagem++) { 
+                array_push($codigos_produto_imagem,$_POST["recebe_codigo_produto"]);
+            }
+            $resultadoCadastroImagem = $imagemControladora->cadastrarImagem($imagens_produto, $codigos_produto_imagem);
             echo json_encode($resultadoCadastroImagem);
         }
     }
