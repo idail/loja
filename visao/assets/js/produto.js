@@ -4,6 +4,12 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").hide();
   $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").hide();
 
+  $("#recebe-mensagem-falha-buscar-produto-filtro").hide();
+  $("#recebe-mensagem-campo-falha-buscar-produto").hide();
+  $("#recebe-mensagem-exclusao-realizado-produto").hide();
+  $("#recebe-mensagem-campo-falha-exclusao-produto").hide();
+  $("#recebe-mensagem-campo-vazio-buscar-produto").hide();
+
   $("img.checkable").imgCheckbox();
 });
 

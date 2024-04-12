@@ -369,7 +369,7 @@ require("../api/VerificaSessao.php");
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="#">
+                        <a href="index.php?pagina=consulta_produtos">
                             <i class="bi bi-circle"></i><span>Consultar Produtos</span>
                         </a>
                     </li>
@@ -532,6 +532,9 @@ require("../api/VerificaSessao.php");
                         require("clientes/consulta_clientes.php");
                     } elseif($_GET["pagina"] === "cadastro_produtos"){
                         require("produtos/cadastro_produtos.php");
+                    } else if($_GET["pagina"] === "consulta_produtos")
+                    {
+                        require("produtos/consulta_produtos.php");
                     }
                 } else {
                     require("menu_rapido/menu_rapido.php");
