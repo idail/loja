@@ -48,6 +48,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         }else{
             echo json_encode("Favor verificar o preenchimento dos campos");
         }
+    }else if($recebeProcessoProduto === "recebe_consultar_imagens_produto")
+    {
+        $recebeCodigoImagensProduto = $_GET["valor_codigo_imagens_produto"];
+
+        if(!empty($recebeCodigoImagensProduto))
+        {
+            $recebeConsultaImagensProduto = $produtoControladora->ConsultarImagensProduto($recebeCodigoImagensProduto);
+
+            echo json_encode($recebeConsultaImagensProduto);
+        }
     }
 }
 ?>

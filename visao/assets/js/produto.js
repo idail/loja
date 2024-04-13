@@ -56,14 +56,13 @@ $(document).ready(function (e) {
       error: function (xhr, status, error) {},
     });
 
-    listarProdutos("todos","todos");
+    listarProdutos("todos", "todos");
     $("#valor-filtro-produto").attr("disabled", true);
     $("#buscar-produto").attr("disabled", true);
   }
 });
 
-function listarProdutos(filtroProduto,valorFiltroProduto)
-{
+function listarProdutos(filtroProduto, valorFiltroProduto) {
   $.ajax({
     //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
     url: "../api/ProdutoAPI.php",
@@ -95,11 +94,7 @@ function listarProdutos(filtroProduto,valorFiltroProduto)
           "Quantidade de produtos:" + recebe_quantidade_produtos
         );
 
-        for (
-          let produtos = 0;
-          produtos < retorno_produtos.length;
-          produtos++
-        ) {
+        for (let produtos = 0; produtos < retorno_produtos.length; produtos++) {
           recebe_tabela_produtos.innerHTML +=
             "<tr>" +
             "<td>" +
@@ -114,7 +109,9 @@ function listarProdutos(filtroProduto,valorFiltroProduto)
             "<td>" +
             retorno_produtos[produtos].valor_produto +
             "</td>" +
-            "<td>Ver Imagens</td>" +
+            "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
+            retorno_produtos[produtos].codigo_produto +
+            ",event)'></a></i></td>" +
             "<td>Alterar</td>" +
             "<td>Excluir</td>" +
             "</tr>";
@@ -129,6 +126,50 @@ function listarProdutos(filtroProduto,valorFiltroProduto)
     },
     error: function (xhr, status, error) {},
   });
+}
+
+function carrega_imagens_produto(recebe_codigo_produto_imagens, e) {
+  e.preventDefault();
+  debugger;
+
+  if (recebe_codigo_produto_imagens != "") {
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/ProdutoAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_produto: "recebe_consultar_imagens_produto",
+        valor_codigo_imagens_produto: recebe_codigo_produto_imagens,
+      },
+      success: function (retorno_imagens_produto) {
+        debugger;
+
+        if (retorno_imagens_produto.length > 0) {
+          $("#exibi-imagens-produtos-cadastrados").html("");
+          for (let index = 0; index < retorno_imagens_produto.length; index++) {
+            const arquivo = new File(
+              [retorno_imagens_produto[index].imagem],
+              retorno_imagens_produto[index].imagem,
+              {
+                type: "image/jpg",
+              }
+            );
+
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(arquivo);
+            //campo_imagem_usuario.files = dataTransfer.files;
+
+            // document.getElementById("exibi-foto-perfil").src =
+            //   "acesso/imagem_perfil/" + retorno.imagem_usuario;
+
+            $("#exibi-imagens-produtos-cadastrados").append("<img src='produtos/imagens_produto/" + retorno_imagens_produto[index].imagem + "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>");
+          }
+        }
+      },
+      error: function (xhr, status, error) {},
+    });
+  }
 }
 
 var dados_imagens_produtos = Array();
@@ -293,7 +334,7 @@ $("#buscar-produto").click(function (e) {
                 "<td>" +
                 retorno_produtos[produtos].valor_produto +
                 "</td>" +
-                "<td>Ver Imagens</td>" +
+                "<td><i class='bi bi-card-image' title='Ver Imagens'></i></td>" +
                 "<td>Alterar</td>" +
                 "<td>Excluir</td>" +
                 "</tr>";
@@ -309,12 +350,10 @@ $("#buscar-produto").click(function (e) {
         error: function (xhr, status, error) {},
       });
     }
-  }else if(recebeFiltroProduto === "nome_produto")
-  {
+  } else if (recebeFiltroProduto === "nome_produto") {
     let recebeValorFiltroProduto = $("#valor-filtro-produto").val();
 
-    if(recebeValorFiltroProduto != "")
-    {
+    if (recebeValorFiltroProduto != "") {
       $.ajax({
         //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ProdutoAPI.php",
@@ -381,7 +420,7 @@ $("#buscar-produto").click(function (e) {
         error: function (xhr, status, error) {},
       });
     }
-  }else{
+  } else {
     let recebeValorFiltroProduto = "todos";
 
     $.ajax({

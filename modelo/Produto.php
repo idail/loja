@@ -151,5 +151,32 @@ class Produto implements ProdutoInterface
             return $registros_produtos;
         }
     }
+
+    public function ConsultarImagensProduto():array
+    {
+        $registros_imagems_produto = array();
+
+        try{
+            if(!empty($this->getCodigo_Produto()))
+            {
+                $instrucaoConsultaImagensProduto = "select * from imagens_produtos as ip where ip.codigo_produto_imagem = :recebe_codigo_produto_imagem";
+                $comandoConsultaImagensProduto = Conexao::Obtem()->prepare($instrucaoConsultaImagensProduto);
+                $comandoConsultaImagensProduto->bindValue(":recebe_codigo_produto_imagem",$this->getCodigo_Produto());
+                $comandoConsultaImagensProduto->execute();
+                $registros_imagems_produto = $comandoConsultaImagensProduto->fetchAll(PDO::FETCH_ASSOC);
+
+                if(!empty($registros_imagems_produto))
+                    return $registros_imagems_produto;
+                else
+                    return $registros_imagems_produto;
+            }
+        }catch (PDOException $exception) {
+            array_push($registros_produtos, $exception->getMessage());
+            return $registros_produtos;
+        } catch (Exception $excecao) {
+            array_push($registros_produtos, $excecao->getMessage());
+            return $registros_produtos;
+        }
+    }
 }
 ?>
