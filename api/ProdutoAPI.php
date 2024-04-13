@@ -31,4 +31,23 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             echo json_encode("Favor preencher os campos");
         }
     }
+}else if($_SERVER["REQUEST_METHOD"] === "GET")
+{
+    $recebeProcessoProduto = $_GET["processo_produto"];
+
+    if($recebeProcessoProduto === "recebe_consultar_produtos")
+    {
+        $recebeFiltroProduto = $_GET["filtro_produto"];
+        $recebeValorFiltroProduto = $_GET["valor_filtro_produto"];
+
+        if(!empty($recebeFiltroProduto) && !empty($recebeValorFiltroProduto))
+        {
+            $recebeConsultaProdutos = $produtoControladora->ConsultarProdutos($recebeFiltroProduto,$recebeValorFiltroProduto);
+
+            echo json_encode($recebeConsultaProdutos);
+        }else{
+            echo json_encode("Favor verificar o preenchimento dos campos");
+        }
+    }
 }
+?>

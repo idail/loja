@@ -1,12 +1,15 @@
 <?php
 require("Conexao.php");
 require("ProdutoInterface.php");
-class Produto implements ProdutoInterface{
+class Produto implements ProdutoInterface
+{
     private $codigo_produto;
     private $categoria_produto;
     private $nome_produto;
     private $estoque_produto;
     private $valor_produto;
+    private $filtro_produto;
+    private $valor_filtro_produto;
 
     public function setCodigo_Produto($codigo_produto)
     {
@@ -58,17 +61,36 @@ class Produto implements ProdutoInterface{
         return $this->valor_produto;
     }
 
-    public function cadastrarProduto():int
+    public function setFiltro_Produto($filtro_produto)
     {
-        try{
-            if(!empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto()))
-            {
+        $this->filtro_produto = $filtro_produto;
+    }
+
+    public function getFiltro_Produto()
+    {
+        return $this->filtro_produto;
+    }
+
+    public function setValor_Filtro_Produto($valor_filtro_produto)
+    {
+        $this->valor_filtro_produto = $valor_filtro_produto;
+    }
+
+    public function getValor_Filtro_Produto()
+    {
+        return $this->valor_filtro_produto;
+    }
+
+    public function CadastrarProduto(): int
+    {
+        try {
+            if (!empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto())) {
                 $instrucaoCadastroProduto = "insert into produtos(categoria_produto,nome_produto,estoque_produto,valor_produto)values(:recebe_categoria_produto,:recebe_nome_produto,:recebe_estoque_produto,:recebe_valor_produto)";
                 $comandoCadastroProduto = Conexao::Obtem()->prepare($instrucaoCadastroProduto);
-                $comandoCadastroProduto->bindValue(":recebe_categoria_produto",$this->getCategoria_Produto());
-                $comandoCadastroProduto->bindValue(":recebe_nome_produto",$this->getNome_Produto());
-                $comandoCadastroProduto->bindValue(":recebe_estoque_produto",$this->getEstoque_Produto());
-                $comandoCadastroProduto->bindValue(":recebe_valor_produto",$this->getValor_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_categoria_produto", $this->getCategoria_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_nome_produto", $this->getNome_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_estoque_produto", $this->getEstoque_Produto());
+                $comandoCadastroProduto->bindValue(":recebe_valor_produto", $this->getValor_Produto());
 
                 $resultadoCadastroProduto = $comandoCadastroProduto->execute();
 
@@ -76,7 +98,7 @@ class Produto implements ProdutoInterface{
 
                 return $ultimoCodigoGeradoCadastroProduto;
             }
-        }catch (PDOException $exception) {
+        } catch (PDOException $exception) {
             array_push($registro_cliente, $exception->getMessage());
             return $registro_cliente;
         } catch (Exception $excecao) {
@@ -85,11 +107,49 @@ class Produto implements ProdutoInterface{
         }
     }
 
-    public function consultarProdutos(): array
+    public function ConsultarProdutos(): array
     {
         $registros_produtos = array();
+        try {
+            if (!empty($this->getFiltro_Produto()) && !empty($this->getValor_Filtro_Produto())) 
+            {
+                if($this->getFiltro_Produto() === "categoria_produto")
+                {
+                    $instrucaoConsultaProdutos = "select p.codigo_produto,p.nome_produto,p.categoria_produto,p.estoque_produto,p.valor_produto
+                    from produtos as p where p.categoria_produto = :recebe_categoria_produto";
+                    $comandoConsultaProduto = Conexao::Obtem()->prepare($instrucaoConsultaProdutos);
+                    $comandoConsultaProduto->bindValue(":recebe_categoria_produto",$this->getValor_Filtro_Produto());
+                    $comandoConsultaProduto->execute();
+                    $registros_produtos = $comandoConsultaProduto->fetchAll(PDO::FETCH_ASSOC);
+                }else if($this->getFiltro_Produto() === "nome_produto")
+                {
+                    $recebeNomeProduto = $this->getValor_Filtro_Produto();
+                    $instrucaoConsultaProdutos = "select p.codigo_produto,p.nome_produto,p.categoria_produto,p.estoque_produto,p.valor_produto
+                    from produtos as p where p.nome_produto like :recebe_nome_produto";
+                    $comandoConsultaProduto = Conexao::Obtem()->prepare($instrucaoConsultaProdutos);
+                    $comandoConsultaProduto->bindValue(":recebe_nome_produto","%$recebeNomeProduto%");
+                    $comandoConsultaProduto->execute();
+                    $registros_produtos = $comandoConsultaProduto->fetchAll(PDO::FETCH_ASSOC);
+                }else{
+                    $instrucaoConsultaProdutos = "select p.codigo_produto,p.nome_produto,p.categoria_produto,p.estoque_produto,p.valor_produto
+                    from produtos as p";
+                    $comandoConsultaProduto = Conexao::Obtem()->prepare($instrucaoConsultaProdutos);
+                    $comandoConsultaProduto->execute();
+                    $registros_produtos = $comandoConsultaProduto->fetchAll(PDO::FETCH_ASSOC);
+                }
+            }
 
-        return $registros_produtos;
+            if(!empty($registros_produtos))
+                return $registros_produtos;
+            else
+                return $registros_produtos;
+        } catch (PDOException $exception) {
+            array_push($registros_produtos, $exception->getMessage());
+            return $registros_produtos;
+        } catch (Exception $excecao) {
+            array_push($registros_produtos, $excecao->getMessage());
+            return $registros_produtos;
+        }
     }
 }
 ?>

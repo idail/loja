@@ -1,5 +1,5 @@
 <div class="col-lg-3 mb-4">
-    <a href="index.php?pagina=cadastro_clientes" class="btn btn-primary">Cadastrar Produto</a>
+    <a href="index.php?pagina=cadastro_produtos" class="btn btn-primary">Cadastrar Produto</a>
 </div>
 <div class="card">
     <div class="card-body table-responsive">
@@ -9,9 +9,9 @@
             <div class="col-sm-2">
                 <select class="form-select" aria-label="Default select example" id="filtro-produto">
                     <option selected value="selecione">Selecione</option>
-                    <option value="nome_cliente">Categoria</option>
-                    <option value="status_cliente">Nome</option>
-                    <option value="todos">Todos</option>
+                    <option value="categoria_produto">Categoria</option>
+                    <option value="nome_produto">Nome</option>
+                    <option value="todos_produto">Todos</option>
                 </select>
             </div>
 
@@ -23,10 +23,10 @@
             </div>
 
             <div class="col-sm-4">
-                <input type="text" class="form-control" name="valor-filtro-cliente" placeholder="Informe o nome do produto" id="valor-filtro-cliente">
+                <input type="text" class="form-control" name="valor-filtro-produto" placeholder="Informe o nome do produto" id="valor-filtro-produto">
             </div>
             <div class="col-sm-3">
-                <button type="button" class="btn btn-primary" id="buscar-cliente">Pesquisar</button>
+                <button type="button" class="btn btn-primary" id="buscar-produto">Pesquisar</button>
             </div>
             <div class="col-12">
                 <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show mt-3" id="recebe-mensagem-campo-vazio-buscar-produto" role="alert">
@@ -42,6 +42,7 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Estoque</th>
                     <th scope="col">Valor</th>
+                    <th scope="col">Imagens</th>
                     <th scope="col" colspan="2">Opções</th>
                 </tr>
             </thead>
@@ -74,5 +75,5 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
-    <span style="color: black;" id="exibi-quantidade-clientes"></span>
+    <span style="color: black;" id="exibi-quantidade-produtos"></span>
 </div>

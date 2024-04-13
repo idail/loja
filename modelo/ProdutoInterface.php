@@ -1,6 +1,6 @@
 <?php
 interface ProdutoInterface{
-    public function cadastrarProduto():int;
-    public function consultarProdutos():array;
+    public function CadastrarProduto():int;
+    public function ConsultarProdutos():array;
 }
 ?>

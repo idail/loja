@@ -11,7 +11,125 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-vazio-buscar-produto").hide();
 
   $("img.checkable").imgCheckbox();
+
+  let recebe_url_atual_produtos = window.location.href;
+
+  if (
+    recebe_url_atual_produtos ===
+    "http://localhost/loja/visao/index.php?pagina=consulta_produtos"
+  ) {
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/CategoriaAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_categoria: "recebe_consultar_categorias",
+      },
+      // beforeSend: function () {
+      //   debugger;
+      //   $("#registros-clientes").html("");
+      //   $("#registros-clientes").append(
+      //     "<td colspan='5' class='text-center'>Carregando dados</td>"
+      //   );
+      //   $("#registros-clientes").html("");
+      // },
+      success: function (retorno_categorias) {
+        debugger;
+        if (retorno_categorias.length > 0) {
+          $("#valor-filtro-categoria-produto").html("");
+          $("#valor-filtro-categoria-produto").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+          $.each(retorno_categorias, function (i, element) {
+            $("#valor-filtro-categoria-produto").append(
+              "<option value=" +
+                element.nome_categoria.toLowerCase() +
+                ">" +
+                element.nome_categoria +
+                "</option>"
+            );
+          });
+        } else {
+        }
+      },
+      error: function (xhr, status, error) {},
+    });
+
+    listarProdutos("todos","todos");
+    $("#valor-filtro-produto").attr("disabled", true);
+    $("#buscar-produto").attr("disabled", true);
+  }
 });
+
+function listarProdutos(filtroProduto,valorFiltroProduto)
+{
+  $.ajax({
+    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+    url: "../api/ProdutoAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_produto: "recebe_consultar_produtos",
+      filtro_produto: filtroProduto,
+      valor_filtro_produto: valorFiltroProduto,
+    },
+    beforeSend: function () {
+      debugger;
+      $("#registros-produtos").html("");
+      $("#registros-produtos").append(
+        "<td colspan='5' class='text-center'>Carregando dados</td>"
+      );
+      $("#registros-produtos").html("");
+    },
+    success: function (retorno_produtos) {
+      debugger;
+      if (retorno_produtos.length > 0) {
+        let recebe_tabela_produtos = document.querySelector(
+          "#registros-produtos"
+        );
+
+        let recebe_quantidade_produtos = retorno_produtos.length;
+
+        $("#exibi-quantidade-produtos").html(
+          "Quantidade de produtos:" + recebe_quantidade_produtos
+        );
+
+        for (
+          let produtos = 0;
+          produtos < retorno_produtos.length;
+          produtos++
+        ) {
+          recebe_tabela_produtos.innerHTML +=
+            "<tr>" +
+            "<td>" +
+            retorno_produtos[produtos].categoria_produto +
+            "</td>" +
+            "<td>" +
+            retorno_produtos[produtos].nome_produto +
+            "</td>" +
+            "<td>" +
+            retorno_produtos[produtos].estoque_produto +
+            "</td>" +
+            "<td>" +
+            retorno_produtos[produtos].valor_produto +
+            "</td>" +
+            "<td>Ver Imagens</td>" +
+            "<td>Alterar</td>" +
+            "<td>Excluir</td>" +
+            "</tr>";
+        }
+        $("#registros-produtos").append(recebe_tabela_produtos);
+      } else {
+        $("#exibi-quantidade-produtos").html("Quantidade de produtos:" + 0);
+        $("#registros-produtos").append(
+          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+        );
+      }
+    },
+    error: function (xhr, status, error) {},
+  });
+}
 
 var dados_imagens_produtos = Array();
 
@@ -87,6 +205,253 @@ $("#imagens-produtos").change(function (e) {
   }
 });
 
+$("#filtro-produto").change(function (e) {
+  debugger;
+  let recebeValorFiltroEscolhido = $(this).val();
+
+  if (recebeValorFiltroEscolhido === "selecione") {
+    $("#selecao-status").hide();
+    $("#valor-filtro-categoria-produto").attr("disabled", true);
+    $("#valor-filtro-produto").attr("disabled", true);
+    $("#buscar-produto").attr("disabled", true);
+  } else if (recebeValorFiltroEscolhido === "categoria_produto") {
+    $("#selecao-status").show();
+    $("#valor-filtro-categoria-produto").attr("disabled", false);
+    $("#valor-filtro-produto").attr("disabled", true);
+    $("#buscar-produto").attr("disabled", false);
+  } else if (recebeValorFiltroEscolhido === "nome_produto") {
+    $("#selecao-status").hide();
+    $("#valor-filtro-categoria-produto").attr("disabled", true);
+    $("#valor-filtro-produto").attr("disabled", false);
+    $("#buscar-produto").attr("disabled", false);
+  } else {
+    $("#selecao-status").hide();
+    $("#valor-filtro-cliente").attr("disabled", true);
+    $("#buscar-produto").attr("disabled", false);
+    $("#valor-filtro-produto").attr("disabled", true);
+  }
+});
+
+$("#buscar-produto").click(function (e) {
+  e.preventDefault();
+
+  let recebeFiltroProduto = $("#filtro-produto").val();
+
+  if (recebeFiltroProduto === "categoria_produto") {
+    let recebeValorFiltroCategoriaProduto = $(
+      "#valor-filtro-categoria-produto"
+    ).val();
+
+    if (recebeValorFiltroCategoriaProduto != "") {
+      $.ajax({
+        //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+        url: "../api/ProdutoAPI.php",
+        dataType: "json",
+        type: "get",
+        data: {
+          processo_produto: "recebe_consultar_produtos",
+          filtro_produto: recebeFiltroProduto,
+          valor_filtro_produto: recebeValorFiltroCategoriaProduto,
+        },
+        beforeSend: function () {
+          debugger;
+          $("#registros-produtos").html("");
+          $("#registros-produtos").append(
+            "<td colspan='5' class='text-center'>Carregando dados</td>"
+          );
+          $("#registros-produtos").html("");
+        },
+        success: function (retorno_produtos) {
+          debugger;
+          if (retorno_produtos.length > 0) {
+            let recebe_tabela_produtos = document.querySelector(
+              "#registros-produtos"
+            );
+
+            let recebe_quantidade_produtos = retorno_produtos.length;
+
+            $("#exibi-quantidade-produtos").html(
+              "Quantidade de produtos:" + recebe_quantidade_produtos
+            );
+
+            for (
+              let produtos = 0;
+              produtos < retorno_produtos.length;
+              produtos++
+            ) {
+              recebe_tabela_produtos.innerHTML +=
+                "<tr>" +
+                "<td>" +
+                retorno_produtos[produtos].categoria_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].nome_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].estoque_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].valor_produto +
+                "</td>" +
+                "<td>Ver Imagens</td>" +
+                "<td>Alterar</td>" +
+                "<td>Excluir</td>" +
+                "</tr>";
+            }
+            $("#registros-produtos").append(recebe_tabela_produtos);
+          } else {
+            $("#exibi-quantidade-produtos").html("Quantidade de produtos:" + 0);
+            $("#registros-produtos").append(
+              "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+            );
+          }
+        },
+        error: function (xhr, status, error) {},
+      });
+    }
+  }else if(recebeFiltroProduto === "nome_produto")
+  {
+    let recebeValorFiltroProduto = $("#valor-filtro-produto").val();
+
+    if(recebeValorFiltroProduto != "")
+    {
+      $.ajax({
+        //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+        url: "../api/ProdutoAPI.php",
+        dataType: "json",
+        type: "get",
+        data: {
+          processo_produto: "recebe_consultar_produtos",
+          filtro_produto: recebeFiltroProduto,
+          valor_filtro_produto: recebeValorFiltroProduto,
+        },
+        beforeSend: function () {
+          debugger;
+          $("#registros-produtos").html("");
+          $("#registros-produtos").append(
+            "<td colspan='5' class='text-center'>Carregando dados</td>"
+          );
+          $("#registros-produtos").html("");
+        },
+        success: function (retorno_produtos) {
+          debugger;
+          if (retorno_produtos.length > 0) {
+            let recebe_tabela_produtos = document.querySelector(
+              "#registros-produtos"
+            );
+
+            let recebe_quantidade_produtos = retorno_produtos.length;
+
+            $("#exibi-quantidade-produtos").html(
+              "Quantidade de produtos:" + recebe_quantidade_produtos
+            );
+
+            for (
+              let produtos = 0;
+              produtos < retorno_produtos.length;
+              produtos++
+            ) {
+              recebe_tabela_produtos.innerHTML +=
+                "<tr>" +
+                "<td>" +
+                retorno_produtos[produtos].categoria_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].nome_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].estoque_produto +
+                "</td>" +
+                "<td>" +
+                retorno_produtos[produtos].valor_produto +
+                "</td>" +
+                "<td>Ver Imagens</td>" +
+                "<td>Alterar</td>" +
+                "<td>Excluir</td>" +
+                "</tr>";
+            }
+            $("#registros-produtos").append(recebe_tabela_produtos);
+          } else {
+            $("#exibi-quantidade-produtos").html("Quantidade de produtos:" + 0);
+            $("#registros-produtos").append(
+              "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+            );
+          }
+        },
+        error: function (xhr, status, error) {},
+      });
+    }
+  }else{
+    let recebeValorFiltroProduto = "todos";
+
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/ProdutoAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_produto: "recebe_consultar_produtos",
+        filtro_produto: recebeFiltroProduto,
+        valor_filtro_produto: recebeValorFiltroProduto,
+      },
+      beforeSend: function () {
+        debugger;
+        $("#registros-produtos").html("");
+        $("#registros-produtos").append(
+          "<td colspan='5' class='text-center'>Carregando dados</td>"
+        );
+        $("#registros-produtos").html("");
+      },
+      success: function (retorno_produtos) {
+        debugger;
+        if (retorno_produtos.length > 0) {
+          let recebe_tabela_produtos = document.querySelector(
+            "#registros-produtos"
+          );
+
+          let recebe_quantidade_produtos = retorno_produtos.length;
+
+          $("#exibi-quantidade-produtos").html(
+            "Quantidade de produtos:" + recebe_quantidade_produtos
+          );
+
+          for (
+            let produtos = 0;
+            produtos < retorno_produtos.length;
+            produtos++
+          ) {
+            recebe_tabela_produtos.innerHTML +=
+              "<tr>" +
+              "<td>" +
+              retorno_produtos[produtos].categoria_produto +
+              "</td>" +
+              "<td>" +
+              retorno_produtos[produtos].nome_produto +
+              "</td>" +
+              "<td>" +
+              retorno_produtos[produtos].estoque_produto +
+              "</td>" +
+              "<td>" +
+              retorno_produtos[produtos].valor_produto +
+              "</td>" +
+              "<td>Ver Imagens</td>" +
+              "<td>Alterar</td>" +
+              "<td>Excluir</td>" +
+              "</tr>";
+          }
+          $("#registros-produtos").append(recebe_tabela_produtos);
+        } else {
+          $("#exibi-quantidade-produtos").html("Quantidade de produtos:" + 0);
+          $("#registros-produtos").append(
+            "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+          );
+        }
+      },
+      error: function (xhr, status, error) {},
+    });
+  }
+});
+
 $("#cadastro-produto").click(function (e) {
   e.preventDefault();
 
@@ -100,8 +465,16 @@ $("#cadastro-produto").click(function (e) {
 
   let recebeValorProduto = $("#valor-produto").val();
 
-  if (recebeCategoriaProduto != "selecione" && recebeNomeProduto != "" && recebeEstoqueProduto != "" && recebeValorProduto != "" && imagens_produtos.length > 0) {
-    let dados_formulario_cadastro_produto = $("#formulario-cadastro-produto")[0];
+  if (
+    recebeCategoriaProduto != "selecione" &&
+    recebeNomeProduto != "" &&
+    recebeEstoqueProduto != "" &&
+    recebeValorProduto != "" &&
+    imagens_produtos.length > 0
+  ) {
+    let dados_formulario_cadastro_produto = $(
+      "#formulario-cadastro-produto"
+    )[0];
 
     let dados_produto = new FormData(dados_formulario_cadastro_produto);
 
@@ -137,51 +510,83 @@ $("#cadastro-produto").click(function (e) {
             success: function (retorno) {
               debugger;
               if (retorno > 0) {
-                $("#recebe-mensagem-cadastro-alterar-realizado-produto").html("Produto cadastrado com sucesso");
+                $("#recebe-mensagem-cadastro-alterar-realizado-produto").html(
+                  "Produto cadastrado com sucesso"
+                );
                 $("#recebe-mensagem-cadastro-alterar-realizado-produto").show();
-                $("#recebe-mensagem-cadastro-alterar-realizado-produto").fadeOut(4000);
+                $(
+                  "#recebe-mensagem-cadastro-alterar-realizado-produto"
+                ).fadeOut(4000);
               } else {
-                $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html("Falha ao cadastrar produto");
-                $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").show();
-                $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(4000);
+                $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html(
+                  "Falha ao cadastrar produto"
+                );
+                $(
+                  "#recebe-mensagem-campo-falha-cadastro-alterar-produto"
+                ).show();
+                $(
+                  "#recebe-mensagem-campo-falha-cadastro-alterar-produto"
+                ).fadeOut(4000);
               }
             },
             error: function (xhr, status, error) {
-              $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html("Falha ao cadastrar produto:" + error);
+              $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html(
+                "Falha ao cadastrar produto:" + error
+              );
               $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").show();
-              $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(4000);
+              $(
+                "#recebe-mensagem-campo-falha-cadastro-alterar-produto"
+              ).fadeOut(4000);
             },
           });
         } else {
-          $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html("Falha ao cadastrar produto");
+          $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html(
+            "Falha ao cadastrar produto"
+          );
           $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").show();
-          $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(4000);
+          $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(
+            4000
+          );
         }
       },
       error: function (xhr, status, error) {
-        $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html("Falha ao cadastrar produto:" + error);
+        $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").html(
+          "Falha ao cadastrar produto:" + error
+        );
         $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").show();
-        $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(4000);
+        $("#recebe-mensagem-campo-falha-cadastro-alterar-produto").fadeOut(
+          4000
+        );
       },
     });
   } else if (recebeCategoriaProduto === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html("Favor selecionar a categoria do produto");
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html(
+      "Favor selecionar a categoria do produto"
+    );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").fadeOut(4000);
   } else if (recebeNomeProduto === "") {
-    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html("Favor informar o nome do produto");
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html(
+      "Favor informar o nome do produto"
+    );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").fadeOut(4000);
   } else if (recebeEstoqueProduto === "") {
-    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html("Favor informar o estoque do produto");
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html(
+      "Favor informar o estoque do produto"
+    );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").fadeOut(4000);
   } else if (recebeValorProduto === "") {
-    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html("Favor informar o valor do produto");
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html(
+      "Favor informar o valor do produto"
+    );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").fadeOut(4000);
   } else if (imagens_produtos.length === 0) {
-    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html("Favor selecionar as imagens que queira do produto");
+    $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").html(
+      "Favor selecionar as imagens que queira do produto"
+    );
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").show();
     $("#recebe-mensagem-campo-vazio-cadastro-alterar-produto").fadeOut(4000);
   }
