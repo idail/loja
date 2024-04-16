@@ -37,5 +37,14 @@ class ProdutoControladora{
 
         return $registrosImagensProduto;
     }
+
+    public function ConsultarProdutoEspecifico($recebeCodigoProdutoEspecifico)
+    {
+        $this->produto->setCodigo_Produto($recebeCodigoProdutoEspecifico);
+
+        $registroProdutoEspecifico = $this->produto->ConsultarProdutoEspecifico();
+
+        return $registroProdutoEspecifico;
+    }
 }
 ?>

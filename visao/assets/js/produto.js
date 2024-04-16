@@ -112,7 +112,7 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
             "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
             retorno_produtos[produtos].codigo_produto +
             ",event)'></a></i></td>" +
-            "<td>Alterar</td>" +
+            "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alterar-produto' data-backdrop='static'></i></a></td>" +
             "<td>Excluir</td>" +
             "</tr>";
         }

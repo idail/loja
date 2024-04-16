@@ -272,6 +272,7 @@ require("../api/VerificaSessao.php");
     require("clientes/alterar_cliente.php");
     require("produtos/cadastrar_categoria.php");
     require("produtos/visualizar_imagens_produto.php");
+    require("produtos/alterar_produto.php");
     ?>
 
     <!-- ======= Sidebar ======= -->
