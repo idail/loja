@@ -249,7 +249,7 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
             $("#codigo-produto-alterar").val(retorno_produto[dados_produto].codigo_produto);
 
             const campo_imagem_produto =
-              document.querySelector('input[type="file"]');
+              document.querySelector("#imagens-produtos-alterar");
             const arquivo = new File(
               [retorno_produto[dados_produto].imagem],
               retorno_produto[dados_produto].imagem,
@@ -274,6 +274,20 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
     });
   }
 }
+
+$("#alterar-produto").click(function(e){
+  e.preventDefault();
+
+  debugger;
+  
+  let recebeCategoriaProdutoAlterar = $("#categoria-produto-alterar").val();
+  let recebeImagensProdutoAlterar = $("#imagens-produtos-alterar")[0].files;
+  let recebeNomeProdutoAlterar = $("#nome-produto-alterar").val();
+  let recebeEstoqueProdutoAlterar = $("#estoque-produto-alterar").val();
+  let recebeValorProdutoAlterar = $("#valor-produto-alterar").val();
+
+  console.log(recebeImagensProdutoAlterar);
+});
 
 var dados_imagens_produtos = Array();
 

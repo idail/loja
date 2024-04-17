@@ -30,6 +30,12 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         }else{
             echo json_encode("Favor preencher os campos");
         }
+    }else if($recebeProcessoProduto === "recebe_alterar_produto")
+    {
+        if($_POST["valor_metodo" === "PUT"])
+        {
+            
+        }
     }
 }else if($_SERVER["REQUEST_METHOD"] === "GET")
 {
