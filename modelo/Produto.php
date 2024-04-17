@@ -190,7 +190,7 @@ class Produto implements ProdutoInterface
                 $comandoConsultaProdutoEspecifico = Conexao::Obtem()->prepare($instrucaoConsultaProdutoEspecifico);
                 $comandoConsultaProdutoEspecifico->bindValue(":recebe_codigo_produto_imagem",$this->getCodigo_Produto());
                 $comandoConsultaProdutoEspecifico->execute();
-                $registro_produto_especifico = $comandoConsultaProdutoEspecifico->fetch(PDO::FETCH_ASSOC);
+                $registro_produto_especifico = $comandoConsultaProdutoEspecifico->fetchAll(PDO::FETCH_ASSOC);
 
                 if(!empty($registro_produto_especifico))
                     return $registro_produto_especifico;

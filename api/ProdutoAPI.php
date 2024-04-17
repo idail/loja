@@ -58,6 +58,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
             echo json_encode($recebeConsultaImagensProduto);
         }
+    }else if($recebeProcessoProduto === "recebe_consultar_produto_especifico")
+    {
+        $recebeCodigoProdutoAlteracao = $_GET["valor_codigo_produto_especifico_alteracao"];
+
+        if($recebeCodigoProdutoAlteracao)
+        {
+            $recebeConsultaProdutoEspecificoAlteracao = $produtoControladora->ConsultarProdutoEspecifico($recebeCodigoProdutoAlteracao);
+
+            echo json_encode($recebeConsultaProdutoEspecificoAlteracao);
+        }
     }
 }
 ?>

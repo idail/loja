@@ -7,6 +7,11 @@
      
      background-position: center; */
     }
+
+    #imagens-produtos-alterar {
+        opacity: 0;
+        margin: -10px;
+    }
 </style>
 <!-- Disabled Backdrop Modal -->
 <div class="modal fade" id="alterar-produto" tabindex="-1" data-bs-backdrop="false">
@@ -27,8 +32,8 @@
                         <form id="formulario-cadastro-produto">
 
                             <div class="row mb-3">
-                                <div class="col-sm-10 col-lg-7">
-                                    <label class="col-sm-2 col-form-label">Categoria</label>
+                                <div class="col-sm-10 col-lg-12">
+                                    <label class="col-sm-2 col-lg-12 col-form-label">Categoria</label>
                                     <select class="form-select" aria-label="Default select example" name="categoria-produto-alterar" id="categoria-produto-alterar">
                                         <!-- <option selected value="selecione">Selecione</option> -->
                                         <!-- <option value="short">Short</option>
@@ -56,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="display: block ruby;">
+                            <div class="col-lg-12" style="display: block;">
 
                                 <div id="exibi-imagens-produtos-alterar"></div>
 
@@ -64,16 +69,16 @@
 
 
                             <div class="row mb-3">
-                                <div class="col-sm-10 col-lg-7">
-                                    <label for="inputText" class="col-sm-2 col-form-label">Nome</label>
+                                <div class="col-sm-10 col-lg-12">
+                                    <label for="inputText" class="col-sm-2 col-lg-12 col-form-label">Nome</label>
                                     <input type="text" class="form-control" name="nome-produto-alterar" placeholder="Informe o nome do produto" id="nome-produto-alterar">
                                 </div>
                             </div>
 
 
                             <div class="row mb-3">
-                                <div class="col-sm-10 col-lg-7">
-                                    <label for="inputEmail" class="col-sm-2 col-form-label">Estoque</label>
+                                <div class="col-sm-10 col-lg-12">
+                                    <label for="inputEmail" class="col-sm-2 col-lg-12 col-form-label">Estoque</label>
                                     <input type="text" class="form-control" name="estoque-produto-alterar" placeholder="Informe o telefone do cliente" id="estoque-produto-alterar">
                                 </div>
                             </div>
@@ -91,13 +96,13 @@
 
 
                             <div class="row mb-3">
-                                <div class="col-sm-10 col-lg-7">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Valor</label>
+                                <div class="col-sm-10 col-lg-12">
+                                    <label for="inputPassword" class="col-sm-2 col-lg-12 col-form-label">Valor</label>
                                     <input type="text" class="form-control" name="valor-produto-alterar" placeholder="Informe o valor do produto" id="valor-produto-alterar">
                                 </div>
                             </div>
 
-
+                            <input type="hidden" name="codigo-produto-alterar" id="codigo-produto-alterar">
 
 
 
