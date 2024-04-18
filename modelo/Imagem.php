@@ -66,5 +66,33 @@ class Imagem implements ImagemInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function AlterarImagemEspecifica():string
+    {
+        try{
+            if(!empty($this->getImagem()) && !empty($this->getCodigo_Produto_Imagem()))
+            {
+                for ($alterar=0; $alterar < count($this->getImagem()); $alterar++) { 
+                    $instrucaoAlterarImagemEspecifica = "update imagens_produtos set imagem = :recebe_imagem_produto_alterar where codigo_imagem = :recebe_codigo_imagem";
+                    $comandoAlterarImagemEspecifica = Conexao::Obtem()->prepare($instrucaoAlterarImagemEspecifica);
+                    $comandoAlterarImagemEspecifica->bindValue(":recebe_imagem_produto_alterar",$this->getImagem()[$alterar]);
+                    $comandoAlterarImagemEspecifica->bindValue(":recebe_codigo_imagem",$this->getCodigo_Imagem()[$alterar]);
+                    
+                    $resultadoAlterarImagemEspecifica = $comandoAlterarImagemEspecifica->execute();
+                }
+
+                if($resultadoAlterarImagemEspecifica)
+                    return "Produto alterado com sucesso";
+                else
+                    return "Produto não foi alterado";
+            }
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
 }
 ?>

@@ -42,23 +42,23 @@ $(document).ready(function (e) {
       success: function (retorno_categorias) {
         debugger;
         if (retorno_categorias.length > 0) {
-          $("#categoria-produto-alterar").html("");
-          $("#categoria-produto-alterar").append(
+          $("#valor-filtro-categoria-produto").html("");
+          $("#valor-filtro-categoria-produto").append(
             "<option value='selecione'>Selecione</option>"
           );
           $.each(retorno_categorias, function (i, element) {
-            $("#categoria-produto-alterar").append(
+            $("#valor-filtro-categoria-produto").append(
               "<option value=" +
-                element.nome_categoria.toLowerCase() +
-                ">" +
-                element.nome_categoria +
-                "</option>"
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
             );
           });
         } else {
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
 
     listarProdutos("todos", "todos");
@@ -131,7 +131,7 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         );
       }
     },
-    error: function (xhr, status, error) {},
+    error: function (xhr, status, error) { },
   });
 }
 
@@ -172,13 +172,13 @@ function carrega_imagens_produto(recebe_codigo_produto_imagens, e) {
 
             $("#exibi-imagens-produtos-cadastrados").append(
               "<img src='produtos/imagens_produto/" +
-                retorno_imagens_produto[index].imagem +
-                "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
+              retorno_imagens_produto[index].imagem +
+              "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
             );
           }
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 }
@@ -223,16 +223,16 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
           $.each(retorno_categorias, function (i, element) {
             $("#valor-filtro-categoria-produto").append(
               "<option value=" +
-                element.nome_categoria.toLowerCase() +
-                ">" +
-                element.nome_categoria +
-                "</option>"
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
             );
           });
         } else {
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
 
     $.ajax({
@@ -287,8 +287,8 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
 
             $("#exibi-imagens-produtos-alterar").append(
               "<img src='produtos/imagens_produto/" +
-                retorno_produto[dados_produto].imagem +
-                "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
+              retorno_produto[dados_produto].imagem +
+              "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
             );
 
             imagens_produto_alteracao.push(
@@ -297,7 +297,7 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
           }
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 }
@@ -324,7 +324,7 @@ $("#alterar-produto").click(function (e) {
     let dados_produto_alterar = new FormData(dados_formulario_alterar_produto);
 
     dados_produto_alterar.append("processo_produto", "recebe_alterar_produto");
-    dados_produto_alterar.append("valor_metodo","PUT");
+    dados_produto_alterar.append("valor_metodo", "PUT");
     dados_produto_alterar.append("processo_imagem", "recebe_alterar_imagem");
 
     $.ajax({
@@ -340,9 +340,61 @@ $("#alterar-produto").click(function (e) {
 
       success: function (resultado) {
         debugger;
-        console.log(resultado);
+        if(resultado === "Produto alterado com sucesso")
+        {
+          $.ajax({
+            type: "post",
+            enctype: "multipart/form-data",
+            dataType: "json",
+            //http://localhost/engenharia_testando/final/controladora/ImagemControladora.php
+            url: "../api/ImagemAPI.php",
+            cache: false,
+            processData: false,
+            contentType: false,
+            data: dados_produto_alterar,
+            success: function (retorno) {
+              debugger;
+              if (retorno > 0) {
+                $("#recebe-mensagem-alterar-realizado-produto").html(
+                  "Produto cadastrado com sucesso"
+                );
+                $("#recebe-mensagem-alterar-realizado-produto").show();
+                $(
+                  "#recebe-mensagem-alterar-realizado-produto"
+                ).fadeOut(4000);
+              } else {
+                $("#recebe-mensagem-campo-falha-alterar-produto").html(
+                  "Falha ao alterar produto"
+                );
+                $(
+                  "#recebe-mensagem-campo-falha-alterar-produto"
+                ).show();
+                $(
+                  "#recebe-mensagem-campo-falha-alterar-produto"
+                ).fadeOut(4000);
+              }
+            },
+            error: function (xhr, status, error) {
+              $("#recebe-mensagem-campo-falha-alterar-produto").html(
+                "Falha ao alterar produto:" + error
+              );
+              $("#recebe-mensagem-campo-falha-alterar-produto").show();
+              $(
+                "#recebe-mensagem-campo-falha-alterar-produto"
+              ).fadeOut(4000);
+            },
+          });
+        }else{
+          $("#recebe-mensagem-campo-falha-alterar-produto").html(
+            "Falha ao alterar produto"
+          );
+          $("#recebe-mensagem-campo-falha-alterar-produto").show();
+          $(
+            "#recebe-mensagem-campo-falha-alterar-produto"
+          ).fadeOut(4000);
+        }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   } else if (recebeCategoriaProdutoAlterar === "selecione") {
     $("#recebe-mensagem-campo-vazio-alterar-produto").html(
@@ -394,7 +446,7 @@ $("#imagens-produtos-alterar").change(function (e) {
     );
 
     imagens_produto_alteracao.splice(0, imagens_produto_alteracao.length);
-    
+
     for (
       let indice = 0;
       indice < arquivo_selecionado_alterar.length;
@@ -519,6 +571,44 @@ $("#filtro-produto").change(function (e) {
     $("#valor-filtro-categoria-produto").attr("disabled", false);
     $("#valor-filtro-produto").attr("disabled", true);
     $("#buscar-produto").attr("disabled", false);
+
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/CategoriaAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_categoria: "recebe_consultar_categorias",
+      },
+      // beforeSend: function () {
+      //   debugger;
+      //   $("#registros-clientes").html("");
+      //   $("#registros-clientes").append(
+      //     "<td colspan='5' class='text-center'>Carregando dados</td>"
+      //   );
+      //   $("#registros-clientes").html("");
+      // },
+      success: function (retorno_categorias) {
+        debugger;
+        if (retorno_categorias.length > 0) {
+          $("#valor-filtro-categoria-produto").html("");
+          $("#valor-filtro-categoria-produto").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+          $.each(retorno_categorias, function (i, element) {
+            $("#valor-filtro-categoria-produto").append(
+              "<option value=" +
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
+            );
+          });
+        } else {
+        }
+      },
+      error: function (xhr, status, error) { },
+    });
   } else if (recebeValorFiltroEscolhido === "nome_produto") {
     $("#selecao-status").hide();
     $("#valor-filtro-categoria-produto").attr("disabled", true);
@@ -606,7 +696,7 @@ $("#buscar-produto").click(function (e) {
             );
           }
         },
-        error: function (xhr, status, error) {},
+        error: function (xhr, status, error) { },
       });
     }
   } else if (recebeFiltroProduto === "nome_produto") {
@@ -676,7 +766,7 @@ $("#buscar-produto").click(function (e) {
             );
           }
         },
-        error: function (xhr, status, error) {},
+        error: function (xhr, status, error) { },
       });
     }
   } else {
@@ -745,7 +835,7 @@ $("#buscar-produto").click(function (e) {
           );
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 });
