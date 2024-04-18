@@ -12,9 +12,17 @@
         opacity: 0;
         margin: -10px;
     }
+
+    .exibi_imagems_lado_lado{
+        display: block;
+    }
+
+    .exibi_imagens_selecionadas_alterar{
+        display: block ruby;
+    }
 </style>
 <!-- Disabled Backdrop Modal -->
-<div class="modal fade" id="alterar-produto" tabindex="-1" data-bs-backdrop="false">
+<div class="modal fade" id="alteraracao-produto" tabindex="-1" data-bs-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,7 +37,7 @@
                             <h5 class="card-title text-center pb-0 fs-4">Alterar Produto</h5>
                         </div>
 
-                        <form id="formulario-cadastro-produto">
+                        <form id="formulario-alterar-produto">
 
                             <div class="row mb-3">
                                 <div class="col-sm-10 col-lg-12">
@@ -57,11 +65,11 @@
                             <div class="row mb-3">
                                 <div class="col-sm-10 col-lg-7">
                                     <label for="inputText" class="col-sm-2 col-lg-12 mb-3 col-form-label">Imagens</label>
-                                    <i class="bi bi-paperclip"><input type="file" name="imagens-produtos-alterar[]" id="imagens-produtos-alterar" title="Selecione as imagens" multiple></i>
+                                    <i class="bi bi-paperclip"><input type="file" name="imagens-produtos-alterar[]" id="imagens-produtos-alterar" title="Selecione as imagens" multiple/></i>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="display: block;">
+                            <div class="col-lg-12" id="imagens-produtos-visualiza-alterar">
 
                                 <div id="exibi-imagens-produtos-alterar"></div>
 
@@ -94,7 +102,6 @@
                     </div>
                 </div> -->
 
-
                             <div class="row mb-3">
                                 <div class="col-sm-10 col-lg-12">
                                     <label for="inputPassword" class="col-sm-2 col-lg-12 col-form-label">Valor</label>
@@ -114,29 +121,29 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="col-12">
-                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-alterar-realizado-produto" role="alert">
+                            <div class="col-12">
+                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-alterar-realizado-produto" role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-alterar-sendo-realizada-produto" role="alert">
+                                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-alterar-sendo-realizada-produto" role="alert">
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-alterar-produto" role="alert">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-alterar-produto" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-cadastro-alterar-produto" role="alert">
+                                <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-alterar-produto" role="alert">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
-                            </div> -->
+                            </div>
 
                         </form><!-- End General Form Elements -->
                     </div>

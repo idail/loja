@@ -84,7 +84,7 @@ class Produto implements ProdutoInterface
     public function CadastrarProduto(): int
     {
         try {
-            if (!empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto())) {
+            if (!empty($this->getCategoria_Produto()) && !empty($this->getNome_Produto()) && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto())) {
                 $instrucaoCadastroProduto = "insert into produtos(categoria_produto,nome_produto,estoque_produto,valor_produto)values(:recebe_categoria_produto,:recebe_nome_produto,:recebe_estoque_produto,:recebe_valor_produto)";
                 $comandoCadastroProduto = Conexao::Obtem()->prepare($instrucaoCadastroProduto);
                 $comandoCadastroProduto->bindValue(":recebe_categoria_produto", $this->getCategoria_Produto());
@@ -203,6 +203,37 @@ class Produto implements ProdutoInterface
         } catch (Exception $excecao) {
             array_push($registro_produto_especifico, $excecao->getMessage());
             return $registro_produto_especifico;
+        }
+    }
+
+    public function alterarProdutoEspecifico():string
+    {
+        try{
+            if(!empty($this->getCategoria_Produto()) && !empty($this->getNome_Produto())
+             && !empty($this->getEstoque_Produto()) && !empty($this->getValor_Produto()) && !empty($this->getCodigo_Produto()))
+            {
+                $instrucaoAlterarProdutoEspecifico = "update produtos set categoria_produto = :recebe_categoria_produto_alterar,nome_produto = :recebe_nome_produto_alterar,
+                estoque_produto = :recebe_estoque_produto_alterar,valor_produto = :recebe_valor_produto_alterar where codigo_produto = :recebe_codigo_produto_alterar";
+                $comandoAlterarProdutoEspecifico = Conexao::Obtem()->prepare($instrucaoAlterarProdutoEspecifico);
+                $comandoAlterarProdutoEspecifico->bindValue(":recebe_categoria_produto_alterar",$this->getCategoria_Produto());
+                $comandoAlterarProdutoEspecifico->bindValue(":recebe_nome_produto_alterar",$this->getNome_Produto());
+                $comandoAlterarProdutoEspecifico->bindValue(":recebe_estoque_produto_alterar",$this->getEstoque_Produto());
+                $comandoAlterarProdutoEspecifico->bindValue(":recebe_valor_produto_alterar",$this->getValor_Produto());
+                $comandoAlterarProdutoEspecifico->bindValue(":recebe_codigo_produto_alterar",$this->getCodigo_Produto());
+
+                $resultadoAlterarProdutoEspecifico = $comandoAlterarProdutoEspecifico->execute();
+
+                if($resultadoAlterarProdutoEspecifico)
+                    return "Produto alterado com sucesso";
+                else
+                    return "Produto não foi alterado";
+            }
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
         }
     }
 }

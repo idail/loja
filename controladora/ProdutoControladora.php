@@ -46,5 +46,19 @@ class ProdutoControladora{
 
         return $registroProdutoEspecifico;
     }
+
+    public function AlterarProdutoEspecifico($recebeCodigoProdutoAlterarEspecifico,$recebeCategoriaProdutoAlterarEspecifico,$recebeNomeProdutoAlterarEspecifico,
+    $recebeEstoqueProdutoAlterarEspecifico,$recebeValorProdutoEspecificoAlterar)
+    {
+        $this->produto->setCodigo_Produto($recebeCodigoProdutoAlterarEspecifico);
+        $this->produto->setCategoria_Produto($recebeCategoriaProdutoAlterarEspecifico);
+        $this->produto->setNome_Produto($recebeNomeProdutoAlterarEspecifico);
+        $this->produto->setEstoque_Produto($recebeEstoqueProdutoAlterarEspecifico);
+        $this->produto->setValor_Produto($recebeValorProdutoEspecificoAlterar);
+
+        $resultadoAlterarProdutoEspecifico = $this->produto->alterarProdutoEspecifico();
+
+        return $resultadoAlterarProdutoEspecifico;
+    }
 }
 ?>
