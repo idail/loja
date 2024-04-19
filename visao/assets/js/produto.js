@@ -216,12 +216,12 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
       success: function (retorno_categorias) {
         debugger;
         if (retorno_categorias.length > 0) {
-          $("#valor-filtro-categoria-produto").html("");
-          $("#valor-filtro-categoria-produto").append(
+          $("#categoria-produto-alterar").html("");
+          $("#categoria-produto-alterar").append(
             "<option value='selecione'>Selecione</option>"
           );
           $.each(retorno_categorias, function (i, element) {
-            $("#valor-filtro-categoria-produto").append(
+            $("#categoria-produto-alterar").append(
               "<option value=" +
               element.nome_categoria.toLowerCase() +
               ">" +
@@ -356,7 +356,7 @@ $("#alterar-produto").click(function (e) {
               debugger;
               if (retorno > 0) {
                 $("#recebe-mensagem-alterar-realizado-produto").html(
-                  "Produto cadastrado com sucesso"
+                  "Produto alterado com sucesso"
                 );
                 $("#recebe-mensagem-alterar-realizado-produto").show();
                 $(

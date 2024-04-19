@@ -37,7 +37,7 @@ class Imagem implements ImagemInterface{
         return $this->codigo_produto_imagem;
     }
 
-    public function cadastrarImagem(): int
+    public function CadastrarImagens(): int
     {
         try{
             if(!empty($this->getImagem()) && !empty($this->getCodigo_Produto_Imagem()))
@@ -67,24 +67,20 @@ class Imagem implements ImagemInterface{
         }
     }
 
-    public function AlterarImagemEspecifica():string
+    public function ExcluirImagemEspecifica():string
     {
         try{
-            if(!empty($this->getImagem()) && !empty($this->getCodigo_Produto_Imagem()))
+            if(!empty($this->getCodigo_Produto_Imagem()))
             {
-                for ($alterar=0; $alterar < count($this->getImagem()); $alterar++) { 
-                    $instrucaoAlterarImagemEspecifica = "update imagens_produtos set imagem = :recebe_imagem_produto_alterar where codigo_imagem = :recebe_codigo_imagem";
-                    $comandoAlterarImagemEspecifica = Conexao::Obtem()->prepare($instrucaoAlterarImagemEspecifica);
-                    $comandoAlterarImagemEspecifica->bindValue(":recebe_imagem_produto_alterar",$this->getImagem()[$alterar]);
-                    $comandoAlterarImagemEspecifica->bindValue(":recebe_codigo_imagem",$this->getCodigo_Imagem()[$alterar]);
-                    
-                    $resultadoAlterarImagemEspecifica = $comandoAlterarImagemEspecifica->execute();
-                }
+                $instrucaoExcluirImagensEspecifica = "delete from imagens_produtos where codigo_produto_imagem = :recebe_codigo_produto_imagem_exclusao";
+                $comandoExcluirImagensEspecificas = Conexao::Obtem()->prepare($instrucaoExcluirImagensEspecifica);
+                $comandoExcluirImagensEspecificas->bindValue(":recebe_codigo_produto_imagem_exclusao",$this->getCodigo_Produto_Imagem());
+                $resultadoExclurImagensEspecificas = $comandoExcluirImagensEspecificas->execute();
 
-                if($resultadoAlterarImagemEspecifica)
-                    return "Produto alterado com sucesso";
+                if($resultadoExclurImagensEspecificas)
+                    return "imagens excluidas com sucesso";
                 else
-                    return "Produto não foi alterado";
+                    return "imagens não foram excluidas com sucesso";
             }
         }catch (PDOException $exception) {
             $recebe_erro =  $exception->getMessage();

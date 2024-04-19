@@ -1,5 +1,6 @@
 <?php
 interface ImagemInterface{
-    public function cadastrarImagem():int;
+    public function CadastrarImagens():int;
+    public function ExcluirImagemEspecifica():string;
 }
 ?>
