@@ -306,14 +306,14 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
   }
 }
 
-function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir,e)
-{
+function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
   e.preventDefault();
 
-  let recebeRespostaExcluirProdutoEspecifico = window.confirm("Tem certeza que deseja excluir o produto?");
+  let recebeRespostaExcluirProdutoEspecifico = window.confirm(
+    "Tem certeza que deseja excluir o produto?"
+  );
 
-  if(recebeRespostaExcluirProdutoEspecifico)
-  {
+  if (recebeRespostaExcluirProdutoEspecifico) {
     $.ajax({
       url: "../api/ProdutoAPI.php",
       type: "DELETE",
@@ -349,7 +349,7 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir,e)
         $("#recebe-mensagem-campo-falha-exclusao-produto").fadeOut(4000);
       },
     });
-  }else{
+  } else {
     return;
   }
 }
@@ -738,7 +738,9 @@ $("#buscar-produto").click(function (e) {
                 "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
                 retorno_produtos[produtos].codigo_produto +
                 ",event)'></i></a></td>" +
-                "<td>Excluir</td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
+                retorno_produtos[produtos].codigo_produto +
+                ",event)></i></a></td>" +
                 "</tr>";
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
@@ -812,7 +814,9 @@ $("#buscar-produto").click(function (e) {
                 "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
                 retorno_produtos[produtos].codigo_produto +
                 ",event)'></i></a></td>" +
-                "<td>Excluir</td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
+                retorno_produtos[produtos].codigo_produto +
+                ",event)></i></a></td>" +
                 "</tr>";
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
@@ -885,7 +889,9 @@ $("#buscar-produto").click(function (e) {
               "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
               retorno_produtos[produtos].codigo_produto +
               ",event)'></i></a></td>" +
-              "<td>Excluir</td>" +
+              "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
+              retorno_produtos[produtos].codigo_produto +
+              ",event)></i></a></td>" +
               "</tr>";
           }
           $("#registros-produtos").append(recebe_tabela_produtos);
