@@ -37,7 +37,7 @@ class Imagem implements ImagemInterface{
         return $this->codigo_produto_imagem;
     }
 
-    public function CadastrarImagens(): int
+    public function CadastrarImagens(): string
     {
         try{
             if(!empty($this->getImagem()) && !empty($this->getCodigo_Produto_Imagem()))
@@ -55,7 +55,10 @@ class Imagem implements ImagemInterface{
                     $ultimoCodigoCadastradoImagem = Conexao::Obtem()->lastInsertId();
                 }
 
-                return $ultimoCodigoCadastradoImagem;
+                if($ultimoCodigoCadastradoImagem > 0)
+                    return "imagens cadastradas";
+                else
+                    return "imagens nao cadastradas";
             }
         }catch(PDOException $exception)
         {
