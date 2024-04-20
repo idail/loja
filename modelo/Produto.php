@@ -206,7 +206,7 @@ class Produto implements ProdutoInterface
         }
     }
 
-    public function alterarProdutoEspecifico():string
+    public function AlterarProdutoEspecifico():string
     {
         try{
             if(!empty($this->getCategoria_Produto()) && !empty($this->getNome_Produto())
@@ -227,6 +227,30 @@ class Produto implements ProdutoInterface
                     return "Produto alterado com sucesso";
                 else
                     return "Produto não foi alterado";
+            }
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
+
+    public function ExcluirProdutoEspecifico():string
+    {
+        try{
+            if(!empty($this->getCodigo_Produto()))
+            {
+                $instrucaoExcluirProdutoEspecifico = "delete from produtos where codigo_produto = :recebe_codigo_produto_exclusao";
+                $comandoExcluirProdutoEspecifico = Conexao::Obtem()->prepare($instrucaoExcluirProdutoEspecifico);
+                $comandoExcluirProdutoEspecifico->bindValue(":recebe_codigo_produto_exclusao",$this->getCodigo_Produto());
+                $resultadoExcluirProdutoEspecifico = $comandoExcluirProdutoEspecifico->execute();
+
+                if($resultadoExcluirProdutoEspecifico)
+                    return "Produto excluido com sucesso";
+                else
+                    return "Produto não foi excluido com sucesso";
             }
         }catch (PDOException $exception) {
             $recebe_erro =  $exception->getMessage();

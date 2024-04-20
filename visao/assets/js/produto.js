@@ -120,7 +120,9 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
             "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
             retorno_produtos[produtos].codigo_produto +
             ",event)'></i></a></td>" +
-            "<td>Excluir</td>" +
+            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
+            retorno_produtos[produtos].codigo_produto +
+            ",event)></i></a></td>" +
             "</tr>";
         }
         $("#registros-produtos").append(recebe_tabela_produtos);
@@ -301,6 +303,54 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
       },
       error: function (xhr, status, error) {},
     });
+  }
+}
+
+function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir,e)
+{
+  e.preventDefault();
+
+  let recebeRespostaExcluirProdutoEspecifico = window.confirm("Tem certeza que deseja excluir o produto?");
+
+  if(recebeRespostaExcluirProdutoEspecifico)
+  {
+    $.ajax({
+      url: "../api/ProdutoAPI.php",
+      type: "DELETE",
+      dataType: "json",
+      cache: false,
+      data: JSON.stringify({
+        processo_produto: "recebe_exclui_produto",
+        valor_codigo_produto_exclui: recebeCodigoProdutoEspecificoExcluir,
+      }),
+      success: function (retorno) {
+        debugger;
+        if (retorno != "") {
+          if (retorno === "Produto excluido com sucesso") {
+            $("#recebe-mensagem-exclusao-realizado-produto").html(retorno);
+            $("#recebe-mensagem-exclusao-realizado-produto").show();
+            $("#recebe-mensagem-exclusao-realizado-produto").fadeOut(4000);
+
+            listarProdutos("todos", "todos");
+          } else {
+            $("#recebe-mensagem-campo-falha-exclusao-produto").html(
+              "Falha ao excluir produto:" + retorno
+            );
+            $("#recebe-mensagem-campo-falha-exclusao-produto").show();
+            $("#recebe-mensagem-campo-falha-exclusao-produto").fadeOut(4000);
+          }
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-exclusao-produto").html(
+          "Falha ao excluir cliente:" + error
+        );
+        $("#recebe-mensagem-campo-falha-exclusao-produto").show();
+        $("#recebe-mensagem-campo-falha-exclusao-produto").fadeOut(4000);
+      },
+    });
+  }else{
+    return;
   }
 }
 

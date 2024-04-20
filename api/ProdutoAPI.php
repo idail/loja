@@ -89,5 +89,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             echo json_encode($recebeConsultaProdutoEspecificoAlteracao);
         }
     }
+}else if($_SERVER["REQUEST_METHOD"] === "DELETE")
+{
+    $recebeProcessoProduto = json_decode(file_get_contents("php://input",true));
+
+    if(!empty($recebeProcessoProduto->processo_produto === "recebe_exclui_produto"))
+    {
+        $resultadoExcluirProdutoEspecifico = $produtoControladora->ExcluirProdutoEspecifico($recebeProcessoProduto->valor_codigo_produto_exclui);
+
+        echo json_encode($resultadoExcluirProdutoEspecifico);
+    }else{
+        echo json_encode("Falha ao excluir o produto devido não ter codigo");
+    }
 }
 ?>

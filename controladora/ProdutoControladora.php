@@ -56,9 +56,18 @@ class ProdutoControladora{
         $this->produto->setEstoque_Produto($recebeEstoqueProdutoAlterarEspecifico);
         $this->produto->setValor_Produto($recebeValorProdutoEspecificoAlterar);
 
-        $resultadoAlterarProdutoEspecifico = $this->produto->alterarProdutoEspecifico();
+        $resultadoAlterarProdutoEspecifico = $this->produto->AlterarProdutoEspecifico();
 
         return $resultadoAlterarProdutoEspecifico;
+    }
+
+    public function ExcluirProdutoEspecifico($recebeCodigoProdutoEspecificoExcluir)
+    {
+        $this->produto->setCodigo_Produto($recebeCodigoProdutoEspecificoExcluir);
+
+        $resultadoExcluirProdutoEspecifico = $this->produto->ExcluirProdutoEspecifico();
+
+        return $resultadoExcluirProdutoEspecifico;
     }
 }
 ?>
