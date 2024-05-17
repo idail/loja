@@ -32,7 +32,7 @@ $(document).ready(function () {
           $("#lista-produto").append(
             "<option value='selecione'>Selecione</option>"
           );
-          $.each(retorno_categorias, function (i, element) {
+          $.each(retorno_produtos, function (i, element) {
             $("#lista-produto").append(
               "<option value=" +
                 element.nome_produto.toLowerCase() +
@@ -76,12 +76,12 @@ $(document).ready(function () {
           $("#lista-cliente").append(
             "<option value='selecione'>Selecione</option>"
           );
-          $.each(retorno_categorias, function (i, element) {
+          $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente").append(
               "<option value=" +
-                element.nome_produto.toLowerCase() +
+                element.nome_cliente.toLowerCase() +
                 ">" +
-                element.nome_produto +
+                element.nome_cliente +
                 "</option>"
             );
           });
