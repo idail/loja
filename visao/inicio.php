@@ -404,7 +404,7 @@ require("../api/VerificaSessao.php");
                         </a>
                     </li>
                     <li>
-                        <a href="tables-data.html">
+                        <a href="index.php?pagina=cadastro_venda">
                             <i class="bi bi-circle"></i><span>Cadastrar Vendas</span>
                         </a>
                     </li>
@@ -537,6 +537,9 @@ require("../api/VerificaSessao.php");
                     } else if($_GET["pagina"] === "consulta_produtos")
                     {
                         require("produtos/consulta_produtos.php");
+                    }else if($_GET["pagina"] === "cadastro_venda")
+                    {
+                        require("vendas/cadastrar_vendas.php");
                     }
                 } else {
                     require("menu_rapido/menu_rapido.php");
@@ -579,6 +582,7 @@ require("../api/VerificaSessao.php");
     <script src="assets/js/categoria.js"></script>
     <script src="assets/js/jquery.imgcheckbox.js"></script>
     <script src="assets/js/produto.js"></script>
+    <script src="assets/js/venda.js"></script>
 </body>
 
 </html>
