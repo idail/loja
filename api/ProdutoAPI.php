@@ -88,6 +88,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
             echo json_encode($recebeConsultaProdutoEspecificoAlteracao);
         }
+    }else if($recebeProcessoProduto === "recebe_consultar_produto_especifico_qtd_produtos_estoque")
+    {
+        $recebeCodigoProdutoQtdPE = $_GET["valor_codigo_produto_especifico_qtdpe"];
+
+        $recebeConsultaQtdPE = $produtoControladora->ConsultarQTDProdutoEstoque($recebeCodigoProdutoQtdPE);
+        
+        echo json_encode($recebeConsultaQtdPE);
     }
 }else if($_SERVER["REQUEST_METHOD"] === "DELETE")
 {

@@ -16,8 +16,10 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebeNomePV = $_POST["valor_nomepv"];
         $recebeNomeCV = $_POST["valor_nomecv"];
         $recebeQuantidadePV = $_POST["valor_quantidadepv"];
+        $recebeValorSelecionadoDV = $_POST["valor_selecionado_dv"];
         $recebeDescontoFV = $_POST["valor_descontofv"];
         $recebeValorFV = $_POST["valor_fv"];
+        $recebeValorSelecionadoPV = $_POST["valor_selecionado_pv"];
         $recebePagoV = $_POST["valor_pagov"];
         $recebePagamentoAV = $_POST["valor_pagamentoav"];
         $recebeDataPV = $_POST["valor_datapv"];

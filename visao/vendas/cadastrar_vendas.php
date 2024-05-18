@@ -8,10 +8,10 @@
 
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Cadastro de Produto</h5>
+            <h5 class="card-title">Cadastro de Venda</h5>
 
             <!-- General Form Elements -->
-            <form id="formulario-cadastro-produto">
+            <form id="formulario-cadastro-venda">
 
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
@@ -32,15 +32,15 @@
                         </select>
                     </div>
 
-                    <div id="exibe-informacao-qtd-produtos-estoque">
-                        <span id="informacao-qtd-produtos-estoque">Quantidade de produtos em estoque:</span>
+                    <div id="exibe-informacao-qtd-produtos-estoque" class="mt-3">
+                        <span id="informacao-qtd-produtos-estoque"></span>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label class="col-sm-2 col-form-label">Cliente</label>
-                        <select class="form-select" aria-label="Default select example" name="lista_cliente" id="lista-cliente">
+                        <select class="form-select" aria-label="Default select example" name="lista_cliente_venda" id="lista-cliente">
                             <!-- <option selected value="selecione">Selecione</option> -->
                             <!-- <option value="short">Short</option>
                             <option value="camisa">Camisa</option>
@@ -81,10 +81,10 @@
 
                 </div> -->
 
-                <div class="row mb-3">
+                <div class="row mb-3" id="exibe-desconto-venda">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputText" class="col-sm-2 col-form-label">Desconto</label>
-                        <input type="text" class="form-control" name="nome-produto" placeholder="Informe o nome do produto" id="nome-produto">
+                        <input type="text" class="form-control" name="desconto-produto-venda" placeholder="Informe o valor do desconto" id="desconto-produto-venda">
                     </div>
                 </div>
 
@@ -100,10 +100,20 @@
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
                         <label for="inputEmail" class="col-sm-2 col-form-label">Valor final venda</label>
-                        <input type="text" class="form-control" name="valor-final-venda"  placeholder="Informe o valor final da venda" id="valor-final-venda">
+                        <input type="text" class="form-control" name="valor_final_venda" disabled  placeholder="Informe o valor final da venda" id="valor-final-venda">
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col-sm-10 col-lg-7">
+                        <label class="col-sm-2 col-form-label">Pago</label>
+                        <select class="form-select" aria-label="Default select example" name="lista_pago_venda" id="lista-pago-venda">
+                            <option selected value="selecione">Selecione</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-10 col-lg-7">
@@ -130,7 +140,7 @@
                 <div class="row mb-3">
                     <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
                     <div class="col-sm-10">
-                        <button type="button" class="btn btn-primary" id="cadastro-vendo">Cadastrar</button>
+                        <button type="button" class="btn btn-primary" id="cadastro-venda">Cadastrar</button>
                         <button type="button" class="btn btn-secondary" id="limpar-campos-cadastro-venda">Limpar</button>
                     </div>
                 </div>

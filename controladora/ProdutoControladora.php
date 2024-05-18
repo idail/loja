@@ -47,6 +47,15 @@ class ProdutoControladora{
         return $registroProdutoEspecifico;
     }
 
+    public function ConsultarQTDProdutoEstoque($recebeCodigoQTDPE)
+    {
+        $this->produto->setCodigo_Produto($recebeCodigoQTDPE);
+
+        $registroQTDPE = $this->produto->ConsultarQTDProdutoEstoque();
+
+        return $registroQTDPE;
+    }
+
     public function AlterarProdutoEspecifico($recebeCodigoProdutoAlterarEspecifico,$recebeCategoriaProdutoAlterarEspecifico,$recebeNomeProdutoAlterarEspecifico,
     $recebeEstoqueProdutoAlterarEspecifico,$recebeValorProdutoEspecificoAlterar)
     {

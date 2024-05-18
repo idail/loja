@@ -206,6 +206,32 @@ class Produto implements ProdutoInterface
         }
     }
 
+    public function ConsultarQTDProdutoEstoque():array
+    {
+        $registro_produto_qtd_estoque = array();
+        try{
+            if(!empty($this->getCodigo_Produto()))
+            {
+                $instrucaoConsultaQTDProdutoEstoque = "select * from produtos as p where p.codigo_produto = :recebe_codigo_produto_qtd_estoque";
+                $comandoConsultaQTDProdutoEstoque = Conexao::Obtem()->prepare($instrucaoConsultaQTDProdutoEstoque);
+                $comandoConsultaQTDProdutoEstoque->bindValue(":recebe_codigo_produto_qtd_estoque",$this->getCodigo_Produto());
+                $comandoConsultaQTDProdutoEstoque->execute();
+                $registro_produto_qtd_estoque = $comandoConsultaQTDProdutoEstoque->fetchAll(PDO::FETCH_ASSOC);
+
+                if(!empty($registro_produto_qtd_estoque))
+                    return $registro_produto_qtd_estoque;
+                else
+                    return $registro_produto_qtd_estoque;
+            }
+        }catch (PDOException $exception) {
+            array_push($registro_produto_qtd_estoque, $exception->getMessage());
+            return $registro_produto_qtd_estoque;
+        } catch (Exception $excecao) {
+            array_push($registro_produto_qtd_estoque, $excecao->getMessage());
+            return $registro_produto_qtd_estoque;
+        }
+    }
+
     public function AlterarProdutoEspecifico():string
     {
         try{
