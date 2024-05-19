@@ -37,10 +37,10 @@ $(document).ready(function () {
           $.each(retorno_produtos, function (i, element) {
             $("#lista-produto").append(
               "<option value=" +
-                element.codigo_produto +
-                ">" +
-                element.nome_produto +
-                "</option>"
+              element.codigo_produto +
+              ">" +
+              element.nome_produto +
+              "</option>"
             );
           });
         } else {
@@ -50,7 +50,7 @@ $(document).ready(function () {
           );
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
 
     $.ajax({
@@ -63,14 +63,14 @@ $(document).ready(function () {
         filtro_cliente: "todos",
         valor_filtro_cliente: "todos",
       },
-    //   beforeSend: function () {
-    //     debugger;
-    //     $("#registros-clientes").html("");
-    //     $("#registros-clientes").append(
-    //       "<td colspan='5' class='text-center'>Carregando dados</td>"
-    //     );
-    //     $("#registros-clientes").html("");
-    //   },
+      //   beforeSend: function () {
+      //     debugger;
+      //     $("#registros-clientes").html("");
+      //     $("#registros-clientes").append(
+      //       "<td colspan='5' class='text-center'>Carregando dados</td>"
+      //     );
+      //     $("#registros-clientes").html("");
+      //   },
       success: function (retorno_clientes) {
         debugger;
         if (retorno_clientes.length > 0) {
@@ -81,10 +81,10 @@ $(document).ready(function () {
           $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente").append(
               "<option value=" +
-                element.nome_cliente.toLowerCase() +
-                ">" +
-                element.nome_cliente +
-                "</option>"
+              element.nome_cliente.toLowerCase() +
+              ">" +
+              element.nome_cliente +
+              "</option>"
             );
           });
         } else {
@@ -107,8 +107,8 @@ $(document).ready(function () {
 
 let recebeNomeProdutoGravar = "";
 let recebeQTDEstoqueProduto = 0;
-
-$("#lista-produto").change(function(e){
+let recebeValorProdutoEstoque = 0;
+$("#lista-produto").change(function (e) {
   e.preventDefault();
 
   debugger;
@@ -124,22 +124,24 @@ $("#lista-produto").change(function(e){
       processo_produto: "recebe_consultar_produto_especifico_qtd_produtos_estoque",
       valor_codigo_produto_especifico_qtdpe: recebeValorSFP,
     },
-    success: function (retorno_produto) 
-    {
+    success: function (retorno_produto) {
       debugger;
-      if(retorno_produto.length > 0)
-      {
+      if (retorno_produto.length > 0) {
         for (let index = 0; index < retorno_produto.length; index++) {
           recebeQTDEstoqueProduto = retorno_produto[index].estoque_produto;
           recebeNomeProdutoGravar = retorno_produto[index].nome_produto;
+
+          let recebeValorProdutoBR = retorno_produto[index].valor_produto.toString();
+
+          recebeValorProdutoEstoque = "R$" + recebeValorProdutoBR.replace(".", ",");
         }
 
+        $("#valor-final-venda").val(recebeValorProdutoEstoque);
         $("#informacao-qtd-produtos-estoque").html("Quantidade em estoque:" + recebeQTDEstoqueProduto);
         $("#exibe-informacao-qtd-produtos-estoque").show();
       }
     },
-    error:function(xhr,status,error)
-    {
+    error: function (xhr, status, error) {
       console.log(error);
     },
   });
@@ -147,7 +149,7 @@ $("#lista-produto").change(function(e){
 
 let recebeValorDV = "";
 
-$("#lista-desconto-venda").change(function(e){
+$("#lista-desconto-venda").change(function (e) {
   e.preventDefault();
 
   debugger;
@@ -156,17 +158,17 @@ $("#lista-desconto-venda").change(function(e){
 
   recebeValorDV = recebeValorSDV;
 
-  if(recebeValorSDV === "sim")
-  {
+  if (recebeValorSDV === "sim") {
     $("#exibe-desconto-venda").show();
-  }else{
+  } else {
     $("#exibe-desconto-venda").hide();
+    $("#valor-final-venda").val(recebeValorProdutoEstoque);
   }
 });
 
 let recebeValorAP = "";
 
-$("#lista-agendar-pagamento").change(function(e){
+$("#lista-agendar-pagamento").change(function (e) {
   e.preventDefault();
 
   debugger;
@@ -175,15 +177,82 @@ $("#lista-agendar-pagamento").change(function(e){
 
   recebeValorAP = recebeValorAPV;
 
-  if(recebeValorAPV === "sim")
-  {
+  if (recebeValorAPV === "sim") {
     $("#data-pagamento-agendado").show();
-  }else{
+  } else {
     $("#data-pagamento-agendado").hide();
   }
 });
 
-$("#cadastro-venda").click(function(e){
+$(document).on("focus", "#desconto-produto-venda", function (e) {
+  e.preventDefault();
+
+  $(this).maskMoney({
+    prefix: "R$",
+    thousands: ".",
+    decimal: ",",
+  });
+});
+
+$("#desconto-produto-venda").change(function (e) {
+  e.preventDefault();
+
+  debugger;
+
+  let recebeDV = $(this).val();
+
+  if (recebeDV != "") {
+    let recebeValorFV = $("#valor-final-venda").val();
+
+    let recebeVFProdutoCortado = recebeValorFV.split("R$");
+
+    let recebeVProdutoNumerico = recebeVFProdutoCortado[1];
+
+    let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, '.');
+
+    // Substituir o último ponto por um caractere temporário
+    let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, 'TEMP');
+
+    // Remover todos os outros pontos
+    tempStr = tempStr.replace(/\./g, '');
+
+    // Substituir o caractere temporário pelo ponto decimal
+    let decimalStr = tempStr.replace('TEMP', '.');
+
+    // Converter para número decimal
+    let valorFinalVP = parseFloat(decimalStr);
+
+
+
+    let recebeVDescontoProdutoCortado = recebeDV.split("R$");
+
+    let recebeVDescontoProdutoNumerico = recebeVDescontoProdutoCortado[1];
+
+    let recebeVDescontoProdutoFinalNumerico = recebeVDescontoProdutoNumerico.replace(/,/g, '.');
+
+    // Substituir o último ponto por um caractere temporário
+    let tempDescontoStr = recebeVDescontoProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, 'TEMP');
+
+    // Remover todos os outros pontos
+    tempDescontoStr = tempDescontoStr.replace(/\./g, '');
+
+    // Substituir o caractere temporário pelo ponto decimal
+    let decimalDescontoStr = tempDescontoStr.replace('TEMP', '.');
+
+    // Converter para número decimal
+    let valorDescontoFinalVP = parseFloat(decimalDescontoStr);
+
+    let recebeValorFPDesconto = valorFinalVP - valorDescontoFinalVP;
+
+    let recebeValorProdutoBRDesconto = recebeValorFPDesconto.toString();
+
+    let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBRDesconto.replace(".", ",");
+
+    $("#valor-final-venda").val(recebeValorProdutoBRFinal);
+  }
+});
+
+$("#cadastro-venda").click(function (e) {
   e.preventDefault();
 
   debugger;
@@ -192,36 +261,30 @@ $("#cadastro-venda").click(function(e){
   let recebeQTDPV = $("#quantidade-produto-venda").val();
   let recebeValorFV = $("#valor-final-venda").val();
 
-  let recebeDV = 0;
   let recebeValorAGP = "";
   let recebeAPV = false;
   let recebeDPV = false;
   let recebePV = false;
 
-  if(recebeValorDV === "sim")
-  {
+  if (recebeValorDV === "sim") {
     recebeDPV = true;
-    recebeDV = $("#desconto-produto-venda").val();
-  }else{
+  } else {
     recebeDPV = false;
-    recebeDV = "";
   }
 
-  if(recebeValorAP === "sim")
-  {
+  if (recebeValorAP === "sim") {
     recebeAPV = true;
     recebeValorAGP = $("#data-agendamento-pagamento").val();
-  }else{
+  } else {
     recebeAPV = false;
     recebeValorAGP = "";
   }
 
   let recebeValorPV = $("#lista-pago-venda").val();
 
-  if(recebeValorPV === "sim")
-  {
+  if (recebeValorPV === "sim") {
     recebePV = true;
-  }else{
+  } else {
     recebePV = false;
   }
 
@@ -238,24 +301,22 @@ $("#cadastro-venda").click(function(e){
     processData: false,
     contentType: false,
     data: {
-      valor_nomepv:recebeNomeProdutoGravar,
-      valor_nomecv:recebeNomeCV,
-      valor_quantidadepv:recebeQTDPV,
-      valor_selecionado_dv:recebeDPV,
-      valor_descontofv:recebeDV,
-      valor_fv:recebeValorFV,
-      valor_selecionado_pv:recebePV,
-      valor_pagamentoav:recebeAPV,
-      valor_datapv:recebeValorAGP,
-      processo_venda:recebe_cadastro_venda,
+      valor_nomepv: recebeNomeProdutoGravar,
+      valor_nomecv: recebeNomeCV,
+      valor_quantidadepv: recebeQTDPV,
+      valor_selecionado_dv: recebeDPV,
+      valor_descontofv: recebeDV,
+      valor_fv: recebeValorFV,
+      valor_selecionado_pv: recebePV,
+      valor_pagamentoav: recebeAPV,
+      valor_datapv: recebeValorAGP,
+      processo_venda: recebe_cadastro_venda,
     },
-    success: function (retorno) 
-    {
+    success: function (retorno) {
       debugger;
       console.log(retorno);
     },
-    error:function(xhr,status,error)
-    {
+    error: function (xhr, status, error) {
 
     },
   });

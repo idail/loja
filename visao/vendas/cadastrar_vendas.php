@@ -128,7 +128,7 @@
 
                 <div class="row mb-3" id="data-pagamento-agendado">
                     <div class="col-sm-10 col-lg-7">
-                        <label for="inputText" class="col-sm-2 col-form-label">Data Pagamento Agendado</label>
+                        <label for="inputText" class="col-sm-3 col-form-label">Data Pagamento Agendado</label>
                         <input type="date" class="form-control" id="data-agendamento-pagamento" name="data_agendamento_pagamento">
                     </div>
                 </div>
