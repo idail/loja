@@ -581,6 +581,7 @@ require("../api/VerificaSessao.php");
     <script src="assets/js/menu-principal.js"></script>
     <script src="assets/js/categoria.js"></script>
     <script src="assets/js/jquery.imgcheckbox.js"></script>
+    <script src="assets/js/jquery.maskMoney.min.js"></script>
     <script src="assets/js/produto.js"></script>
     <script src="assets/js/venda.js"></script>
 </body>

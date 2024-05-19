@@ -49,16 +49,16 @@ $(document).ready(function (e) {
           $.each(retorno_categorias, function (i, element) {
             $("#valor-filtro-categoria-produto").append(
               "<option value=" +
-                element.nome_categoria.toLowerCase() +
-                ">" +
-                element.nome_categoria +
-                "</option>"
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
             );
           });
         } else {
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
 
     listarProdutos("todos", "todos");
@@ -133,7 +133,7 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         );
       }
     },
-    error: function (xhr, status, error) {},
+    error: function (xhr, status, error) { },
   });
 }
 
@@ -174,13 +174,13 @@ function carrega_imagens_produto(recebe_codigo_produto_imagens, e) {
 
             $("#exibi-imagens-produtos-cadastrados").append(
               "<img src='produtos/imagens_produto/" +
-                retorno_imagens_produto[index].imagem +
-                "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
+              retorno_imagens_produto[index].imagem +
+              "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
             );
           }
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 }
@@ -227,16 +227,16 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
           $.each(retorno_categorias, function (i, element) {
             $("#categoria-produto-alterar").append(
               "<option value=" +
-                element.nome_categoria.toLowerCase() +
-                ">" +
-                element.nome_categoria +
-                "</option>"
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
             );
           });
         } else {
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
 
     $.ajax({
@@ -291,8 +291,8 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
 
             $("#exibi-imagens-produtos-alterar").append(
               "<img src='produtos/imagens_produto/" +
-                retorno_produto[dados_produto].imagem +
-                "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
+              retorno_produto[dados_produto].imagem +
+              "' style='height:80px;margin-right:10px;margin-right: 10px;margin-top: 17px;margin-bottom: 15px;'/>"
             );
 
             imagens_produto_alteracao.push(
@@ -301,7 +301,7 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
           }
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 }
@@ -443,7 +443,7 @@ $("#alterar-produto").click(function (e) {
           $("#recebe-mensagem-campo-falha-alterar-produto").fadeOut(4000);
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   } else if (recebeCategoriaProdutoAlterar === "selecione") {
     $("#recebe-mensagem-campo-vazio-alterar-produto").html(
@@ -647,16 +647,16 @@ $("#filtro-produto").change(function (e) {
           $.each(retorno_categorias, function (i, element) {
             $("#valor-filtro-categoria-produto").append(
               "<option value=" +
-                element.nome_categoria.toLowerCase() +
-                ">" +
-                element.nome_categoria +
-                "</option>"
+              element.nome_categoria.toLowerCase() +
+              ">" +
+              element.nome_categoria +
+              "</option>"
             );
           });
         } else {
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   } else if (recebeValorFiltroEscolhido === "nome_produto") {
     $("#selecao-status").hide();
@@ -751,7 +751,7 @@ $("#buscar-produto").click(function (e) {
             );
           }
         },
-        error: function (xhr, status, error) {},
+        error: function (xhr, status, error) { },
       });
     }
   } else if (recebeFiltroProduto === "nome_produto") {
@@ -827,7 +827,7 @@ $("#buscar-produto").click(function (e) {
             );
           }
         },
-        error: function (xhr, status, error) {},
+        error: function (xhr, status, error) { },
       });
     }
   } else {
@@ -902,9 +902,21 @@ $("#buscar-produto").click(function (e) {
           );
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
+});
+
+$(document).on("keypress", "#valor-produto", function (e) {
+  e.preventDefault();
+
+  debugger;
+
+  $(this).maskMoney({
+    prefix: "R$",
+    thousands: ".",
+    decimal: ",",
+  });
 });
 
 $("#cadastro-produto").click(function (e) {
@@ -920,6 +932,26 @@ $("#cadastro-produto").click(function (e) {
 
   let recebeValorProduto = $("#valor-produto").val();
 
+  let recebeVProdutoCortado = recebeValorProduto.split("R$");
+
+  let recebeVProdutoNumerico = recebeVProdutoCortado[1];
+
+  let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, '.');
+
+  // Substituir o último ponto por um caractere temporário
+  let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, 'TEMP');
+
+  // Remover todos os outros pontos
+  tempStr = tempStr.replace(/\./g, '');
+
+  // Substituir o caractere temporário pelo ponto decimal
+  let decimalStr = tempStr.replace('TEMP', '.');
+
+  // Converter para número decimal
+  let numeroDecimal = parseFloat(decimalStr);
+
+  // console.log(recebeVProdutoFinalNumerico);
+
   if (
     recebeCategoriaProduto != "selecione" &&
     recebeNomeProduto != "" &&
@@ -932,7 +964,7 @@ $("#cadastro-produto").click(function (e) {
     )[0];
 
     let dados_produto = new FormData(dados_formulario_cadastro_produto);
-
+    dados_produto.append("valor_produto_numerico", numeroDecimal);
     dados_produto.append("processo_produto", "recebe_cadastro_produto");
     dados_produto.append("processo_imagem", "recebe_cadastro_imagem");
 

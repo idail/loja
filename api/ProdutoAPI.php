@@ -20,7 +20,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
         $recebeEstoqueProduto = $_POST["estoque-produto"];
 
-        $recebeValorProduto = $_POST["valor-produto"];
+        //$recebeValorProduto = $_POST["valor-produto"];
+
+        $recebeValorProduto = $_POST["valor_produto_numerico"];
 
         if(!empty($recebeCategoriaProduto) && !empty($recebeNomeProduto) && !empty($recebeEstoqueProduto) && !empty($recebeValorProduto))
         {
