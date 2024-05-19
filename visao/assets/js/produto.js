@@ -364,7 +364,7 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
   }
 }
 
-$(document).on("keypress", "#valor-produto-alterar", function (e) {
+$(document).on("focus", "#valor-produto-alterar", function (e) {
   e.preventDefault();
 
   debugger;
@@ -961,7 +961,7 @@ $("#buscar-produto").click(function (e) {
   }
 });
 
-$(document).on("keypress", "#valor-produto", function (e) {
+$(document).on("focus", "#valor-produto", function (e) {
   e.preventDefault();
 
   debugger;
