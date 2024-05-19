@@ -39,7 +39,8 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             $recebeCategoriaProdutoAlterar = $_POST["categoria-produto-alterar"];
             $recebeNomeProdutoAlterar = $_POST["nome-produto-alterar"];
             $recebeEstoqueProdutoAlterar = $_POST["estoque-produto-alterar"];
-            $recebeValorProdutoAlterar = $_POST["valor-produto-alterar"];
+            //$recebeValorProdutoAlterar = $_POST["valor-produto-alterar"];
+            $recebeValorProdutoAlterar = $_POST["valor_produto_numerico_alterar"];
             $recebeCodigoProdutoAlterar = $_POST["codigo-produto-alterar"];
 
             if(!empty($recebeCategoriaProdutoAlterar) && !empty($recebeNomeProdutoAlterar) && !empty($recebeEstoqueProdutoAlterar) && !empty($recebeValorProdutoAlterar))

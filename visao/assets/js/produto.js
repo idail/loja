@@ -100,6 +100,11 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         );
 
         for (let produtos = 0; produtos < retorno_produtos.length; produtos++) {
+
+          let recebeValorProdutoBR = retorno_produtos[produtos].valor_produto.toString();
+          
+          let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBR.replace(".",",");
+
           recebe_tabela_produtos.innerHTML +=
             "<tr>" +
             "<td>" +
@@ -112,7 +117,7 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
             retorno_produtos[produtos].estoque_produto +
             "</td>" +
             "<td>" +
-            retorno_produtos[produtos].valor_produto +
+            recebeValorProdutoBRFinal +
             "</td>" +
             "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
             retorno_produtos[produtos].codigo_produto +
@@ -258,6 +263,11 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
             dados_produto < retorno_produto.length;
             dados_produto++
           ) {
+
+            let recebeValorProdutoBR = retorno_produto[dados_produto].valor_produto.toString();
+          
+            let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBR.replace(".",",");
+
             $("#categoria-produto-alterar").val(
               retorno_produto[dados_produto].categoria_produto
             );
@@ -268,7 +278,7 @@ function carrega_dados_produto_alteracao(recebeCodigoProdutoAlteracao, e) {
               retorno_produto[dados_produto].estoque_produto
             );
             $("#valor-produto-alterar").val(
-              retorno_produto[dados_produto].valor_produto
+              recebeValorProdutoBRFinal
             );
             $("#codigo-produto-alterar").val(
               retorno_produto[dados_produto].codigo_produto
@@ -354,6 +364,18 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
   }
 }
 
+$(document).on("keypress", "#valor-produto-alterar", function (e) {
+  e.preventDefault();
+
+  debugger;
+
+  $(this).maskMoney({
+    prefix: "R$",
+    thousands: ".",
+    decimal: ",",
+  });
+});
+
 $("#alterar-produto").click(function (e) {
   e.preventDefault();
 
@@ -363,6 +385,24 @@ $("#alterar-produto").click(function (e) {
   let recebeNomeProdutoAlterar = $("#nome-produto-alterar").val();
   let recebeEstoqueProdutoAlterar = $("#estoque-produto-alterar").val();
   let recebeValorProdutoAlterar = $("#valor-produto-alterar").val();
+
+  let recebeVProdutoCortado = recebeValorProdutoAlterar.split("R$");
+
+  let recebeVProdutoNumerico = recebeVProdutoCortado[1];
+
+  let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, '.');
+
+  // Substituir o último ponto por um caractere temporário
+  let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, 'TEMP');
+
+  // Remover todos os outros pontos
+  tempStr = tempStr.replace(/\./g, '');
+
+  // Substituir o caractere temporário pelo ponto decimal
+  let decimalStr = tempStr.replace('TEMP', '.');
+
+  // Converter para número decimal
+  let numeroDecimal = parseFloat(decimalStr);
 
   if (
     recebeCategoriaProdutoAlterar != "selecione" &&
@@ -383,6 +423,7 @@ $("#alterar-produto").click(function (e) {
     //   dados_produto_alterar.append("quantidade-imagens-cadastrados-produtos",imagens_produto_alteracao.length);
     // }
 
+    dados_produto_alterar.append("valor_produto_numerico_alterar",numeroDecimal);
     dados_produto_alterar.append("processo_produto", "recebe_alterar_produto");
     dados_produto_alterar.append("valor_metodo", "PUT");
     dados_produto_alterar.append("processo_imagem", "recebe_alterar_imagem");
@@ -718,6 +759,11 @@ $("#buscar-produto").click(function (e) {
               produtos < retorno_produtos.length;
               produtos++
             ) {
+
+              let recebeValorProdutoBR = retorno_produtos[produtos].valor_produto.toString();
+          
+              let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBR.replace(".",",");
+
               recebe_tabela_produtos.innerHTML +=
                 "<tr>" +
                 "<td>" +
@@ -730,7 +776,7 @@ $("#buscar-produto").click(function (e) {
                 retorno_produtos[produtos].estoque_produto +
                 "</td>" +
                 "<td>" +
-                retorno_produtos[produtos].valor_produto +
+                recebeValorProdutoBRFinal +
                 "</td>" +
                 "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
                 retorno_produtos[produtos].codigo_produto +
@@ -794,6 +840,10 @@ $("#buscar-produto").click(function (e) {
               produtos < retorno_produtos.length;
               produtos++
             ) {
+              let recebeValorProdutoBR = retorno_produtos[produtos].valor_produto.toString();
+          
+              let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBR.replace(".",",");
+
               recebe_tabela_produtos.innerHTML +=
                 "<tr>" +
                 "<td>" +
@@ -806,7 +856,7 @@ $("#buscar-produto").click(function (e) {
                 retorno_produtos[produtos].estoque_produto +
                 "</td>" +
                 "<td>" +
-                retorno_produtos[produtos].valor_produto +
+                recebeValorProdutoBRFinal +
                 "</td>" +
                 "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
                 retorno_produtos[produtos].codigo_produto +
@@ -869,6 +919,10 @@ $("#buscar-produto").click(function (e) {
             produtos < retorno_produtos.length;
             produtos++
           ) {
+            let recebeValorProdutoBR = retorno_produtos[produtos].valor_produto.toString();
+          
+            let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBR.replace(".",",");
+            
             recebe_tabela_produtos.innerHTML +=
               "<tr>" +
               "<td>" +
@@ -881,7 +935,7 @@ $("#buscar-produto").click(function (e) {
               retorno_produtos[produtos].estoque_produto +
               "</td>" +
               "<td>" +
-              retorno_produtos[produtos].valor_produto +
+              recebeValorProdutoBRFinal +
               "</td>" +
               "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
               retorno_produtos[produtos].codigo_produto +
