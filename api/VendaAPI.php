@@ -20,14 +20,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebeDescontoFV = $_POST["valor_descontofv"];
         $recebeValorFV = $_POST["valor_fv"];
         $recebeValorSelecionadoPV = $_POST["valor_selecionado_pv"];
-        $recebePagoV = $_POST["valor_pagov"];
         $recebePagamentoAV = $_POST["valor_pagamentoav"];
         $recebeDataPV = $_POST["valor_datapv"];
 
-        $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomePV,$recebeNomeCV,$recebeQuantidadePV,$recebeDescontoFV,
-        $recebeValorFV,$recebePagoV,$recebePagamentoAV,$recebeDataPV);
+        // $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomePV,$recebeNomeCV,$recebeQuantidadePV,$recebeDescontoFV,
+        // $recebeValorFV,$recebePagoV,$recebePagamentoAV,$recebeDataPV);
 
-        echo json_encode($resultadoCadastrarVenda);
+        echo json_encode($recebeNomePV);
     }
 }
 ?>

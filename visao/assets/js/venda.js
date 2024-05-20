@@ -147,7 +147,7 @@ $("#lista-produto").change(function (e) {
   });
 });
 
-let recebeValorDV = "";
+let recebeValorDV = 0;
 
 $("#lista-desconto-venda").change(function (e) {
   e.preventDefault();
@@ -194,12 +194,14 @@ $(document).on("focus", "#desconto-produto-venda", function (e) {
   });
 });
 
+let recebeDV = "";
+
 $("#desconto-produto-venda").change(function (e) {
   e.preventDefault();
 
   debugger;
 
-  let recebeDV = $(this).val();
+  recebeDV = $(this).val();
 
   if (recebeDV != "") {
     let recebeValorFV = $("#valor-final-venda").val();
@@ -288,18 +290,10 @@ $("#cadastro-venda").click(function (e) {
     recebePV = false;
   }
 
-  // let formulario_cadastro_venda = $("#formulario-cadastro-venda")[0];
-
-  // let dados_formulario_cadastro_venda = new FormData(formulario_cadastro_venda);
-
-  // dados_formulario_cadastro_venda.append("processo_venda","recebe_cadastro_venda");
-
   $.ajax({
     url: "../api/VendaAPI.php",
     type: "post",
     dataType: "json",
-    processData: false,
-    contentType: false,
     data: {
       valor_nomepv: recebeNomeProdutoGravar,
       valor_nomecv: recebeNomeCV,
@@ -310,7 +304,7 @@ $("#cadastro-venda").click(function (e) {
       valor_selecionado_pv: recebePV,
       valor_pagamentoav: recebeAPV,
       valor_datapv: recebeValorAGP,
-      processo_venda: recebe_cadastro_venda,
+      processo_venda: "recebe_cadastro_venda",
     },
     success: function (retorno) {
       debugger;
