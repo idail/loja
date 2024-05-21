@@ -9,12 +9,13 @@ class VendaControladora{
         $this->venda = new Venda();
     }
 
-    public function CadastrarVenda($recebeNomePV,$recebeNCV,$recebeQuantidadePV,$recebeDescontoFV,$recebeValorFV,
+    public function CadastrarVenda($recebeNomePV,$recebeNCV,$recebeQuantidadePV,$recebeDescontoV,$recebeDescontoFV,$recebeValorFV,
     $recebePagoV,$recebePagamentoAV,$recebeDataPV)
     {
         $this->venda->setNome_Produto_Venda($recebeNomePV);
         $this->venda->setNome_Cliente_Venda($recebeNCV);
         $this->venda->setQuantidade_Produtos_Venda($recebeQuantidadePV);
+        $this->venda->setDesconto_Venda($recebeDescontoV);
         $this->venda->setDesconto_Final_Venda($recebeDescontoFV);
         $this->venda->setValor_Final_Venda($recebeValorFV);
         $this->venda->setPago_Venda($recebePagoV);
@@ -23,7 +24,7 @@ class VendaControladora{
 
         $resultadoCadastrarVenda = $this->venda->CadastrarVenda();
 
-        $resultadoCadastrarVenda;
+        return $resultadoCadastrarVenda;
     }
 }
 ?>

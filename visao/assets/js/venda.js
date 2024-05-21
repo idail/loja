@@ -147,7 +147,7 @@ $("#lista-produto").change(function (e) {
   });
 });
 
-let recebeValorDV = 0;
+let recebeValorDescontoV = 0;
 
 $("#lista-desconto-venda").change(function (e) {
   e.preventDefault();
@@ -156,7 +156,9 @@ $("#lista-desconto-venda").change(function (e) {
 
   let recebeValorSDV = $(this).val();
 
-  recebeValorDV = recebeValorSDV;
+  recebeValorDescontoV = recebeValorSDV;
+
+
 
   if (recebeValorSDV === "sim") {
     $("#exibe-desconto-venda").show();
@@ -166,7 +168,7 @@ $("#lista-desconto-venda").change(function (e) {
   }
 });
 
-let recebeValorAP = "";
+let recebeValorAgendamentoPagamento = "";
 
 $("#lista-agendar-pagamento").change(function (e) {
   e.preventDefault();
@@ -175,7 +177,7 @@ $("#lista-agendar-pagamento").change(function (e) {
 
   let recebeValorAPV = $(this).val();
 
-  recebeValorAP = recebeValorAPV;
+  recebeValorAgendamentoPagamento = recebeValorAPV;
 
   if (recebeValorAPV === "sim") {
     $("#data-pagamento-agendado").show();
@@ -194,19 +196,19 @@ $(document).on("focus", "#desconto-produto-venda", function (e) {
   });
 });
 
-let recebeDV = "";
+let recebeValorNumericoDescontoVenda = "";
 
 $("#desconto-produto-venda").change(function (e) {
   e.preventDefault();
 
   debugger;
 
-  recebeDV = $(this).val();
+  let recebeValorDescontoVenda = $(this).val();
 
-  if (recebeDV != "") {
-    let recebeValorFV = $("#valor-final-venda").val();
+  if (recebeValorDescontoVenda != "") {
+    let recebeValorFinalV = $("#valor-final-venda").val();
 
-    let recebeVFProdutoCortado = recebeValorFV.split("R$");
+    let recebeVFProdutoCortado = recebeValorFinalV.split("R$");
 
     let recebeVProdutoNumerico = recebeVFProdutoCortado[1];
 
@@ -226,7 +228,7 @@ $("#desconto-produto-venda").change(function (e) {
 
 
 
-    let recebeVDescontoProdutoCortado = recebeDV.split("R$");
+    let recebeVDescontoProdutoCortado = recebeValorDescontoVenda.split("R$");
 
     let recebeVDescontoProdutoNumerico = recebeVDescontoProdutoCortado[1];
 
@@ -251,6 +253,8 @@ $("#desconto-produto-venda").change(function (e) {
     let recebeValorProdutoBRFinal = "R$" + recebeValorProdutoBRDesconto.replace(".", ",");
 
     $("#valor-final-venda").val(recebeValorProdutoBRFinal);
+
+    recebeValorNumericoDescontoVenda = valorDescontoFinalVP;
   }
 });
 
@@ -261,33 +265,52 @@ $("#cadastro-venda").click(function (e) {
 
   let recebeNomeCV = $("#lista-cliente").val();
   let recebeQTDPV = $("#quantidade-produto-venda").val();
-  let recebeValorFV = $("#valor-final-venda").val();
+  let recebeValorFinalV = $("#valor-final-venda").val();
 
-  let recebeValorAGP = "";
-  let recebeAPV = false;
-  let recebeDPV = false;
-  let recebePV = false;
+  let recebeValorFinalVCortado = recebeValorFinalV.split("R$");
 
-  if (recebeValorDV === "sim") {
-    recebeDPV = true;
+  let recebeVProdutoNumerico = recebeValorFinalVCortado[1];
+
+  let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, '.');
+
+  // Substituir o último ponto por um caractere temporário
+  let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, 'TEMP');
+
+  // Remover todos os outros pontos
+  tempStr = tempStr.replace(/\./g, '');
+
+  // Substituir o caractere temporário pelo ponto decimal
+  let decimalStr = tempStr.replace('TEMP', '.');
+
+  // Converter para número decimal
+  let recebeValorVendaFinal = parseFloat(decimalStr);
+
+
+  let recebeValorAgendaPagamentoV = "";
+  let recebeAgendamentoPagamentoV = false;
+  let recebeDescontoProdutoV = false;
+  let recebePagoV = false;
+
+  if (recebeValorDescontoV === "sim") {
+    recebeDescontoProdutoV = true;
   } else {
-    recebeDPV = false;
+    recebeDescontoProdutoV = false;
   }
 
-  if (recebeValorAP === "sim") {
-    recebeAPV = true;
-    recebeValorAGP = $("#data-agendamento-pagamento").val();
+  if (recebeValorAgendamentoPagamento === "sim") {
+    recebeAgendamentoPagamentoV = true;
+    recebeValorAgendaPagamentoV = $("#data-agendamento-pagamento").val();
   } else {
-    recebeAPV = false;
-    recebeValorAGP = "";
+    recebeAgendamentoPagamentoV = false;
+    recebeValorAgendaPagamentoV = "";
   }
 
   let recebeValorPV = $("#lista-pago-venda").val();
 
   if (recebeValorPV === "sim") {
-    recebePV = true;
+    recebePagoV = true;
   } else {
-    recebePV = false;
+    recebePagoV = false;
   }
 
   $.ajax({
@@ -295,15 +318,15 @@ $("#cadastro-venda").click(function (e) {
     type: "post",
     dataType: "json",
     data: {
-      valor_nomepv: recebeNomeProdutoGravar,
-      valor_nomecv: recebeNomeCV,
-      valor_quantidadepv: recebeQTDPV,
-      valor_selecionado_dv: recebeDPV,
-      valor_descontofv: recebeDV,
-      valor_fv: recebeValorFV,
-      valor_selecionado_pv: recebePV,
-      valor_pagamentoav: recebeAPV,
-      valor_datapv: recebeValorAGP,
+      valor_nomeprodutov: recebeNomeProdutoGravar,
+      valor_nomeclientev: recebeNomeCV,
+      valor_quantidadeprodutov: recebeQTDPV,
+      valor_selecionado_descontov: recebeDescontoProdutoV,
+      valor_descontoprodutov: recebeValorNumericoDescontoVenda,
+      valor_finalv: recebeValorVendaFinal,
+      valor_selecionado_pagov: recebePagoV,
+      valor_pagamentoagendadov: recebeAgendamentoPagamentoV,
+      valor_datapagamentov: recebeValorAgendaPagamentoV,
       processo_venda: "recebe_cadastro_venda",
     },
     success: function (retorno) {
@@ -311,7 +334,8 @@ $("#cadastro-venda").click(function (e) {
       console.log(retorno);
     },
     error: function (xhr, status, error) {
-
+      debugger;
+      console.log(error);
     },
   });
 });

@@ -1,5 +1,5 @@
 <?php
 interface VendaInterface{
-    public function CadastrarVenda():int;
+    public function CadastrarVenda();
 }
 ?>

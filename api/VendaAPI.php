@@ -13,20 +13,20 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
     if($recebeProcessoVenda === "recebe_cadastro_venda")
     {
-        $recebeNomePV = $_POST["valor_nomepv"];
-        $recebeNomeCV = $_POST["valor_nomecv"];
-        $recebeQuantidadePV = $_POST["valor_quantidadepv"];
-        $recebeValorSelecionadoDV = $_POST["valor_selecionado_dv"];
-        $recebeDescontoFV = $_POST["valor_descontofv"];
-        $recebeValorFV = $_POST["valor_fv"];
-        $recebeValorSelecionadoPV = $_POST["valor_selecionado_pv"];
-        $recebePagamentoAV = $_POST["valor_pagamentoav"];
-        $recebeDataPV = $_POST["valor_datapv"];
+        $recebeNomeProdutoV = $_POST["valor_nomeprodutov"];
+        $recebeNomeClienteV = $_POST["valor_nomeclientev"];
+        $recebeQuantidadeProdutoV = $_POST["valor_quantidadeprodutov"];
+        $recebeValorSelecionadoDescontoV = $_POST["valor_selecionado_descontov"];
+        $recebeDescontoValorV = $_POST["valor_descontoprodutov"];
+        $recebeValorV = $_POST["valor_finalv"];
+        $recebeValorSelecionadoPagoV = $_POST["valor_selecionado_pagov"];
+        $recebePagamentoAgendadoV = $_POST["valor_pagamentoagendadov"];
+        $recebeDataAgendamentoProdutoV = $_POST["valor_datapagamentov"];
 
-        // $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomePV,$recebeNomeCV,$recebeQuantidadePV,$recebeDescontoFV,
-        // $recebeValorFV,$recebePagoV,$recebePagamentoAV,$recebeDataPV);
+        $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeNomeClienteV,$recebeQuantidadeProdutoV,
+        $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,$recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV);
 
-        echo json_encode($recebeNomePV);
+        echo json_encode($resultadoCadastrarVenda);
     }
 }
 ?>
