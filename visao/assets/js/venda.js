@@ -9,6 +9,8 @@ $(document).ready(function () {
     $("#data-pagamento-agendado").hide();
     $("#recebe-mensagem-cadastro-realizado-venda").hide();
     $("#recebe-mensagem-campo-falha-cadastro-venda").hide();
+    $("#recebe-mensagem-quantidade-acima-venda").hide();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").hide();
     debugger;
 
     $.ajax({
@@ -110,6 +112,7 @@ $(document).ready(function () {
 let recebeNomeProdutoGravar = "";
 let recebeQTDEstoqueProduto = 0;
 let recebeValorProdutoEstoque = 0;
+let recebeValorSFP = "";
 $("#lista-produto").change(function (e) {
   e.preventDefault();
 
@@ -201,6 +204,22 @@ $(document).on("focus", "#desconto-produto-venda", function (e) {
   });
 });
 
+$("#quantidade-produto-venda").change(function (e) {
+  e.preventDefault();
+
+  debugger;
+
+  let recebeQTDInformadaV = $(this).val();
+
+  if (recebeQTDInformadaV > recebeQTDEstoqueProduto) {
+    $("#recebe-mensagem-quantidade-acima-venda").html(
+      "Quantidade de produtos informados para venda maior que quantidade em estoque"
+    );
+    $("#recebe-mensagem-quantidade-acima-venda").show();
+    $("#recebe-mensagem-quantidade-acima-venda").fadeOut(4000);
+  }
+});
+
 let recebeValorNumericoDescontoVenda = "";
 
 $("#desconto-produto-venda").change(function (e) {
@@ -271,27 +290,40 @@ $("#cadastro-venda").click(function (e) {
 
   debugger;
 
+  let recebeNomeProdutoSV = $("#lista-produto").val();
+
   let recebeNomeCV = $("#lista-cliente").val();
+
   let recebeQTDPV = $("#quantidade-produto-venda").val();
+
+  let recebeDescontoProdutoSV = $("#lista-desconto-venda").val();
+
+  let recebePagoSPV = $("#lista-pago-venda").val();
+
+  let recebeAgendarSPV = $("#lista-agendar-pagamento").val();
+
   let recebeValorFinalV = $("#valor-final-venda").val();
 
-  let recebeValorFinalVCortado = recebeValorFinalV.split("R$");
+  let recebeValorVendaFinal = 0;
+  if (recebeValorFinalV != "") {
+    let recebeValorFinalVCortado = recebeValorFinalV.split("R$");
 
-  let recebeVProdutoNumerico = recebeValorFinalVCortado[1];
+    let recebeVProdutoNumerico = recebeValorFinalVCortado[1];
 
-  let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, ".");
+    let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(/,/g, ".");
 
-  // Substituir o último ponto por um caractere temporário
-  let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, "TEMP");
+    // Substituir o último ponto por um caractere temporário
+    let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, "TEMP");
 
-  // Remover todos os outros pontos
-  tempStr = tempStr.replace(/\./g, "");
+    // Remover todos os outros pontos
+    tempStr = tempStr.replace(/\./g, "");
 
-  // Substituir o caractere temporário pelo ponto decimal
-  let decimalStr = tempStr.replace("TEMP", ".");
+    // Substituir o caractere temporário pelo ponto decimal
+    let decimalStr = tempStr.replace("TEMP", ".");
 
-  // Converter para número decimal
-  let recebeValorVendaFinal = parseFloat(decimalStr);
+    // Converter para número decimal
+    recebeValorVendaFinal = parseFloat(decimalStr);
+  }
 
   let recebeValorAgendaPagamentoV = "";
   let recebeAgendamentoPagamentoV = false;
@@ -320,45 +352,83 @@ $("#cadastro-venda").click(function (e) {
     recebePagoV = 0;
   }
 
-  $.ajax({
-    url: "../api/VendaAPI.php",
-    type: "post",
-    dataType: "json",
-    data: {
-      valor_nomeprodutov: recebeNomeProdutoGravar,
-      valor_nomeclientev: recebeNomeCV,
-      valor_quantidadeprodutov: recebeQTDPV,
-      valor_selecionado_descontov: recebeDescontoProdutoV,
-      valor_descontoprodutov: recebeValorNumericoDescontoVenda,
-      valor_finalv: recebeValorVendaFinal,
-      valor_selecionado_pagov: recebePagoV,
-      valor_pagamentoagendadov: recebeAgendamentoPagamentoV,
-      valor_datapagamentov: recebeValorAgendaPagamentoV,
-      processo_venda: "recebe_cadastro_venda",
-    },
-    success: function (retorno) {
-      debugger;
-      if (retorno > 0) {
-        $("#recebe-mensagem-cadastro-realizado-venda").html(
-          "Venda cadastrada com sucesso"
-        );
-        $("#recebe-mensagem-cadastro-realizado-venda").show();
-        $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
-      } else {
+  if (recebeNomeProdutoSV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o produto para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeNomeCV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o cliente para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeDescontoProdutoSV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o desconto para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeQTDPV === "") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor preencher a quantidade de produtos para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebePagoSPV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar se a venda foi paga ou não"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeAgendarSPV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar se haverá agendamento ou não"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else {
+    $.ajax({
+      url: "../api/VendaAPI.php",
+      type: "post",
+      dataType: "json",
+      data: {
+        valor_nomeprodutov: recebeNomeProdutoGravar,
+        valor_nomeclientev: recebeNomeCV,
+        valor_quantidadeprodutov: recebeQTDPV,
+        valor_selecionado_descontov: recebeDescontoProdutoV,
+        valor_descontoprodutov: recebeValorNumericoDescontoVenda,
+        valor_finalv: recebeValorVendaFinal,
+        valor_selecionado_pagov: recebePagoV,
+        valor_pagamentoagendadov: recebeAgendamentoPagamentoV,
+        valor_datapagamentov: recebeValorAgendaPagamentoV,
+        processo_venda: "recebe_cadastro_venda",
+      },
+      success: function (retorno) {
+        debugger;
+        if (retorno > 0) {
+          $("#recebe-mensagem-cadastro-realizado-venda").html(
+            "Venda cadastrada com sucesso"
+          );
+          $("#recebe-mensagem-cadastro-realizado-venda").show();
+          $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
+        } else {
+          $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+            "Falha ao cadastrar venda:" + retorno
+          );
+          $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+          $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+        }
+      },
+      error: function (xhr, status, error) {
+        debugger;
         $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-          "Falha ao cadastrar venda:" + retorno
+          "Falha ao cadastrar venda:" + error
         );
         $("#recebe-mensagem-campo-falha-cadastro-venda").show();
         $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-      }
-    },
-    error: function (xhr, status, error) {
-      debugger;
-      $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-        "Falha ao cadastrar venda:" + error
-      );
-      $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-      $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-    },
-  });
+      },
+    });
+  }
 });
