@@ -23,6 +23,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebePagamentoAgendadoV = $_POST["valor_pagamentoagendadov"];
         $recebeDataAgendamentoProdutoV = $_POST["valor_datapagamentov"];
 
+
         $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeNomeClienteV,$recebeQuantidadeProdutoV,
         $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,$recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV);
 
