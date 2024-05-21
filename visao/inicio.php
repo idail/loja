@@ -399,7 +399,7 @@ require("../api/VerificaSessao.php");
                 </a>
                 <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="tables-general.html">
+                        <a href="index.php?pagina=consulta_venda">
                             <i class="bi bi-circle"></i><span>Consultar Vendas</span>
                         </a>
                     </li>
@@ -540,6 +540,9 @@ require("../api/VerificaSessao.php");
                     }else if($_GET["pagina"] === "cadastro_venda")
                     {
                         require("vendas/cadastrar_vendas.php");
+                    }else if($_GET["pagina"] === "consulta_venda")
+                    {
+                        require("vendas/consulta_vendas.php");
                     }
                 } else {
                     require("menu_rapido/menu_rapido.php");
