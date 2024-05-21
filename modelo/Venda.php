@@ -125,11 +125,6 @@ class Venda implements VendaInterface{
             $comandoCadastrarVenda->bindValue(":recebe_nome_cliente_venda",$this->getNome_Cliente_Venda());
             $comandoCadastrarVenda->bindValue(":recebe_quantidade_produtos_venda",$this->getQuantidade_Produtos_Venda());
 
-            // if($this->getDesconto_Venda() === true)
-            //     $comandoCadastrarVenda->bindValue(":recebe_desconto_venda",1);
-            // else
-            //     $comandoCadastrarVenda->bindValue(":recebe_desconto_venda",0);
-
             $comandoCadastrarVenda->bindValue(":recebe_desconto_venda",$this->getDesconto_Venda());
             
             if(!empty($this->getDesconto_Final_Venda()))
@@ -139,15 +134,9 @@ class Venda implements VendaInterface{
 
             $comandoCadastrarVenda->bindValue(":recebe_valor_final_venda",$this->getValor_Final_Venda());
 
-            if($this->getPago_Venda() === true)
-                $comandoCadastrarVenda->bindValue(":recebe_pago_venda",1);
-            else
-            $comandoCadastrarVenda->bindValue(":recebe_pago_venda",0);
-
-            if($this->getPagamento_Agendado_Venda() === true)
-                $comandoCadastrarVenda->bindValue(":recebe_pagamento_agendado_venda",1);
-            else
-                $comandoCadastrarVenda->bindValue(":recebe_pagamento_agendado_venda",0);
+            $comandoCadastrarVenda->bindValue(":recebe_pago_venda",$this->getPago_Venda());
+            
+            $comandoCadastrarVenda->bindValue(":recebe_pagamento_agendado_venda",$this->getPagamento_Agendado_Venda());
 
             if(!empty($this->getData_Pagamento_Venda()))
                 $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",$this->getData_Pagamento_Venda());

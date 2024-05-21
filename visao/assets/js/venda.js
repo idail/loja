@@ -305,19 +305,19 @@ $("#cadastro-venda").click(function (e) {
   }
 
   if (recebeValorAgendamentoPagamento === "sim") {
-    recebeAgendamentoPagamentoV = true;
+    recebeAgendamentoPagamentoV = 1;
     recebeValorAgendaPagamentoV = $("#data-agendamento-pagamento").val();
   } else {
-    recebeAgendamentoPagamentoV = false;
+    recebeAgendamentoPagamentoV = 0;
     recebeValorAgendaPagamentoV = "";
   }
 
   let recebeValorPV = $("#lista-pago-venda").val();
 
   if (recebeValorPV === "sim") {
-    recebePagoV = true;
+    recebePagoV = 1;
   } else {
-    recebePagoV = false;
+    recebePagoV = 0;
   }
 
   $.ajax({
