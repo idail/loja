@@ -441,6 +441,8 @@ $("#cadastro-venda").click(function (e) {
   }
 });
 
+let listaImagensProdutos = Array();
+
 function listarVendas(recebeFiltroV,recebeValorFiltroV)
 {
   debugger;
@@ -477,6 +479,8 @@ function listarVendas(recebeFiltroV,recebeValorFiltroV)
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+
+          listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
 
           let recebeValorVendaBR = retorno_vendas[vendas].valor_final_venda.toString();
           
@@ -557,15 +561,13 @@ function listarVendas(recebeFiltroV,recebeValorFiltroV)
             "<td>" +
             recebeValorAgendamentoV + " - " + recebeDataBRAgendamentoV +
             "</td>" +
-            // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
-            // retorno_vendas[vendas].codigo_produto +
+            "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick='')'></i></a></td>" +
+            // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_venda(" +
+            // retorno_vendas[vendas].nome_produto_venda +
             // ",event)'></a></i></td>" +
-            // "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
-            // retorno_vendas[vendas].codigo_produto +
-            // ",event)'></i></a></td>" +
-            // "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
-            // retorno_vendas[vendas].codigo_produto +
-            // ",event)></i></a></td>" +
+            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
+            retorno_vendas[vendas].codigo_venda +
+            ",event)></i></a></td>" +
             "</tr>";
         }
         $("#registros-vendas").append(recebe_tabela_vendas);
@@ -579,6 +581,24 @@ function listarVendas(recebeFiltroV,recebeValorFiltroV)
     error: function (xhr, status, error) { },
   });
 }
+
+$(document).on("click","#carrega-imagens-venda",function(e){
+  e.preventDefault();
+
+  debugger;
+
+  console.log(listaImagensProdutos);
+});
+
+function carrega_imagens_venda(recebe_produto,e)
+{
+  e.preventDefault();
+
+  debugger;
+
+  console.log(recebe_produto);
+
+};
 
 $("#filtro-venda").click(function(e){
   e.preventDefault();

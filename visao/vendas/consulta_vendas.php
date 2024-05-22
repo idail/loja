@@ -40,14 +40,14 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Produto</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">Quantidade Produtos</th>
+                    <th scope="col" class="col-2">Produto</th>
+                    <th scope="col" class="col-3">Cliente</th>
+                    <th scope="col">Quantidade</th>
                     <th scope="col">Desconto/Valor</th>
                     <th scope="col">Valor Final</th>
                     <th scope="col">Pago Venda</th>
                     <th scope="col">Pagamento Agendado/Data Agendamento</th>
-                    <th scope="col" colspan="2">Opções</th>
+                    <th scope="col" colspan="3">Opções</th>
                 </tr>
             </thead>
             <tbody id="registros-vendas">
