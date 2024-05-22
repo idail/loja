@@ -26,5 +26,15 @@ class VendaControladora{
 
         return $resultadoCadastrarVenda;
     }
+
+    public function BuscarVendas($recebeFiltroV,$recebeValorFiltroV)
+    {
+        $this->venda->setFiltro_Venda($recebeFiltroV);
+        $this->venda->setValor_Filtro_Venda($recebeValorFiltroV);
+
+        $resultadoBuscarVendas = $this->venda->BuscarVendas();
+
+        return $resultadoBuscarVendas;
+    }
 }
 ?>

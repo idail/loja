@@ -29,5 +29,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
         echo json_encode($resultadoCadastrarVenda);
     }
+}else if($_SERVER["REQUEST_METHOD"] === "GET")
+{
+    $recebeProcessoVenda = $_GET["processo_venda"];
+
+    if($recebeProcessoVenda === "recebe_consultar_vendas")
+    {
+        $recebeFiltroV = $_GET["filtro_venda"];
+        $recebeValorFiltroV = $_GET["valor_filtro_venda"];
+
+        $resultadoBuscarVendas = $vendaControladora->BuscarVendas($recebeFiltroV,$recebeValorFiltroV);
+
+        echo json_encode($resultadoBuscarVendas);
+    }
 }
 ?>

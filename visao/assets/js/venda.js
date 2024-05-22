@@ -11,6 +11,7 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-cadastro-venda").hide();
     $("#recebe-mensagem-quantidade-acima-venda").hide();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").hide();
+    $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     debugger;
 
     $.ajax({
@@ -106,6 +107,13 @@ $(document).ready(function () {
         $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
       },
     });
+  }else if(url_venda === "http://localhost/loja/visao/index.php?pagina=consulta_venda"){
+    $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
+    $("#recebe-mensagem-campo-falha-buscar-venda").hide();
+    $("#recebe-mensagem-exclusao-realizada-venda").hide();
+    $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
+
+    listarVendas("todos_venda","todos_venda");
   }
 });
 
@@ -430,5 +438,157 @@ $("#cadastro-venda").click(function (e) {
         $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
       },
     });
+  }
+});
+
+function listarVendas(recebeFiltroV,recebeValorFiltroV)
+{
+  debugger;
+
+  $.ajax({
+    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+    url: "../api/VendaAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_venda: "recebe_consultar_vendas",
+      filtro_venda: recebeFiltroV,
+      valor_filtro_venda: recebeValorFiltroV,
+    },
+    beforeSend: function () {
+      debugger;
+      $("#registros-vendas").html("");
+      $("#registros-vendas").append(
+        "<td colspan='5' class='text-center'>Carregando dados</td>"
+      );
+      $("#registros-vendas").html("");
+    },
+    success: function (retorno_vendas) {
+      debugger;
+      if (retorno_vendas.length > 0) {
+        let recebe_tabela_vendas = document.querySelector(
+          "#registros-vendas"
+        );
+
+        let recebe_quantidade_vendas = retorno_vendas.length;
+
+        $("#exibi-quantidade-vendas").html(
+          "Quantidade de vendas:" + recebe_quantidade_vendas
+        );
+
+        for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+
+          let recebeValorVendaBR = retorno_vendas[vendas].valor_final_venda.toString();
+          
+          let recebeValorVendaBRFinal = "R$" + recebeValorVendaBR.replace(".",",");
+
+          let recebeValorDescontoV = retorno_vendas[vendas].desconto_venda;
+
+          let recebePagoV = retorno_vendas[vendas].pago_venda;
+
+          let recebeAgendamentoV = retorno_vendas[vendas].pagamento_agendado_venda;
+
+          
+
+          let recebeValorDescontoVString = "";
+          let recebeValorDescontoBRFinal = "";
+          
+          if(retorno_vendas[vendas].desconto_final_venda != null)
+          {
+            recebeValorDescontoVString = retorno_vendas[vendas].desconto_final_venda.toString();
+            recebeValorDescontoBRFinal =  "R$" + recebeValorDescontoVString.replace(".",",");
+          }else{
+            recebeValorDescontoBRFinal = "Não informado";
+          }
+
+          let recebeValorFinalDescontoV = "";
+
+          if(recebeValorDescontoV === 1)
+            recebeValorFinalDescontoV = "Sim";
+          else
+            recebeValorFinalDescontoV = "Não";
+
+          let recebeValorPagoV = "";
+
+          if(recebePagoV === 1)
+            recebeValorPagoV = "Sim";
+          else
+            recebeValorPagoV = "Não";
+
+          let recebeValorAgendamentoV = "";
+
+          if(recebeAgendamentoV === 1)
+            recebeValorAgendamentoV = "Sim";
+          else
+            recebeValorAgendamentoV = "Não";
+          
+          let recebeDataAgendamentoV = "";
+          let recebeDataAmericana = "";
+          let recebeDataBRAgendamentoV = "";
+          
+          if(retorno_vendas[vendas].data_pagamento_venda != null)
+          {
+            recebeDataAgendamentoV = retorno_vendas[vendas].data_pagamento_venda;
+            recebeDataBRAgendamentoV = recebeDataAgendamentoV.split("-").reverse().join("/");
+          }else{
+            recebeDataBRAgendamentoV = "Não informado";
+          }
+
+          recebe_tabela_vendas.innerHTML +=
+            "<tr>" +
+            "<td>" +
+            retorno_vendas[vendas].nome_produto_venda +
+            "</td>" +
+            "<td>" +
+            retorno_vendas[vendas].nome_cliente_venda +
+            "</td>" +
+            "<td>" +
+            retorno_vendas[vendas].quantidade_produtos_venda +
+            "</td>" +
+            "<td>" +
+            recebeValorFinalDescontoV + " - " + recebeValorDescontoBRFinal+
+            "</td>" +
+            "<td>" +
+            recebeValorVendaBRFinal +
+            "</td>" +
+            "<td>" +
+            recebeValorPagoV +
+            "</td>" +
+            "<td>" +
+            recebeValorAgendamentoV + " - " + recebeDataBRAgendamentoV +
+            "</td>" +
+            // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_produto(" +
+            // retorno_vendas[vendas].codigo_produto +
+            // ",event)'></a></i></td>" +
+            // "<td><a href='#'><i class='bi bi-card-list fs-4' title='Alterar Produto' data-bs-toggle='modal' data-bs-target='#alteraracao-produto' data-backdrop='static' onclick='carrega_dados_produto_alteracao(" +
+            // retorno_vendas[vendas].codigo_produto +
+            // ",event)'></i></a></td>" +
+            // "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Produto' onclick=excluiProdutoEspecifico(" +
+            // retorno_vendas[vendas].codigo_produto +
+            // ",event)></i></a></td>" +
+            "</tr>";
+        }
+        $("#registros-vendas").append(recebe_tabela_vendas);
+      } else {
+        $("#exibi-quantidade-vendas").html("Quantidade de vendas:" + 0);
+        $("#registros-vendas").append(
+          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+        );
+      }
+    },
+    error: function (xhr, status, error) { },
+  });
+}
+
+$("#filtro-venda").click(function(e){
+  e.preventDefault();
+
+  debugger;
+
+  let recebeFiltroSelecionadoV = $(this).val();
+
+  if(recebeFiltroSelecionadoV === "lista_produto_venda")
+  {
+    
   }
 });
