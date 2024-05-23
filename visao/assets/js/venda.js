@@ -112,8 +112,54 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
     $("#recebe-mensagem-exclusao-realizada-venda").hide();
     $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
+    $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
+    $("#recebe-mensagem-campo-vazio-busca-venda").hide();
+    $("#titulo-filtro").hide();
+    $("#lista-filtro-venda").hide();
+    $("#valor-filtro-venda").hide();
+    $("#buscar-venda").hide();
+    $("#listagem-vendas").hide();
+    //listarVendas("todos_venda","todos_venda");
 
-    listarVendas("todos_venda","todos_venda");
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/ClienteAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_cliente: "recebe_consultar_clientes",
+        filtro_cliente: "todos",
+        valor_filtro_cliente: "todos",
+      },
+      success: function (retorno_clientes) {
+        debugger;
+        if (retorno_clientes.length > 0) 
+        {
+          $("#lista-cliente-venda").html("");
+          $("#lista-cliente-venda").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+          $.each(retorno_clientes, function (i, element) {
+            $("#lista-cliente-venda").append(
+              "<option value=" +
+              element.nome_cliente.toLowerCase() +
+              ">" +
+              element.nome_cliente +
+              "</option>"
+            );
+          });
+        }else{
+          $("#lista-cliente-venda").html("");
+          $("#lista-cliente-venda").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+        }
+      },
+      error:function(xhr,status,error)
+      {
+
+      },
+    });
   }
 });
 
@@ -441,7 +487,35 @@ $("#cadastro-venda").click(function (e) {
   }
 });
 
+$("#lista-cliente-venda").change(function(e){
+  e.preventDefault();
+
+  debugger;
+
+  let recebeNomeSelecionadoCliente = $(this).val();
+
+  if(recebeNomeSelecionadoCliente === "selecione")
+  {
+    $("#recebe-mensagem-campo-vazio-busca-venda").html("Favor selecione o cliente que deseja ver as vendas");
+    $("#recebe-mensagem-campo-vazio-busca-venda").show();
+    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
+    $("#titulo-filtro").hide();
+    $("#lista-filtro-venda").hide();
+    $("#valor-filtro-venda").hide();
+    $("#buscar-venda").hide();
+    $("#listagem-vendas").hide();
+  }else{
+    $("#titulo-filtro").show();
+    $("#lista-filtro-venda").show();
+    $("#valor-filtro-venda").show();
+    $("#buscar-venda").show();
+    $("#listagem-vendas").show();
+  }
+});
+
+
 let listaImagensProdutos = Array();
+let listaNomeClientes = Array();
 
 function listarVendas(recebeFiltroV,recebeValorFiltroV)
 {
@@ -479,6 +553,13 @@ function listarVendas(recebeFiltroV,recebeValorFiltroV)
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+
+          if(listaNomeClientes.includes(retorno_vendas[vendas].nome_cliente_venda))
+          {
+            console.log("nome ja consta no array");
+          }else{
+            listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
+          }
 
           listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
 
