@@ -4,9 +4,11 @@ $(document).ready(function () {
   if (
     url_venda === "http://localhost/loja/visao/index.php?pagina=cadastro_venda"
   ) {
-
-    let recebeTabelaCadastrarVendas = document.querySelector("#listagem-produtos-venda");
-    recebeTabelaCadastrarVendas.innerHTML += "<tr><td colspan='7' style='text-align:center;'>Nenhum registro adicionado</td></tr>";
+    let recebeTabelaCadastrarVendas = document.querySelector(
+      "#listagem-produtos-venda"
+    );
+    recebeTabelaCadastrarVendas.innerHTML +=
+      "<tr><td colspan='7' style='text-align:center;'>Nenhum registro adicionado</td></tr>";
     $("#listagem-produtos-venda").append(recebeTabelaCadastrarVendas);
 
     $("#exibe-informacao-qtd-produtos-estoque").hide();
@@ -47,10 +49,10 @@ $(document).ready(function () {
           $.each(retorno_produtos, function (i, element) {
             $("#lista-produto").append(
               "<option value=" +
-              element.codigo_produto +
-              ">" +
-              element.nome_produto +
-              "</option>"
+                element.codigo_produto +
+                ">" +
+                element.nome_produto +
+                "</option>"
             );
           });
         } else {
@@ -60,7 +62,7 @@ $(document).ready(function () {
           );
         }
       },
-      error: function (xhr, status, error) { },
+      error: function (xhr, status, error) {},
     });
 
     $.ajax({
@@ -91,10 +93,10 @@ $(document).ready(function () {
           $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente").append(
               "<option value=" +
-              element.nome_cliente.toLowerCase() +
-              ">" +
-              element.nome_cliente +
-              "</option>"
+                element.nome_cliente.toLowerCase() +
+                ">" +
+                element.nome_cliente +
+                "</option>"
             );
           });
         } else {
@@ -112,8 +114,9 @@ $(document).ready(function () {
         $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
       },
     });
-  } else if (url_venda === "http://localhost/loja/visao/index.php?pagina=consulta_venda") {
-
+  } else if (
+    url_venda === "http://localhost/loja/visao/index.php?pagina=consulta_venda"
+  ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
     $("#recebe-mensagem-exclusao-realizada-venda").hide();
@@ -143,10 +146,10 @@ $(document).ready(function () {
           $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente-venda").append(
               "<option value=" +
-              element.nome_cliente.toLowerCase() +
-              ">" +
-              element.nome_cliente +
-              "</option>"
+                element.nome_cliente.toLowerCase() +
+                ">" +
+                element.nome_cliente +
+                "</option>"
             );
           });
         } else {
@@ -156,9 +159,7 @@ $(document).ready(function () {
           );
         }
       },
-      error: function (xhr, status, error) {
-
-      },
+      error: function (xhr, status, error) {},
     });
   }
 });
@@ -276,6 +277,8 @@ $("#quantidade-produto-venda").change(function (e) {
 
 let recebeValorNumericoDescontoVenda = "";
 
+//let recebeValorStringDescontoVenda = "";
+
 $("#desconto-produto-venda").change(function (e) {
   e.preventDefault();
 
@@ -339,7 +342,8 @@ $("#desconto-produto-venda").change(function (e) {
   }
 });
 
-$("#adicionar-item-venda").click(function(e){
+$("#adicionar-item-venda").click(function (e) {
+  debugger;
   e.preventDefault();
 
   let recebeNomeProdutoSV = $("#lista-produto").val();
@@ -355,6 +359,193 @@ $("#adicionar-item-venda").click(function(e){
   let recebePagoSPV = $("#lista-pago-venda").val();
 
   let recebeAgendarSPV = $("#lista-agendar-pagamento").val();
+
+  let recebeDataPagamentoAgendadoSV = $("#data-agendamento-pagamento").val();
+
+  let recebeDataPagamentoAgendadoBR = recebeDataPagamentoAgendadoSV.split("-")
+  .reverse()
+  .join("/");
+
+  let primeiraLinha = $('#tabela-listagem-venda tbody tr').first();
+
+  if(primeiraLinha.find('td').eq(0).text() === "Nenhum registro adicionado")
+    $("#listagem-produtos-venda").html("");
+
+  if (recebeNomeProdutoSV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o produto para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeNomeSCV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o cliente para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeQTDPV === "") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor preencher a quantidade de produtos para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeDescontoProdutoSV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar o desconto para venda"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebePagoSPV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar se a venda foi paga ou não"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else if (recebeAgendarSPV === "selecione") {
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
+      "Favor selecionar se haverá agendamento ou não"
+    );
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
+    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
+  } else {
+    let recebeDescontoFinalVenda = "";
+    let recebeValorDescontoProdutoBRFinal = "";
+    if (
+      $("#desconto-produto-venda").val() != "" &&
+      recebeDescontoProdutoSV === "sim"
+    ) {
+      recebeDescontoFinalVenda = $("#valor-final-venda").val();
+
+      let recebeVFProdutoCortado = recebeDescontoFinalVenda.split("R$");
+
+      let recebeVProdutoNumerico = recebeVFProdutoCortado[1];
+
+      let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(
+        /,/g,
+        "."
+      );
+
+      // Substituir o último ponto por um caractere temporário
+      let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, "TEMP");
+
+      // Remover todos os outros pontos
+      tempStr = tempStr.replace(/\./g, "");
+
+      // Substituir o caractere temporário pelo ponto decimal
+      let decimalStr = tempStr.replace("TEMP", ".");
+
+      // Converter para número decimal
+      let valorFinalVP = parseFloat(decimalStr);
+
+
+
+      let recebeVDescontoProdutoCortado = "";
+      recebeVDescontoProdutoCortado = $("#desconto-produto-venda").val().split("R$");
+
+      let recebeVDescontoProdutoNumerico = recebeVDescontoProdutoCortado[1];
+
+      let recebeVDescontoProdutoFinalNumerico =
+        recebeVDescontoProdutoNumerico.replace(/,/g, ".");
+
+      // Substituir o último ponto por um caractere temporário
+      let tempDescontoStr = recebeVDescontoProdutoFinalNumerico.replace(
+        /\.(?=[^.]*$)/,
+        "TEMP"
+      );
+
+      // Remover todos os outros pontos
+      tempDescontoStr = tempDescontoStr.replace(/\./g, "");
+
+      // Substituir o caractere temporário pelo ponto decimal
+      let decimalDescontoStr = tempDescontoStr.replace("TEMP", ".");
+
+      // Converter para número decimal
+      let valorDescontoFinalVP = parseFloat(decimalDescontoStr);
+
+      let recebeValorFPDesconto = valorFinalVP - valorDescontoFinalVP;
+
+      let recebeValorProdutoBRDesconto = recebeValorFPDesconto.toString();
+
+      recebeValorDescontoProdutoBRFinal =
+        "R$" + recebeValorProdutoBRDesconto.replace(".", ",");
+    }
+
+    let recebeValorDescontoVendaFinal = "";
+    let recebeValorBooleanoDescontoVendaFinal = "";
+    if (
+      $("#desconto-produto-venda").val() != "" &&
+      recebeDescontoProdutoSV === "sim"
+    ) {
+      recebeValorDescontoVendaFinal = $("#desconto-produto-venda").val();
+      recebeValorBooleanoDescontoVendaFinal = "Sim";
+    } else {
+      recebeValorDescontoVendaFinal = "Não Informado";
+      recebeValorBooleanoDescontoVendaFinal = "Não";
+    }
+
+    let recebePagoVendaBooleanoFinal = "";
+    if (recebePagoSPV === "sim") {
+      recebePagoVendaBooleanoFinal = "Sim";
+    } else {
+      recebePagoVendaBooleanoFinal = "Não";
+    }
+
+    let recebeAgendarPagamentoBooleanoFinal = "";
+    if(recebeAgendarSPV === "sim"){
+      recebeAgendarPagamentoBooleanoFinal = "Sim";
+    }else{
+      recebeAgendarPagamentoBooleanoFinal = "Não Informado";
+    }
+
+    let recebeTabelaCadastrarVendas = document.querySelector(
+      "#listagem-produtos-venda"
+    );
+
+    let linha = $("<tr></tr>");
+    let colunaNomeProdutoSV = $("<td></td>").text(recebeNomeProdutoGravar);
+    let colunaNomeClienteSV = $("<td></td>").text(recebeNomeSCV);
+    let colunaQuantidadeProdutosV = $("<td></td>").text(recebeQTDPV);
+    let colunaDescontoVendaValorDescontoVenda = $("<td></td>").text(recebeValorBooleanoDescontoVendaFinal + " -" + recebeValorDescontoVendaFinal);
+    let colunaValorFinalVenda = $("<td></td>").text(recebeValorFinalV);
+    let colunaPagoVenda = $("<td></td>").text(recebePagoVendaBooleanoFinal);
+    let colunaAgendadoPagamentoDataPagamentoVenda = $("<td></td>").text(recebeAgendarPagamentoBooleanoFinal + " - " + recebeDataPagamentoAgendadoBR);
+
+    linha.append(colunaNomeProdutoSV);
+    linha.append(colunaNomeClienteSV);
+    linha.append(colunaQuantidadeProdutosV);
+    linha.append(colunaDescontoVendaValorDescontoVenda);
+    linha.append(colunaValorFinalVenda);
+    linha.append(colunaPagoVenda);
+    linha.append(colunaAgendadoPagamentoDataPagamentoVenda);
+    
+
+    // recebeTabelaCadastrarVendas.innerHTML =
+    //   "<tr>" +
+    //   "<td>" +
+    //   recebeNomeProdutoGravar +
+    //   "</td>" +
+    //   "<td>" +
+    //   recebeNomeSCV +
+    //   "</td>" +
+    //   "<td>" +
+    //   recebeQTDPV +
+    //   "</td>" +
+    //   "<td>" +
+    //   recebeValorBooleanoDescontoVendaFinal +
+    //   " - " +
+    //   recebeValorDescontoVendaFinal +
+    //   "</td>" +
+    //   "<td>" +
+    //   recebeValorFinalV +
+    //   "</td>" +
+    //   "<td>" +
+    //   recebePagoVendaBooleanoFinal +
+    //   "</td>" +
+    //   "<td>" + recebeAgendarPagamentoBooleanoFinal + " - " + recebeDataPagamentoAgendadoSV + "</td>" +
+    //   "</tr>";
+
+    $("#listagem-produtos-venda").append(linha);
+  }
 });
 
 $("#cadastro-venda").click(function (e) {
@@ -424,85 +615,47 @@ $("#cadastro-venda").click(function (e) {
     recebePagoV = 0;
   }
 
-  if (recebeNomeProdutoSV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar o produto para venda"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeNomeCV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar o cliente para venda"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeDescontoProdutoSV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar o desconto para venda"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeQTDPV === "") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor preencher a quantidade de produtos para venda"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebePagoSPV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar se a venda foi paga ou não"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeAgendarSPV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar se haverá agendamento ou não"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else {
-    $.ajax({
-      url: "../api/VendaAPI.php",
-      type: "post",
-      dataType: "json",
-      data: {
-        valor_nomeprodutov: recebeNomeProdutoGravar,
-        valor_nomeclientev: recebeNomeCV,
-        valor_quantidadeprodutov: recebeQTDPV,
-        valor_selecionado_descontov: recebeDescontoProdutoV,
-        valor_descontoprodutov: recebeValorNumericoDescontoVenda,
-        valor_finalv: recebeValorVendaFinal,
-        valor_selecionado_pagov: recebePagoV,
-        valor_pagamentoagendadov: recebeAgendamentoPagamentoV,
-        valor_datapagamentov: recebeValorAgendaPagamentoV,
-        processo_venda: "recebe_cadastro_venda",
-      },
-      success: function (retorno) {
-        debugger;
-        if (retorno > 0) {
-          $("#recebe-mensagem-cadastro-realizado-venda").html(
-            "Venda cadastrada com sucesso"
-          );
-          $("#recebe-mensagem-cadastro-realizado-venda").show();
-          $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
-        } else {
-          $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-            "Falha ao cadastrar venda:" + retorno
-          );
-          $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-          $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-        }
-      },
-      error: function (xhr, status, error) {
-        debugger;
+  $.ajax({
+    url: "../api/VendaAPI.php",
+    type: "post",
+    dataType: "json",
+    data: {
+      valor_nomeprodutov: recebeNomeProdutoGravar,
+      valor_nomeclientev: recebeNomeCV,
+      valor_quantidadeprodutov: recebeQTDPV,
+      valor_selecionado_descontov: recebeDescontoProdutoV,
+      valor_descontoprodutov: recebeValorNumericoDescontoVenda,
+      valor_finalv: recebeValorVendaFinal,
+      valor_selecionado_pagov: recebePagoV,
+      valor_pagamentoagendadov: recebeAgendamentoPagamentoV,
+      valor_datapagamentov: recebeValorAgendaPagamentoV,
+      processo_venda: "recebe_cadastro_venda",
+    },
+    success: function (retorno) {
+      debugger;
+      if (retorno > 0) {
+        $("#recebe-mensagem-cadastro-realizado-venda").html(
+          "Venda cadastrada com sucesso"
+        );
+        $("#recebe-mensagem-cadastro-realizado-venda").show();
+        $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
+      } else {
         $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-          "Falha ao cadastrar venda:" + error
+          "Falha ao cadastrar venda:" + retorno
         );
         $("#recebe-mensagem-campo-falha-cadastro-venda").show();
         $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-      },
-    });
-  }
+      }
+    },
+    error: function (xhr, status, error) {
+      debugger;
+      $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+        "Falha ao cadastrar venda:" + error
+      );
+      $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+      $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+    },
+  });
 });
 
 $("#lista-cliente-venda").change(function (e) {
@@ -513,7 +666,9 @@ $("#lista-cliente-venda").change(function (e) {
   let recebeNomeSelecionadoCliente = $(this).val();
 
   if (recebeNomeSelecionadoCliente === "selecione") {
-    $("#recebe-mensagem-campo-vazio-busca-venda").html("Favor selecione o cliente que deseja ver as vendas");
+    $("#recebe-mensagem-campo-vazio-busca-venda").html(
+      "Favor selecione o cliente que deseja ver as vendas"
+    );
     $("#recebe-mensagem-campo-vazio-busca-venda").show();
     $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
     $("#titulo-filtro").hide();
@@ -529,7 +684,6 @@ $("#lista-cliente-venda").change(function (e) {
     $("#listagem-vendas").show();
   }
 });
-
 
 let listaImagensProdutos = Array();
 let listaNomeClientes = Array();
@@ -558,9 +712,7 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
     success: function (retorno_vendas) {
       debugger;
       if (retorno_vendas.length > 0) {
-        let recebe_tabela_vendas = document.querySelector(
-          "#registros-vendas"
-        );
+        let recebe_tabela_vendas = document.querySelector("#registros-vendas");
 
         let recebe_quantidade_vendas = retorno_vendas.length;
 
@@ -569,8 +721,11 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-
-          if (listaNomeClientes.includes(retorno_vendas[vendas].nome_cliente_venda)) {
+          if (
+            listaNomeClientes.includes(
+              retorno_vendas[vendas].nome_cliente_venda
+            )
+          ) {
             console.log("nome ja consta no array");
           } else {
             listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
@@ -578,56 +733,57 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
 
           listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
 
-          let recebeValorVendaBR = retorno_vendas[vendas].valor_final_venda.toString();
+          let recebeValorVendaBR =
+            retorno_vendas[vendas].valor_final_venda.toString();
 
-          let recebeValorVendaBRFinal = "R$" + recebeValorVendaBR.replace(".", ",");
+          let recebeValorVendaBRFinal =
+            "R$" + recebeValorVendaBR.replace(".", ",");
 
           let recebeValorDescontoV = retorno_vendas[vendas].desconto_venda;
 
           let recebePagoV = retorno_vendas[vendas].pago_venda;
 
-          let recebeAgendamentoV = retorno_vendas[vendas].pagamento_agendado_venda;
-
-
+          let recebeAgendamentoV =
+            retorno_vendas[vendas].pagamento_agendado_venda;
 
           let recebeValorDescontoVString = "";
           let recebeValorDescontoBRFinal = "";
 
           if (retorno_vendas[vendas].desconto_final_venda != null) {
-            recebeValorDescontoVString = retorno_vendas[vendas].desconto_final_venda.toString();
-            recebeValorDescontoBRFinal = "R$" + recebeValorDescontoVString.replace(".", ",");
+            recebeValorDescontoVString =
+              retorno_vendas[vendas].desconto_final_venda.toString();
+            recebeValorDescontoBRFinal =
+              "R$" + recebeValorDescontoVString.replace(".", ",");
           } else {
             recebeValorDescontoBRFinal = "Não informado";
           }
 
           let recebeValorFinalDescontoV = "";
 
-          if (recebeValorDescontoV === 1)
-            recebeValorFinalDescontoV = "Sim";
-          else
-            recebeValorFinalDescontoV = "Não";
+          if (recebeValorDescontoV === 1) recebeValorFinalDescontoV = "Sim";
+          else recebeValorFinalDescontoV = "Não";
 
           let recebeValorPagoV = "";
 
-          if (recebePagoV === 1)
-            recebeValorPagoV = "Sim";
-          else
-            recebeValorPagoV = "Não";
+          if (recebePagoV === 1) recebeValorPagoV = "Sim";
+          else recebeValorPagoV = "Não";
 
           let recebeValorAgendamentoV = "";
 
-          if (recebeAgendamentoV === 1)
-            recebeValorAgendamentoV = "Sim";
-          else
-            recebeValorAgendamentoV = "Não";
+          if (recebeAgendamentoV === 1) recebeValorAgendamentoV = "Sim";
+          else recebeValorAgendamentoV = "Não";
 
           let recebeDataAgendamentoV = "";
           let recebeDataAmericana = "";
           let recebeDataBRAgendamentoV = "";
 
           if (retorno_vendas[vendas].data_pagamento_venda != null) {
-            recebeDataAgendamentoV = retorno_vendas[vendas].data_pagamento_venda;
-            recebeDataBRAgendamentoV = recebeDataAgendamentoV.split("-").reverse().join("/");
+            recebeDataAgendamentoV =
+              retorno_vendas[vendas].data_pagamento_venda;
+            recebeDataBRAgendamentoV = recebeDataAgendamentoV
+              .split("-")
+              .reverse()
+              .join("/");
           } else {
             recebeDataBRAgendamentoV = "Não informado";
           }
@@ -644,7 +800,9 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
             retorno_vendas[vendas].quantidade_produtos_venda +
             "</td>" +
             "<td>" +
-            recebeValorFinalDescontoV + " - " + recebeValorDescontoBRFinal +
+            recebeValorFinalDescontoV +
+            " - " +
+            recebeValorDescontoBRFinal +
             "</td>" +
             "<td>" +
             recebeValorVendaBRFinal +
@@ -653,7 +811,9 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
             recebeValorPagoV +
             "</td>" +
             "<td>" +
-            recebeValorAgendamentoV + " - " + recebeDataBRAgendamentoV +
+            recebeValorAgendamentoV +
+            " - " +
+            recebeDataBRAgendamentoV +
             "</td>" +
             "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick='')'></i></a></td>" +
             // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_venda(" +
@@ -672,7 +832,7 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         );
       }
     },
-    error: function (xhr, status, error) { },
+    error: function (xhr, status, error) {},
   });
 }
 
@@ -690,8 +850,7 @@ function carrega_imagens_venda(recebe_produto, e) {
   debugger;
 
   console.log(recebe_produto);
-
-};
+}
 
 $("#filtro-venda").click(function (e) {
   e.preventDefault();
@@ -701,6 +860,5 @@ $("#filtro-venda").click(function (e) {
   let recebeFiltroSelecionadoV = $(this).val();
 
   if (recebeFiltroSelecionadoV === "lista_produto_venda") {
-
   }
 });

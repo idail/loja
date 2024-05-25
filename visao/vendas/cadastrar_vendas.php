@@ -125,9 +125,16 @@
                     </div>
                 </div>
 
+                <div class="row mb-3">
+                    <div class="col-sm-10 col-lg-7">
+                        <label for="inputEmail" class="col-sm-2 col-form-label">Valor final venda</label>
+                        <input type="text" class="form-control" name="valor_final_venda" disabled placeholder="Informe o valor final da venda" id="valor-final-venda">
+                    </div>
+                </div>
+
                 <button type="button" class="btn btn-success" id="adicionar-item-venda">Adicionar Item</button>
 
-                <table class="table">
+                <table class="table" id="tabela-listagem-venda">
                     <thead>
                         <tr>
                             <th scope="col" class="col-2">Produto</th>
@@ -142,18 +149,6 @@
                     <tbody id="listagem-produtos-venda">
                     </tbody>
                 </table>
-
-
-                <div class="row mb-3">
-                    <div class="col-sm-10 col-lg-7">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Valor final venda</label>
-                        <input type="text" class="form-control" name="valor_final_venda" disabled placeholder="Informe o valor final da venda" id="valor-final-venda">
-                    </div>
-                </div>
-
-
-
-
 
                 <div class="row mb-3">
                     <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
