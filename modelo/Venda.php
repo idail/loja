@@ -139,35 +139,37 @@ class Venda implements VendaInterface{
     public function CadastrarVenda()
     {
         try{
-            $instrucaoCadastrarVenda = "insert into vendas(nome_produto_venda,nome_cliente_venda,quantidade_produtos_venda,desconto_venda,desconto_final_venda,valor_final_venda,pago_venda,
-            pagamento_agendado_venda,data_pagamento_venda)values(:recebe_nome_produto_venda,:recebe_nome_cliente_venda,:recebe_quantidade_produtos_venda,:recebe_desconto_venda,
-            :recebe_desconto_final_venda,:recebe_valor_final_venda,:recebe_pago_venda,:recebe_pagamento_agendado_venda,:recebe_data_pagamento_venda)";
-            $comandoCadastrarVenda = Conexao::Obtem()->prepare($instrucaoCadastrarVenda);
-            $comandoCadastrarVenda->bindValue(":recebe_nome_produto_venda",$this->getNome_Produto_Venda());
-            $comandoCadastrarVenda->bindValue(":recebe_nome_cliente_venda",$this->getNome_Cliente_Venda());
-            $comandoCadastrarVenda->bindValue(":recebe_quantidade_produtos_venda",$this->getQuantidade_Produtos_Venda());
-
-            $comandoCadastrarVenda->bindValue(":recebe_desconto_venda",$this->getDesconto_Venda());
-            
-            if(!empty($this->getDesconto_Final_Venda()))
-                $comandoCadastrarVenda->bindValue(":recebe_desconto_final_venda",$this->getDesconto_Final_Venda());
-            else
-                $comandoCadastrarVenda->bindValue(":recebe_desconto_final_venda",null);
-
-            $comandoCadastrarVenda->bindValue(":recebe_valor_final_venda",$this->getValor_Final_Venda());
-
-            $comandoCadastrarVenda->bindValue(":recebe_pago_venda",$this->getPago_Venda());
-            
-            $comandoCadastrarVenda->bindValue(":recebe_pagamento_agendado_venda",$this->getPagamento_Agendado_Venda());
-
-            if(!empty($this->getData_Pagamento_Venda()))
-                $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",$this->getData_Pagamento_Venda());
-            else
-                $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",null);
-
-            $comandoCadastrarVenda->execute();
-
-            $recebeUltimoCodigoRegistradoVenda = Conexao::Obtem()->lastInsertId();
+            for ($venda=0; $venda < count($this->getNome_Produto_Venda()); $venda++) { 
+                $instrucaoCadastrarVenda = "insert into vendas(nome_produto_venda,nome_cliente_venda,quantidade_produtos_venda,desconto_venda,desconto_final_venda,valor_final_venda,pago_venda,
+                pagamento_agendado_venda,data_pagamento_venda)values(:recebe_nome_produto_venda,:recebe_nome_cliente_venda,:recebe_quantidade_produtos_venda,:recebe_desconto_venda,
+                :recebe_desconto_final_venda,:recebe_valor_final_venda,:recebe_pago_venda,:recebe_pagamento_agendado_venda,:recebe_data_pagamento_venda)";
+                $comandoCadastrarVenda = Conexao::Obtem()->prepare($instrucaoCadastrarVenda);
+                $comandoCadastrarVenda->bindValue(":recebe_nome_produto_venda",$this->getNome_Produto_Venda()[$venda]);
+                $comandoCadastrarVenda->bindValue(":recebe_nome_cliente_venda",$this->getNome_Cliente_Venda()[$venda]);
+                $comandoCadastrarVenda->bindValue(":recebe_quantidade_produtos_venda",$this->getQuantidade_Produtos_Venda()[$venda]);
+    
+                $comandoCadastrarVenda->bindValue(":recebe_desconto_venda",$this->getDesconto_Venda()[$venda]);
+                
+                if(!empty($this->getDesconto_Final_Venda()))
+                    $comandoCadastrarVenda->bindValue(":recebe_desconto_final_venda",$this->getDesconto_Final_Venda()[$venda]);
+                else
+                    $comandoCadastrarVenda->bindValue(":recebe_desconto_final_venda",null);
+    
+                $comandoCadastrarVenda->bindValue(":recebe_valor_final_venda",$this->getValor_Final_Venda()[$venda]);
+    
+                $comandoCadastrarVenda->bindValue(":recebe_pago_venda",$this->getPago_Venda()[$venda]);
+                
+                $comandoCadastrarVenda->bindValue(":recebe_pagamento_agendado_venda",$this->getPagamento_Agendado_Venda()[$venda]);
+    
+                if(!empty($this->getData_Pagamento_Venda()))
+                    $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",$this->getData_Pagamento_Venda()[$venda]);
+                else
+                    $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",null);
+    
+                $comandoCadastrarVenda->execute();
+    
+                $recebeUltimoCodigoRegistradoVenda = Conexao::Obtem()->lastInsertId();
+            }
 
             return $recebeUltimoCodigoRegistradoVenda;
         }catch (PDOException $exception) {
