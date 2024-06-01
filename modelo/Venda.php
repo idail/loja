@@ -238,18 +238,10 @@ class Venda implements VendaInterface{
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
             }else if($this->getFiltro_Venda() === "todos_venda" && !empty($this->getValor_Filtro_Venda()))
             {
-                $instrucaoBuscarVenda = "select * from vendas";
+                $instrucaoBuscarVenda = "select distinct nome_cliente_venda,codigo_cliente_vendas from vendas";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->execute();
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
-                // while($registro = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC)){
-                //     $recebeNomeCliente = $registro["nome_cliente_venda"];
-
-                //     if(!isset($registros_venda[$recebeNomeCliente])){
-                //         $registros_venda = $registro;
-                //     }
-                //     $registros_venda = $registro;
-                // }
             }
             return $registros_venda;
         }catch (PDOException $exception) {

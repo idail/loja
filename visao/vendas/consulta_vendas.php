@@ -43,8 +43,8 @@
             <table class="table" id="listagem-vendas">
                 <thead>
                     <tr>
-                        <th scope="col" class="col-3">Cliente</th>
-                        <th scope="col" class="col-2">Informações Vendas</th>
+                        <th scope="col" class="col-4 text-center">Cliente</th>
+                        <th scope="col" class="col-4 text-center">Informações Vendas</th>
                         <!-- <th scope="col">Quantidade</th>
                         <th scope="col">Desconto/Valor</th>
                         <th scope="col">Valor Final</th>
