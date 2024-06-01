@@ -13,6 +13,7 @@ class Venda implements VendaInterface{
     private $pago_venda;
     private $pagamento_agendado_venda;
     private $data_pagamento_venda;
+    private $codigo_cliente_vendas;
     private $filtro_venda;
     private $valor_filtro_venda;
 
@@ -116,6 +117,16 @@ class Venda implements VendaInterface{
         return $this->data_pagamento_venda;
     }
 
+    public function setCodigo_Cliente_Vendas($codigo_cliente_vendas)
+    {
+        $this->codigo_cliente_vendas = $codigo_cliente_vendas;
+    }
+
+    public function getCodigo_Cliente_Vendas()
+    {
+        return $this->codigo_cliente_vendas;
+    }
+
     public function setFiltro_Venda($filtro_venda)
     {
         $this->filtro_venda = $filtro_venda;
@@ -141,8 +152,8 @@ class Venda implements VendaInterface{
         try{
             for ($venda=0; $venda < count($this->getNome_Produto_Venda()); $venda++) { 
                 $instrucaoCadastrarVenda = "insert into vendas(nome_produto_venda,nome_cliente_venda,quantidade_produtos_venda,desconto_venda,desconto_final_venda,valor_final_venda,pago_venda,
-                pagamento_agendado_venda,data_pagamento_venda)values(:recebe_nome_produto_venda,:recebe_nome_cliente_venda,:recebe_quantidade_produtos_venda,:recebe_desconto_venda,
-                :recebe_desconto_final_venda,:recebe_valor_final_venda,:recebe_pago_venda,:recebe_pagamento_agendado_venda,:recebe_data_pagamento_venda)";
+                pagamento_agendado_venda,data_pagamento_venda,codigo_cliente_vendas)values(:recebe_nome_produto_venda,:recebe_nome_cliente_venda,:recebe_quantidade_produtos_venda,:recebe_desconto_venda,
+                :recebe_desconto_final_venda,:recebe_valor_final_venda,:recebe_pago_venda,:recebe_pagamento_agendado_venda,:recebe_data_pagamento_venda,:recebe_codigo_cliente_vendas)";
                 $comandoCadastrarVenda = Conexao::Obtem()->prepare($instrucaoCadastrarVenda);
                 $comandoCadastrarVenda->bindValue(":recebe_nome_produto_venda",$this->getNome_Produto_Venda()[$venda]);
                 $comandoCadastrarVenda->bindValue(":recebe_nome_cliente_venda",$this->getNome_Cliente_Venda()[$venda]);
@@ -165,6 +176,8 @@ class Venda implements VendaInterface{
                     $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",$this->getData_Pagamento_Venda()[$venda]);
                 else
                     $comandoCadastrarVenda->bindValue(":recebe_data_pagamento_venda",null);
+
+                $comandoCadastrarVenda->bindValue(":recebe_codigo_cliente_vendas",$this->getCodigo_Cliente_Vendas()[$venda]);
     
                 $comandoCadastrarVenda->execute();
     

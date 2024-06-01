@@ -22,10 +22,12 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebeValorSelecionadoPagoV = $_POST["valor_selecionado_pagov"];
         $recebePagamentoAgendadoV = $_POST["valor_pagamentoagendadov"];
         $recebeDataAgendamentoProdutoV = $_POST["valor_datapagamentov"];
+        $recebeCodigoClienteV = $_POST["valor_codigocv"];
 
 
         $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeNomeClienteV,$recebeQuantidadeProdutoV,
-        $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,$recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV);
+        $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,
+        $recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV,$recebeCodigoClienteV);
 
         echo json_encode($resultadoCadastrarVenda);
     }

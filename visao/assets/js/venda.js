@@ -93,7 +93,7 @@ $(document).ready(function () {
           $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente").append(
               "<option value=" +
-                element.nome_cliente.toLowerCase() +
+                element.codigo_cliente +
                 ">" +
                 element.nome_cliente +
                 "</option>"
@@ -124,7 +124,7 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
 
-    //listarVendas("todos_venda","todos_venda");
+    listarVendas("todos_venda","todos_venda");
 
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -146,7 +146,7 @@ $(document).ready(function () {
           $.each(retorno_clientes, function (i, element) {
             $("#lista-cliente-venda").append(
               "<option value=" +
-                element.nome_cliente.toLowerCase() +
+                element.codigo_cliente +
                 ">" +
                 element.nome_cliente +
                 "</option>"
@@ -207,6 +207,40 @@ $("#lista-produto").change(function (e) {
       }
     },
     error: function (xhr, status, error) {
+      console.log(error);
+    },
+  });
+});
+
+let recebeNomeClienteSelecionado = "";
+let recebeCodigoClienteGravar = 0;
+$("#lista-cliente").change(function(e){
+  e.preventDefault();
+
+  debugger;
+
+  recebeCodigoClienteGravar = parseInt($(this).val());
+
+  $.ajax({
+    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+    url: "../api/ClienteAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_cliente:
+        "recebe_consultar_cliente_especifico",
+        valor_codigo_cliente: recebeCodigoClienteGravar,
+    },
+    success: function (retorno_cliente) 
+    {
+      debugger;
+      if(retorno_cliente != "")
+      {
+        recebeNomeClienteSelecionado = retorno_cliente.nome_cliente;
+      }
+    },
+    error:function(xhr,status,error)
+    {
       console.log(error);
     },
   });
@@ -352,6 +386,7 @@ let listaValorTotalV = Array();
 let listaPagoV = Array();
 let listaPagamentoAgendadoV = Array();
 let listaDataPagamentoV = Array();
+let listaCodigoClienteV = Array();
 
 $("#adicionar-item-venda").click(function (e) {
   debugger;
@@ -359,7 +394,7 @@ $("#adicionar-item-venda").click(function (e) {
 
   let recebeNomeProdutoSV = $("#lista-produto").val();
 
-  let recebeNomeSCV = $("#lista-cliente").val();
+  let recebeNomeSCV = recebeNomeClienteSelecionado;
 
   let recebeQTDPV = $("#quantidade-produto-venda").val();
 
@@ -532,6 +567,7 @@ $("#adicionar-item-venda").click(function (e) {
     listaPagoV.push(recebePagoVendaBooleanoFinal);
     listaPagamentoAgendadoV.push(recebeAgendarPagamentoBooleanoFinal);
     listaDataPagamentoV.push(recebeDataPagamentoAmericano);
+    listaCodigoClienteV.push(recebeCodigoClienteGravar);
 
     let linha = $("<tr></tr>");
     let colunaNomeProdutoSV = $("<td></td>").text(recebeNomeProdutoGravar);
@@ -605,6 +641,7 @@ $("#cadastro-venda").click(function (e) {
         valor_selecionado_pagov: listaPagoV,
         valor_pagamentoagendadov: listaPagamentoAgendadoV,
         valor_datapagamentov: listaDataPagamentoV,
+        valor_codigocv:listaCodigoClienteV,
         processo_venda: "recebe_cadastro_venda",
       },
       success: function (retorno) {
@@ -760,15 +797,15 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-          if (
-            listaNomeClientes.includes(
-              retorno_vendas[vendas].nome_cliente_venda
-            )
-          ) {
-            console.log("nome ja consta no array");
-          } else {
-            listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
-          }
+          // if (
+          //   listaNomeClientes.includes(
+          //     retorno_vendas[vendas].nome_cliente_venda
+          //   )
+          // ) {
+          //   console.log("nome ja consta no array");
+          // } else {
+          //   listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
+          // }
 
           listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
 
@@ -830,31 +867,12 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
           recebe_tabela_vendas.innerHTML +=
             "<tr>" +
             "<td>" +
-            retorno_vendas[vendas].nome_produto_venda +
-            "</td>" +
-            "<td>" +
             retorno_vendas[vendas].nome_cliente_venda +
             "</td>" +
-            "<td>" +
-            retorno_vendas[vendas].quantidade_produtos_venda +
-            "</td>" +
-            "<td>" +
-            recebeValorFinalDescontoV +
-            " - " +
-            recebeValorDescontoBRFinal +
-            "</td>" +
-            "<td>" +
-            recebeValorVendaBRFinal +
-            "</td>" +
-            "<td>" +
-            recebeValorPagoV +
-            "</td>" +
-            "<td>" +
-            recebeValorAgendamentoV +
-            " - " +
-            recebeDataBRAgendamentoV +
-            "</td>" +
-            "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick='')'></i></a></td>" +
+            // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
+            
+            // "</td>" +
+            "<td><a href='#'><i class='bi bi-card-image fs-4' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick='')'></i></a></td>" +
             // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-produtos' data-backdrop='static' onclick='carrega_imagens_venda(" +
             // retorno_vendas[vendas].nome_produto_venda +
             // ",event)'></a></i></td>" +
