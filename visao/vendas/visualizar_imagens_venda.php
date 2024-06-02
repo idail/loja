@@ -21,7 +21,7 @@
                     <div class="card-body table-responsive">
 
                         <div class="pt-4 pb-2">
-                            <h5 class="card-title text-center pb-0 fs-4">Visualização Vendas</h5>
+                            <h5 class="card-title text-center pb-0 fs-4">Visualização Vendas<br><span id="exibi-nome-cliente" style="font-size: 19px;color:black;"></span></h5>
                         </div>
 
                         <!-- <form class="row g-3" id="" novalidate>
