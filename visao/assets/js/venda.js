@@ -427,13 +427,13 @@ $("#adicionar-item-venda").click(function (e) {
   if(primeiraLinha.find('td').eq(0).text() === "Nenhum registro adicionado")
     $("#listagem-produtos-venda").html("");
 
-  if (recebeNomeProdutoSV === "selecione") {
+  if (recebeNomeProdutoSV === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
       "Favor selecionar o produto para venda"
     );
     $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeNomeSCV === "selecione") {
+  } else if (recebeNomeSCV === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
       "Favor selecionar o cliente para venda"
     );
@@ -445,13 +445,13 @@ $("#adicionar-item-venda").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeDescontoProdutoSV === "selecione") {
+  } else if (recebeDescontoProdutoSV === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
       "Favor selecionar o desconto para venda"
     );
     $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebePagoSPV === "selecione") {
+  } else if (recebePagoSPV === "") {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
       "Favor selecionar se a venda foi paga ou não"
     );
@@ -460,10 +460,13 @@ $("#adicionar-item-venda").click(function (e) {
   } else {
 
     let recebeDescontoFinalVenda = "";
-    let recebeValorDescontoProdutoBRFinal = "";
+
+    //let recebeValorDescontoProdutoBRFinal = "";
+
+    let recebeFinalVendaSemDesconto = "";
 
     let valorDescontoFinalVP = 0;
-    let valorFinalVP = 0
+    let valorFinalVP = 0;
     if (
       $("#desconto-produto-venda").val() != "" &&
       recebeDescontoProdutoSV === "sim"
@@ -522,6 +525,29 @@ $("#adicionar-item-venda").click(function (e) {
 
       recebeValorDescontoProdutoBRFinal =
         "R$" + recebeValorProdutoBRDesconto.replace(".", ",");
+    }else{
+      recebeFinalVendaSemDesconto = recebeValorFinalV;
+
+      let recebeVFProdutoCortado = recebeFinalVendaSemDesconto.split("R$");
+
+      let recebeVProdutoNumerico = recebeVFProdutoCortado[1];
+
+      let recebeVProdutoFinalNumerico = recebeVProdutoNumerico.replace(
+        /,/g,
+        "."
+      );
+
+      // Substituir o último ponto por um caractere temporário
+      let tempStr = recebeVProdutoFinalNumerico.replace(/\.(?=[^.]*$)/, "TEMP");
+
+      // Remover todos os outros pontos
+      tempStr = tempStr.replace(/\./g, "");
+
+      // Substituir o caractere temporário pelo ponto decimal
+      let decimalStr = tempStr.replace("TEMP", ".");
+
+      // Converter para número decimal
+      valorFinalVP = parseFloat(decimalStr);
     }
 
     let recebeValorDescontoVendaFinal = "";
@@ -590,29 +616,31 @@ $("#adicionar-item-venda").click(function (e) {
 
     $("#listagem-produtos-venda").append(linha);
 
-    let recebeListaProduto = document.querySelector("#lista-produto");
+    // let recebeListaProduto = document.querySelector("#lista-produto");
 
-    recebeListaProduto.selectedIndex = 0;
+    // recebeListaProduto.selectedIndex = 0;
 
-    $("#quantidade-produto-venda").val("");
+    // $("#quantidade-produto-venda").val("");
 
-    let recebeListaDesconto = document.querySelector("#lista-desconto-venda");
+    // let recebeListaDesconto = document.querySelector("#lista-desconto-venda");
 
-    recebeListaDesconto.selectedIndex = 0;
+    // recebeListaDesconto.selectedIndex = 0;
 
-    $("#valor-final-venda").val("");
+    // $("#desconto-produto-venda").val("");
 
-    let recebeListaPago = document.querySelector("#lista-pago-venda");
+    // $("#valor-final-venda").val("");
 
-    recebeListaPago.selectedIndex = 0;
+    // let recebeListaPago = document.querySelector("#lista-pago-venda");
 
-    let recebeListaPagamentoAgendado = document.querySelector("#lista-agendar-pagamento");
+    // recebeListaPago.selectedIndex = 0;
 
-    recebeListaPagamentoAgendado.selectedIndex = 0;
+    // let recebeListaPagamentoAgendado = document.querySelector("#lista-agendar-pagamento");
 
-    $("#data-agendamento-pagamento").val("");
+    // recebeListaPagamentoAgendado.selectedIndex = 0;
 
-    $("#informacao-qtd-produtos-estoque").html("");
+    // $("#data-agendamento-pagamento").val("");
+
+    // $("#informacao-qtd-produtos-estoque").html("");
   }
 });
 
@@ -930,13 +958,37 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
         $("#exibi-nome-cliente").html(recebeNomeClienteVendas);
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+
+          let recebeDescontoVenda = retorno_vendas[vendas].desconto_venda;
+          let recebeValorDescontoVenda = retorno_vendas[vendas].desconto_final_venda;
+
+          let recebeDescontoVF = "";
+          if(recebeDescontoVenda === 1)
+            recebeDescontoVF = "Sim";
+          else
+            recebeDescontoVF = "Não";
+
+          let recebeValorDescontoF = "";
+          if(recebeValorDescontoVenda > 0)
+            recebeValorDescontoF = recebeValorDescontoVenda;
+          else
+            recebeValorDescontoF = recebeValorDescontoVenda;
+
+          let recebePagoVenda = retorno_vendas[vendas].pago_venda;
+
+          let recebePagoFV = "";
+          if(recebePagoVenda === 1)
+            recebePagoFV = "Sim";
+          else
+            recebePagoFV = "Não";
+
           recebe_tabela_vendas +=
           "<tr>"+
             "<td>" + retorno_vendas[vendas].nome_produto_venda + "</td>"+
             "<td>" + retorno_vendas[vendas].quantidade_produtos_venda + "</td>" +
-            "<td>" +  + "</td>" +
+            "<td>" + recebeDescontoVF + " - " + recebeValorDescontoF + "</td>" +
             "<td>" + retorno_vendas[vendas].valor_final_venda + "</td>" +
-            "<td>" + + "</td>" +
+            "<td>" + recebePagoFV + "</td>" +
             "<td>" + + "</td>" +
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
           "</tr>";
