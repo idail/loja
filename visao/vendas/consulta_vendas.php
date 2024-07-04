@@ -17,16 +17,13 @@
             <div class="col-sm-2" id="lista-filtro-venda">
                 <select class="form-select" aria-label="Default select example" id="filtro-venda">
                     <option selected value="selecione">Selecione</option>
-                    <option value="lista_produto_venda">Produto</option>
-                    <option value="desconto_venda">Desconto</option>
-                    <option value="pago_venda">Pago</option>
-                    <option value="data_venda">Data</option>
+                    <option value="lista_produto_venda">Nome</option>
                     <option value="todos_venda">Todos</option>
                 </select>
             </div>
 
             <div class="col-sm-2">
-                <input type="text" class="form-control" name="valor-filtro-venda" placeholder="Informe o nome do produto" id="valor-filtro-venda">
+                <input type="text" class="form-control" name="valor-filtro-venda" placeholder="Informe o filtro que deseja pesquisar" id="valor-filtro-venda">
             </div>
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary" id="buscar-venda">Pesquisar</button>

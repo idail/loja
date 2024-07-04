@@ -872,8 +872,7 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
             // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
             
             // "</td>" +
-            "<td style='text-align:center;'><a href='#'><i class='bi bi-card-image fs-4' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='visualizarVendasEspecificaCliente' " +
-            " onclick=visualizarVendasEspecificaCliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ",event)'></i></a></td>" +
+            "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" + retorno_vendas[vendas].codigo_cliente_vendas + "' data-param2='" + retorno_vendas[vendas].nome_cliente_venda + "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
             "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
             // retorno_vendas[vendas].codigo_venda +
             ",event)></i></a></td>" +
@@ -895,8 +894,64 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
   e.preventDefault();
 
   debugger;
+  let recebeNomeClienteVendas = $(this).data("param2");
 
-  console.log($(this).val());
+  $.ajax({
+    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+    url: "../api/VendaAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_venda: "recebe_consultar_vendas_cliente_especifico",
+      valor_codigo_cliente_venda: $(this).data("param1"),
+    },
+    //   beforeSend: function () {
+    //     debugger;
+    //     $("#registros-clientes").html("");
+    //     $("#registros-clientes").append(
+    //       "<td colspan='5' class='text-center'>Carregando dados</td>"
+    //     );
+    //     $("#registros-clientes").html("");
+    //   },
+    success: function (retorno_vendas) 
+    {
+      debugger;
+
+      if(retorno_vendas.length > 0)
+      {
+        let recebe_tabela_vendas = document.querySelector(
+          "#registros-vendas-cliente"
+        );
+        
+        $("#registros-vendas-cliente").html("");
+
+        
+
+        $("#exibi-nome-cliente").html(recebeNomeClienteVendas);
+
+        for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+          recebe_tabela_vendas +=
+          "<tr>"+
+            "<td>" + retorno_vendas[vendas].nome_produto_venda + "</td>"+
+            "<td>" + retorno_vendas[vendas].quantidade_produtos_venda + "</td>" +
+            "<td>" +  + "</td>" +
+            "<td>" + retorno_vendas[vendas].valor_final_venda + "</td>" +
+            "<td>" + + "</td>" +
+            "<td>" + + "</td>" +
+            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
+          "</tr>";
+        }
+
+        $("#registros-vendas-cliente").append(recebe_tabela_vendas);
+      }else{
+        console.log(retorno_vendas);
+      }
+    },
+    error:function(xhr,status,error)
+    {
+      console.log(error);
+    },
+  });
 });
 
 $("#filtro-venda").click(function (e) {

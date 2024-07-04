@@ -198,42 +198,12 @@ class Venda implements VendaInterface{
     {
         $registros_venda = array();
         try{
-            if($this->getFiltro_Venda() === "lista_produto_venda" && !empty($this->getValor_Filtro_Venda()))
-            {
-                $recebeNomeProdutoV = $this->getValor_Filtro_Venda();
-                $instrucaoBuscarVenda = "select * from vendas as v where v.nome_produto_venda like :recebe_nome_produto_venda";
-                $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
-                $comandoBuscarVenda->bindValue(":recebe_nome_produto_venda","%$recebeNomeProdutoV%");
-                $comandoBuscarVenda->execute();
-                $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
-            }else if($this->getFiltro_Venda() === "lista_cliente_venda" && !empty($this->getValor_Filtro_Venda()))
+            if($this->getFiltro_Venda() === "lista_cliente_venda" && !empty($this->getValor_Filtro_Venda()))
             {
                 $recebeNomeClienteV = $this->getValor_Filtro_Venda();
                 $instrucaoBuscarVenda = "select * from vendas as v where v.nome_cliente_venda like :recebe_nome_cliente_venda";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->bindValue(":recebe_nome_cliente_venda","%$recebeNomeClienteV%");
-                $comandoBuscarVenda->execute();
-                $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
-            }else if($this->getFiltro_Venda() === "desconto_venda" && !empty($this->getValor_Filtro_Venda()))
-            {
-                //$recebeNomeClienteV = $this->getValor_Filtro_Venda();
-                $instrucaoBuscarVenda = "select * from vendas as v where v.desconto_final_venda = :recebe_desconto_final_venda";
-                $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
-                $comandoBuscarVenda->bindValue(":recebe_desconto_final_venda",$this->getDesconto_Venda());
-                $comandoBuscarVenda->execute();
-                $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
-            }else if($this->getFiltro_Venda() === "pago_venda" && !empty($this->getValor_Filtro_Venda()))
-            {
-                $instrucaoBuscarVenda = "select * from vendas as v where v.pago_venda = :recebe_pago_venda";
-                $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
-                $comandoBuscarVenda->bindValue(":recebe_pago_venda",$this->getPago_Venda());
-                $comandoBuscarVenda->execute();
-                $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
-            }else if($this->getFiltro_Venda() === "data_venda" && !empty($this->getValor_Filtro_Venda()))
-            {
-                $instrucaoBuscarVenda = "select * from vendas as v where v.data_pagamento_venda = :recebe_data_pagamento_venda";
-                $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
-                $comandoBuscarVenda->bindValue(":recebe_data_pagamento_venda",$this->getData_Pagamento_Venda());
                 $comandoBuscarVenda->execute();
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
             }else if($this->getFiltro_Venda() === "todos_venda" && !empty($this->getValor_Filtro_Venda()))
@@ -250,6 +220,26 @@ class Venda implements VendaInterface{
         } catch (Exception $excecao) {
             array_push($registros_venda,$excecao->getMessage());
             return $registros_venda;
+        }
+    }
+
+    public function BuscarVendasEspecificas()
+    {
+        $registros_vendas = array();
+        try{
+            $instrucaoBuscarVEspecificas = "select * from vendas as v where v.codigo_cliente_vendas = :recebe_codigo_cliente_vendas";
+            $comandoBuscarVEspecificas = Conexao::Obtem()->prepare($instrucaoBuscarVEspecificas);
+            $comandoBuscarVEspecificas->bindValue(":recebe_codigo_cliente_vendas",$this->getCodigo_Cliente_Vendas());
+            $comandoBuscarVEspecificas->execute();
+            $registros_vendas = $comandoBuscarVEspecificas->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registros_vendas;
+        } catch (PDOException $exception) {
+            array_push($registros_vendas,$exception->getMessage());
+            return $registros_vendas;
+        } catch (Exception $excecao) {
+            array_push($registros_vendas,$excecao->getMessage());
+            return $registros_vendas;
         }
     }
 }

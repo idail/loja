@@ -43,6 +43,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $resultadoBuscarVendas = $vendaControladora->BuscarVendas($recebeFiltroV,$recebeValorFiltroV);
 
         echo json_encode($resultadoBuscarVendas);
+    }else if($recebeProcessoVenda === "recebe_consultar_vendas_cliente_especifico")
+    {
+        $recebeCodigoClienteVendas = $_GET["valor_codigo_cliente_venda"];
+
+        $resultadoBuscarVendasCEspecifico = $vendaControladora->BuscarVendasClienteEspecifico($recebeCodigoClienteVendas);
+
+        echo json_encode($resultadoBuscarVendasCEspecifico);
     }
 }
 ?>

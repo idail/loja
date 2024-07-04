@@ -37,5 +37,14 @@ class VendaControladora{
 
         return $resultadoBuscarVendas;
     }
+
+    public function BuscarVendasClienteEspecifico($recebeCodigoClienteVEspecifico)
+    {
+        $this->venda->setCodigo_Cliente_Vendas($recebeCodigoClienteVEspecifico);
+
+        $resultadoBuscarVEspecificasCliente = $this->venda->BuscarVendasEspecificas();
+
+        return $resultadoBuscarVEspecificasCliente;
+    }
 }
 ?>
