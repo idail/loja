@@ -406,13 +406,21 @@ $("#adicionar-item-venda").click(function (e) {
 
   let recebeAgendarSPV = $("#lista-agendar-pagamento").val();
 
-  let recebeDataPagamentoAgendadoSV = $("#data-agendamento-pagamento").val();
+  let recebeDataPagamentoAgendadoBR = "";
+  let recebeDataPagamentoAmericano = "";
+  if(recebeAgendarSPV === "sim")
+  {
+    let recebeDataPagamentoAgendadoSV = $("#data-agendamento-pagamento").val();
 
-  let recebeDataPagamentoAgendadoBR = recebeDataPagamentoAgendadoSV.split("-")
-  .reverse()
-  .join("/");
 
-  let recebeDataPagamentoAmericano = recebeDataPagamentoAgendadoSV.split('/').reverse().join('-');
+    recebeDataPagamentoAgendadoBR = recebeDataPagamentoAgendadoSV.split("-")
+    .reverse()
+    .join("/");
+  
+    recebeDataPagamentoAmericano = recebeDataPagamentoAgendadoSV.split('/').reverse().join('-');
+  }else{
+    recebeDataPagamentoAgendadoBR = "Não informado"
+  }  
 
   let primeiraLinha = $('#tabela-listagem-venda tbody tr').first();
 
@@ -446,12 +454,6 @@ $("#adicionar-item-venda").click(function (e) {
   } else if (recebePagoSPV === "selecione") {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
       "Favor selecionar se a venda foi paga ou não"
-    );
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
-  } else if (recebeAgendarSPV === "selecione") {
-    $("#recebe-mensagem-campo-vazio-cadastro-venda").html(
-      "Favor selecionar se haverá agendamento ou não"
     );
     $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
@@ -585,34 +587,32 @@ $("#adicionar-item-venda").click(function (e) {
     linha.append(colunaValorFinalVenda);
     linha.append(colunaPagoVenda);
     linha.append(colunaAgendadoPagamentoDataPagamentoVenda);
-    
-
-    // recebeTabelaCadastrarVendas.innerHTML =
-    //   "<tr>" +
-    //   "<td>" +
-    //   recebeNomeProdutoGravar +
-    //   "</td>" +
-    //   "<td>" +
-    //   recebeNomeSCV +
-    //   "</td>" +
-    //   "<td>" +
-    //   recebeQTDPV +
-    //   "</td>" +
-    //   "<td>" +
-    //   recebeValorBooleanoDescontoVendaFinal +
-    //   " - " +
-    //   recebeValorDescontoVendaFinal +
-    //   "</td>" +
-    //   "<td>" +
-    //   recebeValorFinalV +
-    //   "</td>" +
-    //   "<td>" +
-    //   recebePagoVendaBooleanoFinal +
-    //   "</td>" +
-    //   "<td>" + recebeAgendarPagamentoBooleanoFinal + " - " + recebeDataPagamentoAgendadoSV + "</td>" +
-    //   "</tr>";
 
     $("#listagem-produtos-venda").append(linha);
+
+    let recebeListaProduto = document.querySelector("#lista-produto");
+
+    recebeListaProduto.selectedIndex = 0;
+
+    $("#quantidade-produto-venda").val("");
+
+    let recebeListaDesconto = document.querySelector("#lista-desconto-venda");
+
+    recebeListaDesconto.selectedIndex = 0;
+
+    $("#valor-final-venda").val("");
+
+    let recebeListaPago = document.querySelector("#lista-pago-venda");
+
+    recebeListaPago.selectedIndex = 0;
+
+    let recebeListaPagamentoAgendado = document.querySelector("#lista-agendar-pagamento");
+
+    recebeListaPagamentoAgendado.selectedIndex = 0;
+
+    $("#data-agendamento-pagamento").val("");
+
+    $("#informacao-qtd-produtos-estoque").html("");
   }
 });
 
