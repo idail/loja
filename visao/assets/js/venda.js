@@ -23,57 +23,11 @@ $(document).ready(function () {
 
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
-      url: "../api/ProdutoAPI.php",
-      dataType: "json",
-      type: "get",
-      data: {
-        processo_produto: "recebe_consultar_produtos",
-        filtro_produto: "todos",
-        valor_filtro_produto: "todos",
-      },
-      //   beforeSend: function () {
-      //     debugger;
-      //     $("#registros-produtos").html("");
-      //     $("#registros-produtos").append(
-      //       "<td colspan='5' class='text-center'>Carregando dados</td>"
-      //     );
-      //     $("#registros-produtos").html("");
-      //   },
-      success: function (retorno_produtos) {
-        debugger;
-        if (retorno_produtos.length > 0) {
-          $("#lista-produto").html("");
-          $("#lista-produto").append(
-            "<option value='selecione'>Selecione</option>"
-          );
-          $.each(retorno_produtos, function (i, element) {
-            $("#lista-produto").append(
-              "<option value=" +
-                element.codigo_produto +
-                ">" +
-                element.nome_produto +
-                "</option>"
-            );
-          });
-        } else {
-          $("#lista-produto").html("");
-          $("#lista-produto").append(
-            "<option value='selecione'>Selecione</option>"
-          );
-        }
-      },
-      error: function (xhr, status, error) {},
-    });
-
-    $.ajax({
-      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
       url: "../api/ClienteAPI.php",
       dataType: "json",
       type: "get",
       data: {
-        processo_cliente: "recebe_consultar_clientes",
-        filtro_cliente: "todos",
-        valor_filtro_cliente: "todos",
+        processo_cliente: "recebe_consultar_clientes_para_venda",
       },
       //   beforeSend: function () {
       //     debugger;
@@ -960,7 +914,7 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
 
           let recebeDescontoVenda = retorno_vendas[vendas].desconto_venda;
-          let recebeValorDescontoVenda = retorno_vendas[vendas].desconto_final_venda;
+          let recebeValorDescontoVenda = retorno_vendas[vendas].desconto_final_venda.toString();
 
           let recebeDescontoVF = "";
           if(recebeDescontoVenda === 1)
@@ -970,11 +924,27 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
 
           let recebeValorDescontoF = "";
           if(recebeValorDescontoVenda > 0)
-            recebeValorDescontoF = recebeValorDescontoVenda;
-          else
-            recebeValorDescontoF = recebeValorDescontoVenda;
+          {
+            recebeValorDescontoF = "R$" + recebeValorDescontoVenda.replace(".",",");
+          }else{
+            recebeValorDescontoF = "R$" + recebeValorDescontoVenda.replace(".",",");
+          }
+
+          let recebeValorFinal = retorno_vendas[vendas].valor_final_venda.toString();
+
+          let recebeValorFVBR = "R$" + recebeValorFinal.replace(".","m");
 
           let recebePagoVenda = retorno_vendas[vendas].pago_venda;
+
+          let recebeDataPagamentoAgendadoBR = "";
+          if(retorno_vendas[vendas].pagamento_agendado_venda === 1)
+          {
+            recebeDataPagamentoAgendadoBR = retorno_vendas[vendas].data_pagamento_venda.split("-")
+            .reverse()
+            .join("/");
+          }else{
+            recebeDataPagamentoAgendadoBR = "Não informado";
+          }
 
           let recebePagoFV = "";
           if(recebePagoVenda === 1)
@@ -984,12 +954,12 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
 
           recebe_tabela_vendas +=
           "<tr>"+
-            "<td>" + retorno_vendas[vendas].nome_produto_venda + "</td>"+
-            "<td>" + retorno_vendas[vendas].quantidade_produtos_venda + "</td>" +
-            "<td>" + recebeDescontoVF + " - " + recebeValorDescontoF + "</td>" +
-            "<td>" + retorno_vendas[vendas].valor_final_venda + "</td>" +
-            "<td>" + recebePagoFV + "</td>" +
-            "<td>" + + "</td>" +
+            "<td class='text-center'>" + retorno_vendas[vendas].nome_produto_venda + "</td>"+
+            "<td class='text-center'>" + retorno_vendas[vendas].quantidade_produtos_venda + "</td>" +
+            "<td class='text-center'>" + recebeDescontoVF + " - " + recebeValorDescontoF + "</td>" +
+            "<td class='text-center'>" + recebeValorFVBR + "</td>" +
+            "<td class='text-center'>" + recebePagoFV + "</td>" +
+            "<td class='text-center'>" + recebeDataPagamentoAgendadoBR + "</td>" +
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
           "</tr>";
         }

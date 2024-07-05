@@ -80,6 +80,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
             echo json_encode($recebeConsultaClienteEspecifico);
         }
+    }else if($recebeProcessoCliente === "recebe_consultar_clientes_para_venda")
+    {
+        $recebeConsultaCliente = $clienteControladora->ConsultarClientesVenda();
+
+        echo json_encode($recebeConsultaCliente);
     }
 }else if($_SERVER["REQUEST_METHOD"] === "DELETE")
 {

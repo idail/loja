@@ -158,6 +158,28 @@ class Cliente implements ClienteInterface
         return $registro_clientes;
     }
 
+    public function consultarClientesVenda():array
+    {
+        $registro_clientes = array();
+        try {
+            $instrucaoConsultaClientes = "select * from clientes as c where c.status_cliente = 1";
+            $comandoConsultaClientes = Conexao::Obtem()->prepare($instrucaoConsultaClientes);
+            $comandoConsultaClientes->execute();
+            $registro_clientes = $comandoConsultaClientes->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (!empty($registro_clientes))
+                return $registro_clientes;
+            else
+                return $registro_clientes;
+        } catch (PDOException $exception) {
+            array_push($registro_clientes, $exception->getMessage());
+            return $registro_clientes;
+        } catch (Exception $excecao) {
+            array_push($registro_clientes, $excecao->getMessage());
+            return $registro_clientes;
+        }
+    }
+
     public function consultarClienteEspecifico(): array
     {
         $registro_cliente = array();

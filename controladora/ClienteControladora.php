@@ -40,6 +40,12 @@ class ClienteControladora{
         return $registroClienteEspecifico;
     }
 
+    public function ConsultarClientesVenda()
+    {
+        $registrosClienes = $this->cliente->consultarClientesVenda();
+        return $registrosClienes;
+    }
+
     public function AlteraClienteEspecifico($recebeNomeCienteAltera,$recebeTelefoneClienteAltera,$recebeEmailClienteAltera,
     $recebeEnderecoClienteAltera,$recebeStatusClienteAltera,$recebeCodigoClienteAltera)
     {
