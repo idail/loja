@@ -78,7 +78,7 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
 
-    listarVendas("todos_venda","todos_venda");
+    listarVendas("todos_venda", "todos_venda");
 
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -168,7 +168,7 @@ $("#lista-produto").change(function (e) {
 
 let recebeNomeClienteSelecionado = "";
 let recebeCodigoClienteGravar = 0;
-$("#lista-cliente").change(function(e){
+$("#lista-cliente").change(function (e) {
   e.preventDefault();
 
   debugger;
@@ -181,20 +181,16 @@ $("#lista-cliente").change(function(e){
     dataType: "json",
     type: "get",
     data: {
-      processo_cliente:
-        "recebe_consultar_cliente_especifico",
-        valor_codigo_cliente: recebeCodigoClienteGravar,
+      processo_cliente: "recebe_consultar_cliente_especifico",
+      valor_codigo_cliente: recebeCodigoClienteGravar,
     },
-    success: function (retorno_cliente) 
-    {
+    success: function (retorno_cliente) {
       debugger;
-      if(retorno_cliente != "")
-      {
+      if (retorno_cliente != "") {
         recebeNomeClienteSelecionado = retorno_cliente.nome_cliente;
       }
     },
-    error:function(xhr,status,error)
-    {
+    error: function (xhr, status, error) {
       console.log(error);
     },
   });
@@ -362,23 +358,25 @@ $("#adicionar-item-venda").click(function (e) {
 
   let recebeDataPagamentoAgendadoBR = "";
   let recebeDataPagamentoAmericano = "";
-  if(recebeAgendarSPV === "sim")
-  {
+  if (recebeAgendarSPV === "sim") {
     let recebeDataPagamentoAgendadoSV = $("#data-agendamento-pagamento").val();
 
+    recebeDataPagamentoAgendadoBR = recebeDataPagamentoAgendadoSV
+      .split("-")
+      .reverse()
+      .join("/");
 
-    recebeDataPagamentoAgendadoBR = recebeDataPagamentoAgendadoSV.split("-")
-    .reverse()
-    .join("/");
-  
-    recebeDataPagamentoAmericano = recebeDataPagamentoAgendadoSV.split('/').reverse().join('-');
-  }else{
-    recebeDataPagamentoAgendadoBR = "Não informado"
-  }  
+    recebeDataPagamentoAmericano = recebeDataPagamentoAgendadoSV
+      .split("/")
+      .reverse()
+      .join("-");
+  } else {
+    recebeDataPagamentoAgendadoBR = "Não informado";
+  }
 
-  let primeiraLinha = $('#tabela-listagem-venda tbody tr').first();
+  let primeiraLinha = $("#tabela-listagem-venda tbody tr").first();
 
-  if(primeiraLinha.find('td').eq(0).text() === "Nenhum registro adicionado")
+  if (primeiraLinha.find("td").eq(0).text() === "Nenhum registro adicionado")
     $("#listagem-produtos-venda").html("");
 
   if (recebeNomeProdutoSV === "") {
@@ -412,7 +410,6 @@ $("#adicionar-item-venda").click(function (e) {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").show();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").fadeOut(4000);
   } else {
-
     let recebeDescontoFinalVenda = "";
 
     //let recebeValorDescontoProdutoBRFinal = "";
@@ -448,10 +445,10 @@ $("#adicionar-item-venda").click(function (e) {
       // Converter para número decimal
       valorFinalVP = parseFloat(decimalStr);
 
-
-
       let recebeVDescontoProdutoCortado = "";
-      recebeVDescontoProdutoCortado = $("#desconto-produto-venda").val().split("R$");
+      recebeVDescontoProdutoCortado = $("#desconto-produto-venda")
+        .val()
+        .split("R$");
 
       let recebeVDescontoProdutoNumerico = recebeVDescontoProdutoCortado[1];
 
@@ -479,7 +476,7 @@ $("#adicionar-item-venda").click(function (e) {
 
       recebeValorDescontoProdutoBRFinal =
         "R$" + recebeValorProdutoBRDesconto.replace(".", ",");
-    }else{
+    } else {
       recebeFinalVendaSemDesconto = recebeValorFinalV;
 
       let recebeVFProdutoCortado = recebeFinalVendaSemDesconto.split("R$");
@@ -532,10 +529,10 @@ $("#adicionar-item-venda").click(function (e) {
 
     let recebeAgendarPagamentoBooleanoFinal = "";
     let recebeAgendarPagamentoStringFinal = "";
-    if(recebeAgendarSPV === "sim"){
+    if (recebeAgendarSPV === "sim") {
       recebeAgendarPagamentoStringFinal = "Sim";
       recebeAgendarPagamentoBooleanoFinal = 1;
-    }else{
+    } else {
       recebeAgendarPagamentoStringFinal = "Não Informado";
       recebeAgendarPagamentoBooleanoFinal = 0;
     }
@@ -555,10 +552,14 @@ $("#adicionar-item-venda").click(function (e) {
     let colunaNomeProdutoSV = $("<td></td>").text(recebeNomeProdutoGravar);
     let colunaNomeClienteSV = $("<td></td>").text(recebeNomeSCV);
     let colunaQuantidadeProdutosV = $("<td></td>").text(recebeQTDPV);
-    let colunaDescontoVendaValorDescontoVenda = $("<td></td>").text(recebeValorDescontoVendaFinalString + " -" + recebeValorDescontoVendaFinal);
+    let colunaDescontoVendaValorDescontoVenda = $("<td></td>").text(
+      recebeValorDescontoVendaFinalString + " -" + recebeValorDescontoVendaFinal
+    );
     let colunaValorFinalVenda = $("<td></td>").text(recebeValorFinalV);
     let colunaPagoVenda = $("<td></td>").text(recebePagoVendaFinalString);
-    let colunaAgendadoPagamentoDataPagamentoVenda = $("<td></td>").text(recebeAgendarPagamentoStringFinal + " - " + recebeDataPagamentoAgendadoBR);
+    let colunaAgendadoPagamentoDataPagamentoVenda = $("<td></td>").text(
+      recebeAgendarPagamentoStringFinal + " - " + recebeDataPagamentoAgendadoBR
+    );
 
     linha.append(colunaNomeProdutoSV);
     linha.append(colunaNomeClienteSV);
@@ -603,12 +604,10 @@ $("#cadastro-venda").click(function (e) {
 
   debugger;
 
-  let primeiraLinha = $('#tabela-listagem-venda tbody tr').first();
+  let primeiraLinha = $("#tabela-listagem-venda tbody tr").first();
 
-  if(primeiraLinha.find('td').eq(0).text() === "Nenhum registro adicionado")
-  {
-
-  }else{
+  if (primeiraLinha.find("td").eq(0).text() === "Nenhum registro adicionado") {
+  } else {
     $.ajax({
       url: "../api/VendaAPI.php",
       type: "post",
@@ -623,7 +622,7 @@ $("#cadastro-venda").click(function (e) {
         valor_selecionado_pagov: listaPagoV,
         valor_pagamentoagendadov: listaPagamentoAgendadoV,
         valor_datapagamentov: listaDataPagamentoV,
-        valor_codigocv:listaCodigoClienteV,
+        valor_codigocv: listaCodigoClienteV,
         processo_venda: "recebe_cadastro_venda",
       },
       success: function (retorno) {
@@ -729,17 +728,17 @@ $("#lista-cliente-venda").change(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-busca-venda").show();
     $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
-    $("#titulo-filtro").hide();
-    $("#lista-filtro-venda").hide();
-    $("#valor-filtro-venda").hide();
-    $("#buscar-venda").hide();
-    $("#listagem-vendas").hide();
+    // $("#titulo-filtro").hide();
+    // $("#lista-filtro-venda").hide();
+    // $("#valor-filtro-venda").hide();
+    // $("#buscar-venda").hide();
+    // $("#listagem-vendas").hide();
   } else {
-    $("#titulo-filtro").show();
-    $("#lista-filtro-venda").show();
-    $("#valor-filtro-venda").show();
-    $("#buscar-venda").show();
-    $("#listagem-vendas").show();
+    // $("#titulo-filtro").show();
+    // $("#lista-filtro-venda").show();
+    // $("#valor-filtro-venda").show();
+    // $("#buscar-venda").show();
+    // $("#listagem-vendas").show();
   }
 });
 
@@ -852,9 +851,13 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
             retorno_vendas[vendas].nome_cliente_venda +
             "</td>" +
             // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
-            
+
             // "</td>" +
-            "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" + retorno_vendas[vendas].codigo_cliente_vendas + "' data-param2='" + retorno_vendas[vendas].nome_cliente_venda + "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
+            "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
+            retorno_vendas[vendas].codigo_cliente_vendas +
+            "' data-param2='" +
+            retorno_vendas[vendas].nome_cliente_venda +
+            "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
             "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
             // retorno_vendas[vendas].codigo_venda +
             ",event)></i></a></td>" +
@@ -895,94 +898,247 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
     //     );
     //     $("#registros-clientes").html("");
     //   },
-    success: function (retorno_vendas) 
-    {
+    success: function (retorno_vendas) {
       debugger;
 
-      if(retorno_vendas.length > 0)
-      {
+      if (retorno_vendas.length > 0) {
         let recebe_tabela_vendas = document.querySelector(
           "#registros-vendas-cliente"
         );
-        
-        $("#registros-vendas-cliente").html("");
 
-        
+        $("#registros-vendas-cliente").html("");
 
         $("#exibi-nome-cliente").html(recebeNomeClienteVendas);
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-
           let recebeDescontoVenda = retorno_vendas[vendas].desconto_venda;
-          let recebeValorDescontoVenda = retorno_vendas[vendas].desconto_final_venda.toString();
+          let recebeValorDescontoVenda =
+            retorno_vendas[vendas].desconto_final_venda.toString();
 
           let recebeDescontoVF = "";
-          if(recebeDescontoVenda === 1)
-            recebeDescontoVF = "Sim";
-          else
-            recebeDescontoVF = "Não";
+          if (recebeDescontoVenda === 1) recebeDescontoVF = "Sim";
+          else recebeDescontoVF = "Não";
 
           let recebeValorDescontoF = "";
-          if(recebeValorDescontoVenda > 0)
-          {
-            recebeValorDescontoF = "R$" + recebeValorDescontoVenda.replace(".",",");
-          }else{
-            recebeValorDescontoF = "R$" + recebeValorDescontoVenda.replace(".",",");
+          if (recebeValorDescontoVenda > 0) {
+            recebeValorDescontoF =
+              "R$" + recebeValorDescontoVenda.replace(".", ",");
+          } else {
+            recebeValorDescontoF =
+              "R$" + recebeValorDescontoVenda.replace(".", ",");
           }
 
-          let recebeValorFinal = retorno_vendas[vendas].valor_final_venda.toString();
+          let recebeValorFinal =
+            retorno_vendas[vendas].valor_final_venda.toString();
 
-          let recebeValorFVBR = "R$" + recebeValorFinal.replace(".","m");
+          let recebeValorFVBR = "R$" + recebeValorFinal.replace(".", ",");
 
           let recebePagoVenda = retorno_vendas[vendas].pago_venda;
 
           let recebeDataPagamentoAgendadoBR = "";
-          if(retorno_vendas[vendas].pagamento_agendado_venda === 1)
-          {
-            recebeDataPagamentoAgendadoBR = retorno_vendas[vendas].data_pagamento_venda.split("-")
-            .reverse()
-            .join("/");
-          }else{
+          if (retorno_vendas[vendas].pagamento_agendado_venda === 1) {
+            recebeDataPagamentoAgendadoBR = retorno_vendas[
+              vendas
+            ].data_pagamento_venda
+              .split("-")
+              .reverse()
+              .join("/");
+          } else {
             recebeDataPagamentoAgendadoBR = "Não informado";
           }
 
           let recebePagoFV = "";
-          if(recebePagoVenda === 1)
-            recebePagoFV = "Sim";
-          else
-            recebePagoFV = "Não";
+          if (recebePagoVenda === 1) recebePagoFV = "Sim";
+          else recebePagoFV = "Não";
 
           recebe_tabela_vendas +=
-          "<tr>"+
-            "<td class='text-center'>" + retorno_vendas[vendas].nome_produto_venda + "</td>"+
-            "<td class='text-center'>" + retorno_vendas[vendas].quantidade_produtos_venda + "</td>" +
-            "<td class='text-center'>" + recebeDescontoVF + " - " + recebeValorDescontoF + "</td>" +
-            "<td class='text-center'>" + recebeValorFVBR + "</td>" +
-            "<td class='text-center'>" + recebePagoFV + "</td>" +
-            "<td class='text-center'>" + recebeDataPagamentoAgendadoBR + "</td>" +
+            "<tr>" +
+            "<td class='text-center'>" +
+            retorno_vendas[vendas].nome_produto_venda +
+            "</td>" +
+            "<td class='text-center'>" +
+            retorno_vendas[vendas].quantidade_produtos_venda +
+            "</td>" +
+            "<td class='text-center'>" +
+            recebeDescontoVF +
+            " - " +
+            recebeValorDescontoF +
+            "</td>" +
+            "<td class='text-center'>" +
+            recebeValorFVBR +
+            "</td>" +
+            "<td class='text-center'>" +
+            recebePagoFV +
+            "</td>" +
+            "<td class='text-center'>" +
+            recebeDataPagamentoAgendadoBR +
+            "</td>" +
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
-          "</tr>";
+            "</tr>";
         }
 
         $("#registros-vendas-cliente").append(recebe_tabela_vendas);
-      }else{
+      } else {
         console.log(retorno_vendas);
       }
     },
-    error:function(xhr,status,error)
-    {
+    error: function (xhr, status, error) {
       console.log(error);
     },
   });
 });
 
-$("#filtro-venda").click(function (e) {
+$("#buscar-venda").click(function (e) {
   e.preventDefault();
 
   debugger;
 
-  let recebeFiltroSelecionadoV = $(this).val();
+  let recebeClienteSelecionado = $("#lista-cliente-venda").val();
 
-  if (recebeFiltroSelecionadoV === "lista_produto_venda") {
+  let recebeFiltro = $("#filtro-venda").val();
+
+  if (
+    recebeClienteSelecionado != "" &&
+    recebeFiltro != ""
+  ) {
+    $.ajax({
+      //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+      url: "../api/VendaAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_venda: "recebe_consultar_vendas",
+        filtro_venda:recebeFiltro,
+        valor_filtro_venda: recebeClienteSelecionado,
+      },
+      beforeSend: function () {
+        debugger;
+        $("#registros-vendas").html("");
+        $("#registros-vendas").append(
+          "<td colspan='5' class='text-center'>Carregando dados</td>"
+        );
+        $("#registros-vendas").html("");
+      },
+      success: function (retorno_vendas) {
+        debugger;
+        if (retorno_vendas.length > 0) {
+          let recebe_tabela_vendas = document.querySelector("#registros-vendas");
+  
+          let recebe_quantidade_vendas = retorno_vendas.length;
+  
+          $("#exibi-quantidade-vendas").html(
+            "Quantidade de vendas:" + recebe_quantidade_vendas
+          );
+  
+          for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
+            // if (
+            //   listaNomeClientes.includes(
+            //     retorno_vendas[vendas].nome_cliente_venda
+            //   )
+            // ) {
+            //   console.log("nome ja consta no array");
+            // } else {
+            //   listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
+            // }
+  
+            // listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
+  
+            // let recebeValorVendaBR =
+            //   retorno_vendas[vendas].valor_final_venda.toString();
+  
+            // let recebeValorVendaBRFinal =
+            //   "R$" + recebeValorVendaBR.replace(".", ",");
+  
+            // let recebeValorDescontoV = retorno_vendas[vendas].desconto_venda;
+  
+            // let recebePagoV = retorno_vendas[vendas].pago_venda;
+  
+            // let recebeAgendamentoV =
+            //   retorno_vendas[vendas].pagamento_agendado_venda;
+  
+            // let recebeValorDescontoVString = "";
+            // let recebeValorDescontoBRFinal = "";
+  
+            // if (retorno_vendas[vendas].desconto_final_venda != null) {
+            //   recebeValorDescontoVString =
+            //     retorno_vendas[vendas].desconto_final_venda.toString();
+            //   recebeValorDescontoBRFinal =
+            //     "R$" + recebeValorDescontoVString.replace(".", ",");
+            // } else {
+            //   recebeValorDescontoBRFinal = "Não informado";
+            // }
+  
+            // let recebeValorFinalDescontoV = "";
+  
+            // if (recebeValorDescontoV === 1) recebeValorFinalDescontoV = "Sim";
+            // else recebeValorFinalDescontoV = "Não";
+  
+            // let recebeValorPagoV = "";
+  
+            // if (recebePagoV === 1) recebeValorPagoV = "Sim";
+            // else recebeValorPagoV = "Não";
+  
+            // let recebeValorAgendamentoV = "";
+  
+            // if (recebeAgendamentoV === 1) recebeValorAgendamentoV = "Sim";
+            // else recebeValorAgendamentoV = "Não";
+  
+            // let recebeDataAgendamentoV = "";
+            // let recebeDataAmericana = "";
+            // let recebeDataBRAgendamentoV = "";
+  
+            // if (retorno_vendas[vendas].data_pagamento_venda != null) {
+            //   recebeDataAgendamentoV =
+            //     retorno_vendas[vendas].data_pagamento_venda;
+            //   recebeDataBRAgendamentoV = recebeDataAgendamentoV
+            //     .split("-")
+            //     .reverse()
+            //     .join("/");
+            // } else {
+            //   recebeDataBRAgendamentoV = "Não informado";
+            // }
+  
+            recebe_tabela_vendas.innerHTML +=
+              "<tr>" +
+              "<td style='text-align:center;'>" +
+              retorno_vendas[vendas].nome_cliente_venda +
+              "</td>" +
+              // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
+  
+              // "</td>" +
+              "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
+              retorno_vendas[vendas].codigo_cliente_vendas +
+              "' data-param2='" +
+              retorno_vendas[vendas].nome_cliente_venda +
+              "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
+              "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
+              // retorno_vendas[vendas].codigo_venda +
+              ",event)></i></a></td>" +
+              "</tr>";
+          }
+          $("#registros-vendas").append(recebe_tabela_vendas);
+        } else {
+          $("#exibi-quantidade-vendas").html("Quantidade de vendas:" + 0);
+          $("#registros-vendas").append(
+            "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+          );
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log(error);
+      },
+    });
+  } else if (recebeClienteSelecionado === "") {
+    $("#recebe-mensagem-campo-vazio-busca-venda").html(
+      "Favor selecionar o cliente que deseja pesquisar"
+    );
+    $("#recebe-mensagem-campo-vazio-busca-venda").show();
+    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
+  } else if (recebeFiltro === "") {
+    $("#recebe-mensagem-campo-vazio-busca-venda").html(
+      "Favor selecionar o filtro que deseja pesquisar"
+    );
+    $("#recebe-mensagem-campo-vazio-busca-venda").show();
+    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
   }
 });

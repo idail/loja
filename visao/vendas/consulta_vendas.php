@@ -5,8 +5,8 @@
     <div class="card-body table-responsive">
         <h5 class="card-title">Vendas</h5>
         <div class="row mb-4 col-lg-12">
-            <label class="col-sm-1 col-form-label">Selecione o cliente</label>
-            <div class="col-sm-2">
+            <label class="col-sm-2 col-form-label">Selecione o cliente</label>
+            <div class="col-sm-4">
                 <select class="form-select" aria-label="Default select example" id="lista-cliente-venda">
 
                 </select>
@@ -17,14 +17,15 @@
             <div class="col-sm-2" id="lista-filtro-venda">
                 <select class="form-select" aria-label="Default select example" id="filtro-venda">
                     <option selected value="selecione">Selecione</option>
-                    <option value="lista_produto_venda">Nome</option>
+                    <option value="cliente">Nome</option>
                     <option value="todos_venda">Todos</option>
                 </select>
             </div>
 
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
                 <input type="text" class="form-control" name="valor-filtro-venda" placeholder="Informe o filtro que deseja pesquisar" id="valor-filtro-venda">
-            </div>
+            </div> -->
+
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary" id="buscar-venda">Pesquisar</button>
             </div>
