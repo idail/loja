@@ -717,11 +717,8 @@ $("#cadastro-venda").click(function (e) {
 
 $("#lista-cliente-venda").change(function (e) {
   // e.preventDefault();
-
   // debugger;
-
   // let recebeNomeSelecionadoCliente = $(this).val();
-
   // if (recebeNomeSelecionadoCliente === "selecione") {
   //   $("#recebe-mensagem-campo-vazio-busca-venda").html(
   //     "Favor selecione o cliente que deseja ver as vendas"
@@ -988,16 +985,15 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
   });
 });
 
-$("#filtro-venda").change(function(e){
+$("#filtro-venda").change(function (e) {
   e.preventDefault();
 
   let recebeValorSelecionadoBC = $(this).val();
 
-  if(recebeValorSelecionadoBC === "todos_venda")
-  {
-    $("#lista-cliente-venda").prop("disabled",true);
-  }else{
-    $("#lista-cliente-venda").prop("disabled",false);
+  if (recebeValorSelecionadoBC === "todos_venda") {
+    $("#lista-cliente-venda").prop("disabled", true);
+  } else {
+    $("#lista-cliente-venda").prop("disabled", false);
   }
 });
 
@@ -1010,10 +1006,19 @@ $("#buscar-venda").click(function (e) {
 
   let recebeFiltro = $("#filtro-venda").val();
 
-  if (
-    recebeClienteSelecionado != "" &&
-    recebeFiltro != ""
-  ) {
+  if (recebeClienteSelecionado === "selecione") {
+    $("#recebe-mensagem-campo-vazio-busca-venda").html(
+      "Favor selecionar o cliente que deseja pesquisar"
+    );
+    $("#recebe-mensagem-campo-vazio-busca-venda").show();
+    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
+  } else if (recebeFiltro === "selecione") {
+    $("#recebe-mensagem-campo-vazio-busca-venda").html(
+      "Favor selecionar o filtro que deseja pesquisar"
+    );
+    $("#recebe-mensagem-campo-vazio-busca-venda").show();
+    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
+  } else {
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
       url: "../api/VendaAPI.php",
@@ -1021,7 +1026,7 @@ $("#buscar-venda").click(function (e) {
       type: "get",
       data: {
         processo_venda: "recebe_consultar_vendas",
-        filtro_venda:recebeFiltro,
+        filtro_venda: recebeFiltro,
         valor_filtro_venda: recebeClienteSelecionado,
       },
       beforeSend: function () {
@@ -1035,89 +1040,23 @@ $("#buscar-venda").click(function (e) {
       success: function (retorno_vendas) {
         debugger;
         if (retorno_vendas.length > 0) {
-          let recebe_tabela_vendas = document.querySelector("#registros-vendas");
-  
+          let recebe_tabela_vendas =
+            document.querySelector("#registros-vendas");
+
           let recebe_quantidade_vendas = retorno_vendas.length;
-  
+
           $("#exibi-quantidade-vendas").html(
             "Quantidade de vendas:" + recebe_quantidade_vendas
           );
-  
+
           for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-            // if (
-            //   listaNomeClientes.includes(
-            //     retorno_vendas[vendas].nome_cliente_venda
-            //   )
-            // ) {
-            //   console.log("nome ja consta no array");
-            // } else {
-            //   listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
-            // }
-  
-            // listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
-  
-            // let recebeValorVendaBR =
-            //   retorno_vendas[vendas].valor_final_venda.toString();
-  
-            // let recebeValorVendaBRFinal =
-            //   "R$" + recebeValorVendaBR.replace(".", ",");
-  
-            // let recebeValorDescontoV = retorno_vendas[vendas].desconto_venda;
-  
-            // let recebePagoV = retorno_vendas[vendas].pago_venda;
-  
-            // let recebeAgendamentoV =
-            //   retorno_vendas[vendas].pagamento_agendado_venda;
-  
-            // let recebeValorDescontoVString = "";
-            // let recebeValorDescontoBRFinal = "";
-  
-            // if (retorno_vendas[vendas].desconto_final_venda != null) {
-            //   recebeValorDescontoVString =
-            //     retorno_vendas[vendas].desconto_final_venda.toString();
-            //   recebeValorDescontoBRFinal =
-            //     "R$" + recebeValorDescontoVString.replace(".", ",");
-            // } else {
-            //   recebeValorDescontoBRFinal = "Não informado";
-            // }
-  
-            // let recebeValorFinalDescontoV = "";
-  
-            // if (recebeValorDescontoV === 1) recebeValorFinalDescontoV = "Sim";
-            // else recebeValorFinalDescontoV = "Não";
-  
-            // let recebeValorPagoV = "";
-  
-            // if (recebePagoV === 1) recebeValorPagoV = "Sim";
-            // else recebeValorPagoV = "Não";
-  
-            // let recebeValorAgendamentoV = "";
-  
-            // if (recebeAgendamentoV === 1) recebeValorAgendamentoV = "Sim";
-            // else recebeValorAgendamentoV = "Não";
-  
-            // let recebeDataAgendamentoV = "";
-            // let recebeDataAmericana = "";
-            // let recebeDataBRAgendamentoV = "";
-  
-            // if (retorno_vendas[vendas].data_pagamento_venda != null) {
-            //   recebeDataAgendamentoV =
-            //     retorno_vendas[vendas].data_pagamento_venda;
-            //   recebeDataBRAgendamentoV = recebeDataAgendamentoV
-            //     .split("-")
-            //     .reverse()
-            //     .join("/");
-            // } else {
-            //   recebeDataBRAgendamentoV = "Não informado";
-            // }
-  
             recebe_tabela_vendas.innerHTML +=
               "<tr>" +
               "<td style='text-align:center;'>" +
               retorno_vendas[vendas].nome_cliente_venda +
               "</td>" +
               // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
-  
+
               // "</td>" +
               "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
               retorno_vendas[vendas].codigo_cliente_vendas +
@@ -1141,17 +1080,5 @@ $("#buscar-venda").click(function (e) {
         console.log(error);
       },
     });
-  } else if (recebeClienteSelecionado === "") {
-    $("#recebe-mensagem-campo-vazio-busca-venda").html(
-      "Favor selecionar o cliente que deseja pesquisar"
-    );
-    $("#recebe-mensagem-campo-vazio-busca-venda").show();
-    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
-  } else if (recebeFiltro === "") {
-    $("#recebe-mensagem-campo-vazio-busca-venda").html(
-      "Favor selecionar o filtro que deseja pesquisar"
-    );
-    $("#recebe-mensagem-campo-vazio-busca-venda").show();
-    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
   }
 });
