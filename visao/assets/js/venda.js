@@ -716,30 +716,30 @@ $("#cadastro-venda").click(function (e) {
 });
 
 $("#lista-cliente-venda").change(function (e) {
-  e.preventDefault();
+  // e.preventDefault();
 
-  debugger;
+  // debugger;
 
-  let recebeNomeSelecionadoCliente = $(this).val();
+  // let recebeNomeSelecionadoCliente = $(this).val();
 
-  if (recebeNomeSelecionadoCliente === "selecione") {
-    $("#recebe-mensagem-campo-vazio-busca-venda").html(
-      "Favor selecione o cliente que deseja ver as vendas"
-    );
-    $("#recebe-mensagem-campo-vazio-busca-venda").show();
-    $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
-    // $("#titulo-filtro").hide();
-    // $("#lista-filtro-venda").hide();
-    // $("#valor-filtro-venda").hide();
-    // $("#buscar-venda").hide();
-    // $("#listagem-vendas").hide();
-  } else {
-    // $("#titulo-filtro").show();
-    // $("#lista-filtro-venda").show();
-    // $("#valor-filtro-venda").show();
-    // $("#buscar-venda").show();
-    // $("#listagem-vendas").show();
-  }
+  // if (recebeNomeSelecionadoCliente === "selecione") {
+  //   $("#recebe-mensagem-campo-vazio-busca-venda").html(
+  //     "Favor selecione o cliente que deseja ver as vendas"
+  //   );
+  //   $("#recebe-mensagem-campo-vazio-busca-venda").show();
+  //   $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
+  //   // $("#titulo-filtro").hide();
+  //   // $("#lista-filtro-venda").hide();
+  //   // $("#valor-filtro-venda").hide();
+  //   // $("#buscar-venda").hide();
+  //   // $("#listagem-vendas").hide();
+  // } else {
+  //   // $("#titulo-filtro").show();
+  //   // $("#lista-filtro-venda").show();
+  //   // $("#valor-filtro-venda").show();
+  //   // $("#buscar-venda").show();
+  //   // $("#listagem-vendas").show();
+  // }
 });
 
 let listaImagensProdutos = Array();
@@ -986,6 +986,19 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
       console.log(error);
     },
   });
+});
+
+$("#filtro-venda").change(function(e){
+  e.preventDefault();
+
+  let recebeValorSelecionadoBC = $(this).val();
+
+  if(recebeValorSelecionadoBC === "todos_venda")
+  {
+    $("#lista-cliente-venda").prop("disabled",true);
+  }else{
+    $("#lista-cliente-venda").prop("disabled",false);
+  }
 });
 
 $("#buscar-venda").click(function (e) {
