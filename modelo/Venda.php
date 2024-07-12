@@ -242,10 +242,5 @@ class Venda implements VendaInterface{
             return $registros_vendas;
         }
     }
-
-    public function BuscarQuantidadeEstoque()
-    {
-        
-    }
 }
 ?>
