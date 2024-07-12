@@ -19,7 +19,48 @@ $(document).ready(function () {
     $("#recebe-mensagem-quantidade-acima-venda").hide();
     $("#recebe-mensagem-campo-vazio-cadastro-venda").hide();
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
-    debugger;
+
+    $.ajax({
+      url: "../api/ProdutoAPI.php",
+      dataType: "json",
+      type: "get",
+      data: {
+        processo_produto: "recebe_consultar_produtos",
+        filtro_produto:"todos_produtos",
+        valor_filtro_produto:"todos_produtos"
+      },
+      success:function(retorno_produtos)
+      {
+        debugger;
+        
+        if(retorno_produtos.length > 0)
+        {
+          $("#lista-produto").html("");
+          $("#lista-produto").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+
+          $.each(retorno_produtos, function (i, element) {
+            $("#lista-produto").append(
+              "<option value=" +
+                element.codigo_produto +
+                ">" +
+                element.nome_produto +
+                "</option>"
+            );
+          });
+        }else {
+          $("#lista-produto").html("");
+          $("#lista-produto").append(
+            "<option value='selecione'>Selecione</option>"
+          );
+        }
+      },
+      error:function(xhr,status,error)
+      {
+        console.log(error);
+      },
+    });
 
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -29,14 +70,6 @@ $(document).ready(function () {
       data: {
         processo_cliente: "recebe_consultar_clientes_para_venda",
       },
-      //   beforeSend: function () {
-      //     debugger;
-      //     $("#registros-clientes").html("");
-      //     $("#registros-clientes").append(
-      //       "<td colspan='5' class='text-center'>Carregando dados</td>"
-      //     );
-      //     $("#registros-clientes").html("");
-      //   },
       success: function (retorno_clientes) {
         debugger;
         if (retorno_clientes.length > 0) {
@@ -122,12 +155,15 @@ let recebeNomeProdutoGravar = "";
 let recebeQTDEstoqueProduto = 0;
 let recebeValorProdutoEstoque = 0;
 let recebeValorSFP = "";
+let recebeCodigosProdutosSelecionadas = Array();
 $("#lista-produto").change(function (e) {
   e.preventDefault();
 
   debugger;
 
   let recebeValorSFP = $(this).val();
+
+  recebeCodigosProdutosSelecionadas.push(recebeValorSFP);
 
   $.ajax({
     //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -623,6 +659,7 @@ $("#cadastro-venda").click(function (e) {
         valor_pagamentoagendadov: listaPagamentoAgendadoV,
         valor_datapagamentov: listaDataPagamentoV,
         valor_codigocv: listaCodigoClienteV,
+        valor_codigosprodutosselecionados:recebeCodigosProdutosSelecionadas,
         processo_venda: "recebe_cadastro_venda",
       },
       success: function (retorno) {
@@ -712,30 +749,6 @@ $("#cadastro-venda").click(function (e) {
   //   recebePagoV = 1;
   // } else {
   //   recebePagoV = 0;
-  // }
-});
-
-$("#lista-cliente-venda").change(function (e) {
-  // e.preventDefault();
-  // debugger;
-  // let recebeNomeSelecionadoCliente = $(this).val();
-  // if (recebeNomeSelecionadoCliente === "selecione") {
-  //   $("#recebe-mensagem-campo-vazio-busca-venda").html(
-  //     "Favor selecione o cliente que deseja ver as vendas"
-  //   );
-  //   $("#recebe-mensagem-campo-vazio-busca-venda").show();
-  //   $("#recebe-mensagem-campo-vazio-busca-venda").fadeOut(4000);
-  //   // $("#titulo-filtro").hide();
-  //   // $("#lista-filtro-venda").hide();
-  //   // $("#valor-filtro-venda").hide();
-  //   // $("#buscar-venda").hide();
-  //   // $("#listagem-vendas").hide();
-  // } else {
-  //   // $("#titulo-filtro").show();
-  //   // $("#lista-filtro-venda").show();
-  //   // $("#valor-filtro-venda").show();
-  //   // $("#buscar-venda").show();
-  //   // $("#listagem-vendas").show();
   // }
 });
 
