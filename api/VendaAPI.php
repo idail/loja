@@ -1,7 +1,6 @@
 <?php
 //é importado a classe protocoloscontroladora.php
 require("../controladora/VendaControladora.php");
-require("../controladora/ProdutoControladora.php");
 //O valor diz aos navegadores para permitir que o código de solicitação de qualquer origem acesse o recurso
 header("Access-Control-Allow-Origin: *");
 //Especifica um ou mais métodos permitidos ao acessar um recurso em resposta a uma solicitação de comprovação

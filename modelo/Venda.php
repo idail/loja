@@ -254,7 +254,7 @@ class Venda implements VendaInterface{
         }
     }
 
-    public function AtualizarQuantidadeEstoque()
+    public function AtualizarQuantidadeEstoque():string
     {
         try{
 

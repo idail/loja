@@ -526,6 +526,7 @@ require("../api/VerificaSessao.php");
         </div><!-- End Page Title -->
 
         <section class="section dashboard">
+
             <div class="row">
                 <?php
                 if (isset($_GET["pagina"])) {
@@ -533,16 +534,13 @@ require("../api/VerificaSessao.php");
                         require("clientes/clientes.php");
                     } elseif ($_GET["pagina"] === "consulta_clientes") {
                         require("clientes/consulta_clientes.php");
-                    } elseif($_GET["pagina"] === "cadastro_produtos"){
+                    } elseif ($_GET["pagina"] === "cadastro_produtos") {
                         require("produtos/cadastro_produtos.php");
-                    } else if($_GET["pagina"] === "consulta_produtos")
-                    {
+                    } else if ($_GET["pagina"] === "consulta_produtos") {
                         require("produtos/consulta_produtos.php");
-                    }else if($_GET["pagina"] === "cadastro_venda")
-                    {
+                    } else if ($_GET["pagina"] === "cadastro_venda") {
                         require("vendas/cadastrar_vendas.php");
-                    }else if($_GET["pagina"] === "consulta_venda")
-                    {
+                    } else if ($_GET["pagina"] === "consulta_venda") {
                         require("vendas/consulta_vendas.php");
                     }
                 } else {
@@ -551,7 +549,6 @@ require("../api/VerificaSessao.php");
                 ?>
             </div>
         </section>
-
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
