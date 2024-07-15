@@ -23,25 +23,19 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebePagamentoAgendadoV = $_POST["valor_pagamentoagendadov"];
         $recebeDataAgendamentoProdutoV = $_POST["valor_datapagamentov"];
         $recebeCodigoClienteV = $_POST["valor_codigocv"];
-        $recebeCodigosProdutosSelecionados = $_POST["valor_codigosprodutosselecionados"];
+        $recebeDadosAtualizarEstoque = $_POST["valor_dadosatualizarestoque"];
 
 
         $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeNomeClienteV,$recebeQuantidadeProdutoV,
         $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,
         $recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV,$recebeCodigoClienteV);
 
-        $ver = "";
-        foreach($recebeCodigosProdutosSelecionados as $codigos)
-        {
-            $ver = $codigos;
-        }
-
         if($resultadoCadastrarVenda != 0)
         {
-            
-        }
+            $resultadoAtualizarEstoqueVenda = $vendaControladora->AtualizarEstoqueVenda($recebeDadosAtualizarEstoque);
 
-        //echo json_encode($resultadoCadastrarVenda);
+            echo json_encode($resultadoAtualizarEstoqueVenda);
+        }
     }
 }else if($_SERVER["REQUEST_METHOD"] === "GET")
 {

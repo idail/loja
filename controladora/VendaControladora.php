@@ -46,5 +46,14 @@ class VendaControladora{
 
         return $resultadoBuscarVEspecificasCliente;
     }
+
+    public function AtualizarEstoqueVenda($recebeDadosAtualizarEstoque)
+    {
+        $this->venda->setAtualizar_Estoque($recebeDadosAtualizarEstoque);
+
+        $resultadoAtualizarEstoqueVenda = $this->venda->AtualizarQuantidadeEstoque();
+
+        return $resultadoAtualizarEstoqueVenda;
+    }
 }
 ?>

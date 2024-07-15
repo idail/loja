@@ -155,7 +155,8 @@ let recebeNomeProdutoGravar = "";
 let recebeQTDEstoqueProduto = 0;
 let recebeValorProdutoEstoque = 0;
 let recebeValorSFP = "";
-let recebeCodigosProdutosSelecionadas = Array();
+let recebeCodigoProdutoSelecionado = 0;
+
 $("#lista-produto").change(function (e) {
   e.preventDefault();
 
@@ -163,7 +164,7 @@ $("#lista-produto").change(function (e) {
 
   let recebeValorSFP = $(this).val();
 
-  recebeCodigosProdutosSelecionadas.push(recebeValorSFP);
+  recebeCodigoProdutoSelecionado = recebeValorSFP;
 
   $.ajax({
     //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -232,7 +233,7 @@ $("#lista-cliente").change(function (e) {
   });
 });
 
-let recebeValorDescontoV = "";
+let recebeValorDescontoV = 0;
 
 $("#lista-desconto-venda").change(function (e) {
   e.preventDefault();
@@ -374,6 +375,8 @@ let listaPagamentoAgendadoV = Array();
 let listaDataPagamentoV = Array();
 let listaCodigoClienteV = Array();
 
+let recebeDadosAtualizarEstoque = Array();
+
 $("#adicionar-item-venda").click(function (e) {
   debugger;
   e.preventDefault();
@@ -391,6 +394,16 @@ $("#adicionar-item-venda").click(function (e) {
   let recebePagoSPV = $("#lista-pago-venda").val();
 
   let recebeAgendarSPV = $("#lista-agendar-pagamento").val();
+
+  let recebeCodigoPS = parseInt(recebeCodigoProdutoSelecionado);
+
+  //dados = {recebeCodigoPS:recebeQTDPV,};
+
+  recebeDadosAtualizarEstoque.push({
+    codigo:recebeCodigoPS,estoque:recebeQTDPV,
+  });
+
+  console.log(recebeDadosAtualizarEstoque);
 
   let recebeDataPagamentoAgendadoBR = "";
   let recebeDataPagamentoAmericano = "";
@@ -659,12 +672,12 @@ $("#cadastro-venda").click(function (e) {
         valor_pagamentoagendadov: listaPagamentoAgendadoV,
         valor_datapagamentov: listaDataPagamentoV,
         valor_codigocv: listaCodigoClienteV,
-        valor_codigosprodutosselecionados:recebeCodigosProdutosSelecionadas,
+        valor_dadosatualizarestoque:recebeDadosAtualizarEstoque,
         processo_venda: "recebe_cadastro_venda",
       },
       success: function (retorno) {
         debugger;
-        if (retorno > 0) {
+        if (retorno === "Estoque atualizado") {
           $("#recebe-mensagem-cadastro-realizado-venda").html(
             "Venda cadastrada com sucesso"
           );

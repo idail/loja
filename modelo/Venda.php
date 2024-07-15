@@ -16,6 +16,7 @@ class Venda implements VendaInterface{
     private $codigo_cliente_vendas;
     private $filtro_venda;
     private $valor_filtro_venda;
+    private $atualizar_estoque = array();
 
     public function setCodigo_Venda($codigo_venda)
     {
@@ -147,6 +148,16 @@ class Venda implements VendaInterface{
         return $this->valor_filtro_venda;
     }
 
+    public function setAtualizar_Estoque($atualizar_estoque)
+    {
+        $this->atualizar_estoque = $atualizar_estoque;
+    }
+
+    public function getAtualizar_Estoque()
+    {
+        return $this->atualizar_estoque;
+    }
+
     public function CadastrarVenda()
     {
         try{
@@ -243,9 +254,45 @@ class Venda implements VendaInterface{
         }
     }
 
-    public function BuscarQuantidadeEstoque()
+    public function AtualizarQuantidadeEstoque()
     {
-        
+        try{
+
+            for($i = 0;$i < count($this->getAtualizar_Estoque());$i++)
+            {
+                $qtd_estoque_informado = $this->getAtualizar_Estoque()[$i]["estoque"];
+                $instrucaoBuscaQTDEstoqueProduto = "select estoque_produto from produtos where codigo_produto = :recebe_codigo_produto";
+                $comandoBuscaQTDEstoqueProduto = Conexao::Obtem()->prepare($instrucaoBuscaQTDEstoqueProduto);
+                $comandoBuscaQTDEstoqueProduto->bindValue(":recebe_codigo_produto",$this->getAtualizar_Estoque()[$i]["codigo"]);
+                $comandoBuscaQTDEstoqueProduto->execute();
+                $registro_qtd_estoque_produto = $comandoBuscaQTDEstoqueProduto->fetch(PDO::FETCH_ASSOC);
+
+                $recebe_qtd_estoque_atual = $registro_qtd_estoque_produto["estoque_produto"];
+
+                $recebe_qtd_atualizada_estoque = $qtd_estoque_informado - $recebe_qtd_estoque_atual;
+
+                $recebe_valorqtdatualizado = abs($recebe_qtd_atualizada_estoque);
+
+                $instrucaoAtualizaQTDEstoqueProduto = "update produtos set estoque_produto = :recebe_estoque_produto where codigo_produto = :recebe_codigo_produto";
+                $comandoAtualizaQTDEstoqueProduto = Conexao::Obtem()->prepare($instrucaoAtualizaQTDEstoqueProduto);
+                $comandoAtualizaQTDEstoqueProduto->bindValue(":recebe_estoque_produto",$recebe_valorqtdatualizado);
+                $comandoAtualizaQTDEstoqueProduto->bindValue(":recebe_codigo_produto",$this->getAtualizar_Estoque()[$i]["codigo"]);
+
+                $resultadoAtualizadoQTDEstoqueProduto = $comandoAtualizaQTDEstoqueProduto->execute();
+
+            }
+
+            if($resultadoAtualizadoQTDEstoqueProduto)
+                return "Estoque atualizado";
+            else
+                return "Estoque não atualizado";
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+            $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
     }
 }
 ?>
