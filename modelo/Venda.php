@@ -292,7 +292,7 @@ class Venda implements VendaInterface{
         } catch (Exception $excecao) {
             $recebe_erro =  $excecao->getMessage();
             return $recebe_erro;
-                }
+        }
     }
 }
 ?>
