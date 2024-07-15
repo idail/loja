@@ -286,5 +286,26 @@ class Produto implements ProdutoInterface
             return $recebe_erro;
         }
     }
+
+    public function AtualizarQTDEstoqueProduto():int
+    {
+        $registro_produto = array();
+
+        try{
+            $instrucaoBuscarQTDProdutoEstoque = "select estoque_produto from produtos as p where p.codigo_produto = :recebe_codigo_produto";
+            $comandoBuscarQTDProdutoEstoque = Conexao::Obtem()->prepare($instrucaoBuscarQTDProdutoEstoque);
+            $comandoBuscarQTDProdutoEstoque->bindValue(":recebe_codigo_produto",$this->getCodigo_Produto());
+            $comandoBuscarQTDProdutoEstoque->execute();
+            $registro_produto = $comandoBuscarQTDProdutoEstoque->fetchAll(PDO::FETCH_ASSOC);
+
+            return $registro_produto;
+        }catch (PDOException $exception) {
+            array_push($registro_produto, $exception->getMessage());
+            return $registro_produto;
+        } catch (Exception $excecao) {
+            array_push($registro_produto, $excecao->getMessage());
+            return $registro_produto;
+        }
+    }
 }
 ?>
