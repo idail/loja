@@ -1,5 +1,5 @@
 <div class="col-lg-3 mb-4">
-    <a href="index.php?pagina=cadastro_produtos" class="btn btn-primary">Cadastrar Venda</a>
+    <a href="index.php?pagina=cadastro_venda" class="btn btn-primary">Cadastrar Venda</a>
 </div>
 <div class="card">
     <div class="card-body table-responsive">

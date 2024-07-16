@@ -90,18 +90,18 @@
 
         <div class="card-body">
             <h5 class="card-title"></span></h5>
+            <a href="index.php?pagina=consulta_venda">
+                <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <i class="bi bi-handbag"></i>
+                    </div>
+                    <div class="ps-3">
+                        <h6>Consultar Vendas</h6>
+                        <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
 
-            <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-handbag"></i>
+                    </div>
                 </div>
-                <div class="ps-3">
-                    <h6>Consultar Vendas</h6>
-                    <!-- <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span> -->
-
-                </div>
-            </div>
-
+            </a>
         </div>
     </div>
 
@@ -110,7 +110,7 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-6">
-            
+
             <div class="card">
                 <!-- <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -192,19 +192,20 @@
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Bar CHart</h5>
+                    <h5 class="card-title">Vendas</h5>
 
                     <!-- Bar Chart -->
                     <canvas id="barChart" style="max-height: 400px;"></canvas>
                     <script>
+                        let numeros = [10, 25, 30, 85, 74, 96, 12, 7, 1, 20, 11, 2];
                         document.addEventListener("DOMContentLoaded", () => {
                             new Chart(document.querySelector('#barChart'), {
                                 type: 'bar',
                                 data: {
-                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
                                     datasets: [{
-                                        label: 'Bar Chart',
-                                        data: [65, 59, 80, 81, 56, 55, 40],
+                                        label: 'Vendas',
+                                        data: numeros,
                                         backgroundColor: [
                                             'rgba(255, 99, 132, 0.2)',
                                             'rgba(255, 159, 64, 0.2)',
