@@ -1,3 +1,4 @@
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- Sales Card -->
 <div class="col-xl-4 col-md-4">
     <div class="card info-card sales-card">
@@ -131,10 +132,27 @@
                     <div id="trafficChart" style="min-height: 400px;" class="echart col-xl-6"></div>
 
                     <script>
-                        recebe_total_clientes = 0;
-                        recebe_total_vendas = 0;
-                        document.addEventListener("DOMContentLoaded", () => {
-                            
+                        $(document).ready(function(e) {
+                            debugger;
+                            var recebe_total_clientes = 0;
+                            var recebe_total_vendas = 0;
+
+                            // [{
+                            //     value: recebe_total_clientes,
+                            //     name: 'Clientes'
+                            // }, {
+                            //     value: recebe_total_vendas,
+                            //     name: 'Vendas'
+                            // }, {
+                            //     value: 580,
+                            //     name: 'A vencer'
+                            // }, {
+                            //     value: 484,
+                            //     name: 'Vencidos'
+                            // }, ];
+
+                            var dados = [];
+
                             $.ajax({
                                 url: "../api/ClienteAPI.php",
                                 dataType: "json",
@@ -161,64 +179,70 @@
                                 success: function(retorno_venda) {
                                     debugger;
                                     recebe_total_vendas = retorno_venda;
+
+                                    dados.push({
+                                        value: recebe_total_clientes,
+                                        name: 'Clientes'
+                                    },{
+                                        value:recebe_total_vendas,
+                                        name:"Vendas"
+                                    } );
+
+                                    echarts.init(document.querySelector("#trafficChart")).setOption({
+                                        tooltip: {
+                                            trigger: 'item'
+                                        },
+                                        legend: {
+                                            top: '5%',
+                                            left: 'center'
+                                        },
+                                        series: [{
+                                            name: 'Informações',
+                                            type: 'pie',
+                                            radius: ['40%', '70%'],
+                                            avoidLabelOverlap: false,
+                                            label: {
+                                                show: false,
+                                                position: 'center'
+                                            },
+                                            emphasis: {
+                                                label: {
+                                                    show: true,
+                                                    fontSize: '18',
+                                                    fontWeight: 'bold'
+                                                }
+                                            },
+                                            labelLine: {
+                                                show: false
+                                            },
+                                            data: dados
+                                        }]
+                                    });
+
+                                    console.log("aqui esta normal:" + recebe_total_vendas);
                                 },
                                 error: function(xhr, status, error) {
 
                                 },
                             });
 
-
-                            echarts.init(document.querySelector("#trafficChart")).setOption({
-                                tooltip: {
-                                    trigger: 'item'
-                                },
-                                legend: {
-                                    top: '5%',
-                                    left: 'center'
-                                },
-                                series: [{
-                                    name: 'Informações',
-                                    type: 'pie',
-                                    radius: ['40%', '70%'],
-                                    avoidLabelOverlap: false,
-                                    label: {
-                                        show: false,
-                                        position: 'center'
-                                    },
-                                    emphasis: {
-                                        label: {
-                                            show: true,
-                                            fontSize: '18',
-                                            fontWeight: 'bold'
-                                        }
-                                    },
-                                    labelLine: {
-                                        show: false
-                                    },
-                                    data: [{
-                                            value: recebe_total_clientes,
-                                            name: 'Clientes'
-                                        },
-                                        {
-                                            value: recebe_total_vendas,
-                                            name: 'Vendas'
-                                        },
-                                        {
-                                            value: 580,
-                                            name: 'A vencer'
-                                        },
-                                        {
-                                            value: 484,
-                                            name: 'Vencidos'
-                                        },
-                                        // {
-                                        //     value: 300,
-                                        //     name: 'Video Ads'
-                                        // }
-                                    ]
-                                }]
-                            });
+                            console.log("fora do sucesso:" + recebe_total_vendas);
                         });
+
+
+                        // recebe_valores.push({
+                        //     value: 50,
+                        //     name: "Clientes"
+                        // }, {
+                        //     value: 100,
+                        //     name: "Vendas"
+                        // });
+
+
+                        // document.addEventListener("DOMContentLoaded", () => {
+
+
+                        // });
                     </script>
 
                 </div>

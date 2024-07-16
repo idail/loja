@@ -298,7 +298,7 @@ class Venda implements VendaInterface{
     public function BuscaTotalVendas():int
     {
         try{
-            $instrucaoBuscaTotalVendas = "select count(codigo_venda) as total_venda from venda";
+            $instrucaoBuscaTotalVendas = "select count(codigo_venda) as total_venda from vendas";
             $comandoBuscaTotalVendas = Conexao::Obtem()->prepare($instrucaoBuscaTotalVendas);
             $comandoBuscaTotalVendas->execute();
             $registro_total_vendas = $comandoBuscaTotalVendas->fetch(PDO::FETCH_ASSOC);
