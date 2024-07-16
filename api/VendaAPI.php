@@ -56,6 +56,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $resultadoBuscarVendasCEspecifico = $vendaControladora->BuscarVendasClienteEspecifico($recebeCodigoClienteVendas);
 
         echo json_encode($resultadoBuscarVendasCEspecifico);
+    }else if($recebeProcessoVenda === "recebe_consultar_total_vendas")
+    {
+        $resultadoBuscaTotalVenda = $vendaControladora->BuscaTotalVendas();
+
+        echo json_encode($resultadoBuscaTotalVenda);
     }
 }
 ?>

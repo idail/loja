@@ -131,7 +131,8 @@
                     <div id="trafficChart" style="min-height: 400px;" class="echart col-xl-6"></div>
 
                     <script>
-                        let recebe_total_clientes = 0;
+                        recebe_total_clientes = 0;
+                        recebe_total_vendas = 0;
                         document.addEventListener("DOMContentLoaded", () => {
                             
                             $.ajax({
@@ -144,6 +145,22 @@
                                 success: function(retorno_cliente) {
                                     debugger;
                                     recebe_total_clientes = retorno_cliente;
+                                },
+                                error: function(xhr, status, error) {
+
+                                },
+                            });
+
+                            $.ajax({
+                                url: "../api/VendaAPI.php",
+                                dataType: "json",
+                                type: "get",
+                                data: {
+                                    processo_venda: "recebe_consultar_total_vendas",
+                                },
+                                success: function(retorno_venda) {
+                                    debugger;
+                                    recebe_total_vendas = retorno_venda;
                                 },
                                 error: function(xhr, status, error) {
 
@@ -183,7 +200,7 @@
                                             name: 'Clientes'
                                         },
                                         {
-                                            value: 735,
+                                            value: recebe_total_vendas,
                                             name: 'Vendas'
                                         },
                                         {

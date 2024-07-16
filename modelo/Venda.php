@@ -294,5 +294,23 @@ class Venda implements VendaInterface{
             return $recebe_erro;
         }
     }
+
+    public function BuscaTotalVendas():int
+    {
+        try{
+            $instrucaoBuscaTotalVendas = "select count(codigo_venda) as total_venda from venda";
+            $comandoBuscaTotalVendas = Conexao::Obtem()->prepare($instrucaoBuscaTotalVendas);
+            $comandoBuscaTotalVendas->execute();
+            $registro_total_vendas = $comandoBuscaTotalVendas->fetch(PDO::FETCH_ASSOC);
+
+            $recebe_total_vendas = $registro_total_vendas["total_venda"];
+
+            return $recebe_total_vendas;
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

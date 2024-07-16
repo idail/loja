@@ -55,5 +55,12 @@ class VendaControladora{
 
         return $resultadoAtualizarEstoqueVenda;
     }
+
+    public function BuscaTotalVendas()
+    {
+        $resultadoBuscaTotalVendas = $this->venda->BuscaTotalVendas();
+
+        return $resultadoBuscaTotalVendas;
+    }
 }
 ?>
