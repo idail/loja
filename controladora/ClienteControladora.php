@@ -68,5 +68,12 @@ class ClienteControladora{
 
         return $resultadoExcluiCliente;
     }
+
+    public function BuscaTotalClientes()
+    {
+        $resultadoBuscaTotalClientes = $this->cliente->BuscaTotalClientes();
+
+        return $resultadoBuscaTotalClientes;
+    }
 }
 ?>

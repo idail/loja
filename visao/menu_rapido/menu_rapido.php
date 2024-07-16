@@ -131,7 +131,26 @@
                     <div id="trafficChart" style="min-height: 400px;" class="echart col-xl-6"></div>
 
                     <script>
+                        let recebe_total_clientes = 0;
                         document.addEventListener("DOMContentLoaded", () => {
+                            
+                            $.ajax({
+                                url: "../api/ClienteAPI.php",
+                                dataType: "json",
+                                type: "get",
+                                data: {
+                                    processo_cliente: "recebe_consultar_total_clientes",
+                                },
+                                success: function(retorno_cliente) {
+                                    debugger;
+                                    recebe_total_clientes = retorno_cliente;
+                                },
+                                error: function(xhr, status, error) {
+
+                                },
+                            });
+
+
                             echarts.init(document.querySelector("#trafficChart")).setOption({
                                 tooltip: {
                                     trigger: 'item'
@@ -160,7 +179,7 @@
                                         show: false
                                     },
                                     data: [{
-                                            value: 1048,
+                                            value: recebe_total_clientes,
                                             name: 'Clientes'
                                         },
                                         {

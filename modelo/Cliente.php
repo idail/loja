@@ -256,4 +256,22 @@ class Cliente implements ClienteInterface
             return $recebe_erro;
         }
     }
+
+    public function BuscaTotalClientes():int
+    {
+        try{
+            $instrucaoBuscaTotalClientes = "select count(codigo_cliente) as total_cliente from clientes";
+            $comandoBuscaTotalClientes = Conexao::Obtem()->prepare($instrucaoBuscaTotalClientes);
+            $comandoBuscaTotalClientes->execute();
+            $recebe_registro_total = $comandoBuscaTotalClientes->fetch(PDO::FETCH_ASSOC);
+
+            $recebe_total_clientes = $recebe_registro_total["total_cliente"];
+
+            return $recebe_total_clientes;
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
 }
