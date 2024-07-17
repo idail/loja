@@ -86,6 +86,7 @@ class VendaControladora{
 
     public function AtualizarPagamento($recebe_codigo_venda)
     {
+        $this->venda->setPago_Venda(1);
         $this->venda->setCodigo_Venda($recebe_codigo_venda);
 
         $resultadoAtualizarPagamento = $this->venda->AtualizarPagamento();

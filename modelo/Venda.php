@@ -373,8 +373,9 @@ class Venda implements VendaInterface{
     public function AtualizarPagamento():int
     {
         try{
-            $instrucaoAtualizarPagamento = "update vendas set pago_venda where codigo_venda = :recebe_codigo_venda";
+            $instrucaoAtualizarPagamento = "update vendas set pago_venda = :recebe_pagamento_venda where codigo_venda = :recebe_codigo_venda";
             $comandoAtualizarPagamento = Conexao::Obtem()->prepare($instrucaoAtualizarPagamento);
+            $comandoAtualizarPagamento->bindValue(":recebe_pagamento_venda",$this->getPago_Venda());
             $comandoAtualizarPagamento->bindValue(":recebe_codigo_venda",$this->getCodigo_Venda());
             $resultadoAtualizarPagamento = $comandoAtualizarPagamento->execute();
             

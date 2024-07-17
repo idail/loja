@@ -14,12 +14,25 @@ $(document).ready(function (e) {
         processo_venda: "recebe_consultar_vendas_vencer",
       },
       success: function (retorno_venda_vencer) {
+        debugger;
         let recebe_quantidade_vendas_vencer = retorno_venda_vencer.length;
-        $("#exibi-quantidade-vendas-vencer").html(
-          recebe_quantidade_vendas_vencer
-        );
 
-        $("#total-vendas-vencer").html(recebe_quantidade_vendas_vencer);
+        if(recebe_quantidade_vendas_vencer != 0)
+        {
+          $("#exibi-quantidade-vendas-vencer").html("");
+          $("#exibi-quantidade-vendas-vencer").html(
+            recebe_quantidade_vendas_vencer
+          );
+          $("#total-vendas-vencer").html("");
+          $("#total-vendas-vencer").html(recebe_quantidade_vendas_vencer);
+        }else{
+          $("#exibi-quantidade-vendas-vencer").html("");
+          $("#exibi-quantidade-vendas-vencer").html(
+            0
+          );
+          $("#total-vendas-vencer").html("");
+          $("#total-vendas-vencer").html(0);
+        }
       },
       error: function (xhr, status, error) {},
     });
@@ -44,8 +57,6 @@ $("#visualizarVendasAVencer").click(function (e) {
         );
 
         $("#registros-vendas-cliente-a-vencer").html("");
-
-        //$("#exibi-nome-cliente-vendas-vencer").html(recebeNomeClienteVendas);
 
         for (let vendas = 0; vendas < retorno_venda_vencer.length; vendas++) {
           let recebeDescontoVenda = retorno_venda_vencer[vendas].desconto_venda;
@@ -113,16 +124,41 @@ $("#visualizarVendasAVencer").click(function (e) {
             "<td class='text-center'>" +
             recebeDataPagamentoAgendadoBR +
             "</td>" +
-            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
+            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' id='informarPagamento' data-param-codigo='" + retorno_venda_vencer[vendas].codigo_venda + "'></i></a></td>" +
             "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança'></i></a></td>" +
             "</tr>";
         }
 
         $("#registros-vendas-cliente-a-vencer").append(recebe_tabela_vendas);
       } else {
-        console.log(retorno_venda_vencer);
+        $("#registros-vendas-cliente-a-vencer").append("<td colspan='7' class='text-center'>Nenhum registro localizado</td>");
       }
     },
     error: function (xhr, status, error) {},
+  });
+});
+
+$(document).on("click","#informarPagamento",function(e){
+  let recebeCodigoVenda = $(this).data("param-codigo");
+
+  $.ajax({
+    url: "../api/VendaAPI.php",
+    type: "post",
+    dataType: "json",
+    data: {
+      processo_venda: "recebe_atualizar_pagamento",
+      valor_codigo_venda:recebeCodigoVenda,
+      metodo:"PUT",
+    },
+    success: function (retorno) 
+    {
+      debugger;
+      
+      console.log(retorno);
+    },
+    error:function(xhr,status,error)
+    {
+
+    },
   });
 });
