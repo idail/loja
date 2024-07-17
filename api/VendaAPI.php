@@ -36,6 +36,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
             echo json_encode($resultadoAtualizarEstoqueVenda);
         }
+    }else if($recebeProcessoVenda === "recebe_atualizar_pagamento")
+    {
+        if($_POST["metodo"] === "PUT")
+        {
+            $recebeCodigoVenda = $_POST["valor_codigo_venda"];
+
+            $resultadoAtualizarPagamento = $vendaControladora->AtualizarPagamento($recebeCodigoVenda);
+
+            echo json_encode($resultadoAtualizarPagamento);
+        }
     }
 }else if($_SERVER["REQUEST_METHOD"] === "GET")
 {

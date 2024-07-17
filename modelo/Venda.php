@@ -369,5 +369,21 @@ class Venda implements VendaInterface{
             return $registros_vendas;
         }
     }
+
+    public function AtualizarPagamento():int
+    {
+        try{
+            $instrucaoAtualizarPagamento = "update vendas set pago_venda where codigo_venda = :recebe_codigo_venda";
+            $comandoAtualizarPagamento = Conexao::Obtem()->prepare($instrucaoAtualizarPagamento);
+            $comandoAtualizarPagamento->bindValue(":recebe_codigo_venda",$this->getCodigo_Venda());
+            $resultadoAtualizarPagamento = $comandoAtualizarPagamento->execute();
+            
+            return $resultadoAtualizarPagamento;
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
 }
 ?>

@@ -83,5 +83,14 @@ class VendaControladora{
 
         return $resultadoBuscaVendasMeses;
     }
+
+    public function AtualizarPagamento($recebe_codigo_venda)
+    {
+        $this->venda->setCodigo_Venda($recebe_codigo_venda);
+
+        $resultadoAtualizarPagamento = $this->venda->AtualizarPagamento();
+
+        return $resultadoAtualizarPagamento;
+    }
 }
 ?>
