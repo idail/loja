@@ -79,10 +79,10 @@ require("../api/VerificaSessao.php");
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
-                            You have 4 new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            Existem <span id="total-vendas-vencer"></span> contas a vencer
+                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2" data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente-vencer' data-backdrop='static' id='visualizarVendasAVencer'>Visualizar</span></a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <hr class="dropdown-divider">
                         </li>
 
@@ -139,7 +139,7 @@ require("../api/VerificaSessao.php");
                         </li>
                         <li class="dropdown-footer">
                             <a href="#">Show all notifications</a>
-                        </li>
+                        </li> -->
 
                     </ul><!-- End Notification Dropdown Items -->
 
@@ -274,6 +274,7 @@ require("../api/VerificaSessao.php");
     require("produtos/visualizar_imagens_produto.php");
     require("produtos/alterar_produto.php");
     require("vendas/visualizar_imagens_venda.php");
+    require("menu_rapido/visualiza_vendas_vencer.php");
     ?>
 
     <!-- ======= Sidebar ======= -->
