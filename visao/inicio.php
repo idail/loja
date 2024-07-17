@@ -74,7 +74,7 @@ require("../api/VerificaSessao.php");
 
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number"></span>
+                        <span class="badge bg-primary badge-number" id="exibi-quantidade-vendas-vencer" title="Vendas a Vencer">4</span>
                     </a><!-- End Notification Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
@@ -283,7 +283,7 @@ require("../api/VerificaSessao.php");
 
             <li class="nav-item">
                 <a class="nav-link " href="index.php">
-                    <i class="bi bi-grid"></i>
+                    <i class="bi bi-house-door-fill"></i>
                     <span>Inicio</span>
                 </a>
             </li><!-- End Dashboard Nav -->

@@ -76,5 +76,12 @@ class VendaControladora{
 
         return $resultadoBuscaVendasVencerHoje;
     }
+
+    public function BuscarVendasMeses()
+    {
+        $resultadoBuscaVendasMeses = $this->venda->BuscarVendasMeses();
+
+        return $resultadoBuscaVendasMeses;
+    }
 }
 ?>

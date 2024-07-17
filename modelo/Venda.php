@@ -341,11 +341,32 @@ class Venda implements VendaInterface{
             $registro_vendas_vencer_hoje = $comandoBuscaVendasVencerHoje->fetchAll(PDO::FETCH_ASSOC);
             return $registro_vendas_vencer_hoje;
         }catch (PDOException $exception) {
-            $recebe_erro =  $exception->getMessage();
-            return $recebe_erro;
+            array_push($registros_vendas,$exception->getMessage());
+            return $registros_vendas;
         } catch (Exception $excecao) {
-           $recebe_erro =  $excecao->getMessage();
-            return $recebe_erro;
+            array_push($registros_vendas,$excecao->getMessage());
+            return $registros_vendas;
+        }
+    }
+
+    public function BuscarVendasMeses():array
+    {
+        $registro_vendas_mes = array();
+
+        try{
+            $instrucaoBuscaVendasMeses = "SELECT YEAR(data_pagamento_venda) AS ano, MONTH(data_pagamento_venda) AS mes, COUNT(valor_final_venda) AS total_vendas FROM vendas 
+            WHERE YEAR(data_pagamento_venda) = 2024 GROUP BY YEAR(data_pagamento_venda), MONTH(data_pagamento_venda) ORDER BY mes";
+            $comandoBuscaVendasMeses = Conexao::Obtem()->prepare($instrucaoBuscaVendasMeses);
+            $comandoBuscaVendasMeses->execute();
+            $registro_vendas_mes = $comandoBuscaVendasMeses->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $registro_vendas_mes;
+        }catch (PDOException $exception) {
+            array_push($registros_vendas,$exception->getMessage());
+            return $registros_vendas;
+        } catch (Exception $excecao) {
+            array_push($registros_vendas,$excecao->getMessage());
+            return $registros_vendas;
         }
     }
 }

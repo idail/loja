@@ -142,7 +142,7 @@
                             var recebe_vendas_vencer = "";
                             var recebe_vendas_vh = "";
 
-                            recebe_total_clientes =  $.ajax({
+                            recebe_total_clientes = $.ajax({
                                 url: "../api/ClienteAPI.php",
                                 dataType: "json",
                                 type: "get",
@@ -188,16 +188,14 @@
                                 data: {
                                     processo_venda: "recebe_consultar_vendas_vencer",
                                 },
-                                success: function(retorno_venda_vencer) 
-                                {
+                                success: function(retorno_venda_vencer) {
                                     let recebe_quantidade_vendas_vencer = retorno_venda_vencer.length;
                                     dados.push({
                                         value: recebe_quantidade_vendas_vencer,
                                         name: "A Vencer"
                                     });
                                 },
-                                error:function(xhr,status,error)
-                                {
+                                error: function(xhr, status, error) {
 
                                 },
                             });
@@ -209,53 +207,51 @@
                                 data: {
                                     processo_venda: "recebe_consultar_vendas_vencer_hoje",
                                 },
-                                success: function(retorno_venda_vencer_hoje) 
-                                {
+                                success: function(retorno_venda_vencer_hoje) {
                                     let recebe_quantidade_vendas_vencer_hoje = retorno_venda_vencer_hoje.length;
                                     dados.push({
                                         value: recebe_quantidade_vendas_vencer_hoje,
                                         name: "Vencidas"
                                     });
                                 },
-                                error:function(xhr,status,error)
-                                {
+                                error: function(xhr, status, error) {
 
                                 },
                             });
 
                             $.when(recebe_total_clientes, recebe_total_vendas, recebe_vendas_vencer, recebe_vendas_vh).done(function() {
                                 debugger;
-                            
+
                                 echarts.init(document.querySelector("#trafficChart")).setOption({
-                                        tooltip: {
-                                            trigger: 'item'
+                                    tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    legend: {
+                                        top: '5%',
+                                        left: 'center'
+                                    },
+                                    series: [{
+                                        name: 'Informações',
+                                        type: 'pie',
+                                        radius: ['40%', '70%'],
+                                        avoidLabelOverlap: false,
+                                        label: {
+                                            show: false,
+                                            position: 'center'
                                         },
-                                        legend: {
-                                            top: '5%',
-                                            left: 'center'
-                                        },
-                                        series: [{
-                                            name: 'Informações',
-                                            type: 'pie',
-                                            radius: ['40%', '70%'],
-                                            avoidLabelOverlap: false,
+                                        emphasis: {
                                             label: {
-                                                show: false,
-                                                position: 'center'
-                                            },
-                                            emphasis: {
-                                                label: {
-                                                    show: true,
-                                                    fontSize: '18',
-                                                    fontWeight: 'bold'
-                                                }
-                                            },
-                                            labelLine: {
-                                                show: false
-                                            },
-                                            data: dados
-                                        }]
-                                    });
+                                                show: true,
+                                                fontSize: '18',
+                                                fontWeight: 'bold'
+                                            }
+                                        },
+                                        labelLine: {
+                                            show: false
+                                        },
+                                        data: dados
+                                    }]
+                                });
                             });
                         });
                     </script>
@@ -272,45 +268,74 @@
                     <!-- Bar Chart -->
                     <canvas id="barChart" style="max-height: 400px;"></canvas>
                     <script>
-                        let numeros = [10, 25, 30, 85, 74, 96, 12, 7, 1, 20, 11, 2];
-                        document.addEventListener("DOMContentLoaded", () => {
-                            new Chart(document.querySelector('#barChart'), {
-                                type: 'bar',
+                        let numeros = [];
+
+                        $(document).ready(function(e) {
+
+                            let recebe_vendas_totais_meses = "";
+
+                            recebe_vendas_totais_meses = $.ajax({
+                                url: "../api/VendaAPI.php",
+                                dataType: "json",
+                                type: "get",
                                 data: {
-                                    labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                                    datasets: [{
-                                        label: 'Vendas',
-                                        data: numeros,
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                            'rgba(255, 205, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(201, 203, 207, 0.2)'
-                                        ],
-                                        borderColor: [
-                                            'rgb(255, 99, 132)',
-                                            'rgb(255, 159, 64)',
-                                            'rgb(255, 205, 86)',
-                                            'rgb(75, 192, 192)',
-                                            'rgb(54, 162, 235)',
-                                            'rgb(153, 102, 255)',
-                                            'rgb(201, 203, 207)'
-                                        ],
-                                        borderWidth: 1
-                                    }]
+                                    processo_venda: "recebe_consultar_total_vendas_meses",
                                 },
-                                options: {
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
+                                success: function(retorno_totais_vendas_meses) {
+                                    debugger;
+                                    for (let index = 0; index < retorno_totais_vendas_meses.length; index++) {
+                                        numeros.push(retorno_totais_vendas_meses[index].total_vendas);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+
+                                },
+                            });
+
+                            $.when(recebe_vendas_totais_meses).done(function() {
+                                new Chart(document.querySelector('#barChart'), {
+                                    type: 'bar',
+                                    data: {
+                                        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                                        datasets: [{
+                                            label: 'Vendas',
+                                            data: numeros,
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)',
+                                                'rgba(255, 205, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(201, 203, 207, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgb(255, 99, 132)',
+                                                'rgb(255, 159, 64)',
+                                                'rgb(255, 205, 86)',
+                                                'rgb(75, 192, 192)',
+                                                'rgb(54, 162, 235)',
+                                                'rgb(153, 102, 255)',
+                                                'rgb(201, 203, 207)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                            }
                                         }
                                     }
-                                }
+                                });
                             });
                         });
+
+
+                        // document.addEventListener("DOMContentLoaded", () => {
+
+                        // });
                     </script>
                     <!-- End Bar CHart -->
 
