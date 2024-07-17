@@ -312,5 +312,41 @@ class Venda implements VendaInterface{
             return $excecao->getMessage();
         }
     }
+
+    public function BuscarVendasVencer():array
+    {
+        $registro_vendas_vencer = array();
+        try{
+            $instrucaoBuscaVendasVencer = "select * from vendas where data_pagamento_venda = CURDATE() + INTERVAL 10 DAY";
+            $comandoBuscaVendasVencer = Conexao::Obtem()->prepare($instrucaoBuscaVendasVencer);
+            $comandoBuscaVendasVencer->execute();
+            $registro_vendas_vencer = $comandoBuscaVendasVencer->fetchAll(PDO::FETCH_ASSOC);
+            return $registro_vendas_vencer;
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+           $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
+
+    public function BuscarVendasVencerHoje():array
+    {
+        $registro_vendas_vencer_hoje = array();
+        try{
+            $instrucaoBuscaVendasVencerHoje = "select * from vendas where data_pagamento_venda = CURDATE()";
+            $comandoBuscaVendasVencerHoje = Conexao::Obtem()->prepare($instrucaoBuscaVendasVencerHoje);
+            $comandoBuscaVendasVencerHoje->execute();
+            $registro_vendas_vencer_hoje = $comandoBuscaVendasVencerHoje->fetchAll(PDO::FETCH_ASSOC);
+            return $registro_vendas_vencer_hoje;
+        }catch (PDOException $exception) {
+            $recebe_erro =  $exception->getMessage();
+            return $recebe_erro;
+        } catch (Exception $excecao) {
+           $recebe_erro =  $excecao->getMessage();
+            return $recebe_erro;
+        }
+    }
 }
 ?>

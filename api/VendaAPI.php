@@ -61,6 +61,16 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $resultadoBuscaTotalVenda = $vendaControladora->BuscaTotalVendas();
 
         echo json_encode($resultadoBuscaTotalVenda);
+    }else if($recebeProcessoVenda === "recebe_consultar_vendas_vencer")
+    {
+        $resultadoBuscaVendasVencer = $vendaControladora->BuscaVendasVencer();
+
+        echo json_encode($resultadoBuscaVendasVencer);
+    }else if($recebeProcessoVenda === "recebe_consultar_vendas_vencer_hoje")
+    {
+        $resultadoBuscaVendasVencerHoje = $vendaControladora->BuscaVendasVencerHoje();
+
+        echo json_encode($resultadoBuscaVendasVencerHoje);
     }
 }
 ?>

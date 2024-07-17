@@ -62,5 +62,19 @@ class VendaControladora{
 
         return $resultadoBuscaTotalVendas;
     }
+
+    public function BuscaVendasVencer()
+    {
+        $resultadoBuscaVendasVencer = $this->venda->BuscarVendasVencer();
+
+        return $resultadoBuscaVendasVencer;
+    }
+
+    public function BuscaVendasVencerHoje()
+    {
+        $resultadoBuscaVendasVencerHoje = $this->venda->BuscarVendasVencerHoje();
+
+        return $resultadoBuscaVendasVencerHoje;
+    }
 }
 ?>

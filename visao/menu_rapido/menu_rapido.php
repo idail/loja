@@ -134,26 +134,15 @@
                     <script>
                         $(document).ready(function(e) {
                             debugger;
-                            var recebe_total_clientes = 0;
-                            var recebe_total_vendas = 0;
-
-                            // [{
-                            //     value: recebe_total_clientes,
-                            //     name: 'Clientes'
-                            // }, {
-                            //     value: recebe_total_vendas,
-                            //     name: 'Vendas'
-                            // }, {
-                            //     value: 580,
-                            //     name: 'A vencer'
-                            // }, {
-                            //     value: 484,
-                            //     name: 'Vencidos'
-                            // }, ];
 
                             var dados = [];
 
-                            $.ajax({
+                            var recebe_total_clientes = "";
+                            var recebe_total_vendas = "";
+                            var recebe_vendas_vencer = "";
+                            var recebe_vendas_vh = "";
+
+                            recebe_total_clientes =  $.ajax({
                                 url: "../api/ClienteAPI.php",
                                 dataType: "json",
                                 type: "get",
@@ -162,14 +151,17 @@
                                 },
                                 success: function(retorno_cliente) {
                                     debugger;
-                                    recebe_total_clientes = retorno_cliente;
+                                    dados.push({
+                                        value: retorno_cliente,
+                                        name: "Clientes"
+                                    });
                                 },
                                 error: function(xhr, status, error) {
 
                                 },
                             });
 
-                            $.ajax({
+                            recebe_total_vendas = $.ajax({
                                 url: "../api/VendaAPI.php",
                                 dataType: "json",
                                 type: "get",
@@ -178,17 +170,63 @@
                                 },
                                 success: function(retorno_venda) {
                                     debugger;
-                                    recebe_total_vendas = retorno_venda;
 
                                     dados.push({
-                                        value: recebe_total_clientes,
-                                        name: 'Clientes'
-                                    },{
-                                        value:recebe_total_vendas,
-                                        name:"Vendas"
-                                    } );
+                                        value: retorno_venda,
+                                        name: "Vendas"
+                                    });
+                                },
+                                error: function(xhr, status, error) {
 
-                                    echarts.init(document.querySelector("#trafficChart")).setOption({
+                                },
+                            });
+
+                            recebe_vendas_vencer = $.ajax({
+                                url: "../api/VendaAPI.php",
+                                dataType: "json",
+                                type: "get",
+                                data: {
+                                    processo_venda: "recebe_consultar_vendas_vencer",
+                                },
+                                success: function(retorno_venda_vencer) 
+                                {
+                                    let recebe_quantidade_vendas_vencer = retorno_venda_vencer.length;
+                                    dados.push({
+                                        value: recebe_quantidade_vendas_vencer,
+                                        name: "A Vencer"
+                                    });
+                                },
+                                error:function(xhr,status,error)
+                                {
+
+                                },
+                            });
+
+                            recebe_vendas_vh = $.ajax({
+                                url: "../api/VendaAPI.php",
+                                dataType: "json",
+                                type: "get",
+                                data: {
+                                    processo_venda: "recebe_consultar_vendas_vencer_hoje",
+                                },
+                                success: function(retorno_venda_vencer_hoje) 
+                                {
+                                    let recebe_quantidade_vendas_vencer_hoje = retorno_venda_vencer_hoje.length;
+                                    dados.push({
+                                        value: recebe_quantidade_vendas_vencer_hoje,
+                                        name: "Vencidas"
+                                    });
+                                },
+                                error:function(xhr,status,error)
+                                {
+
+                                },
+                            });
+
+                            $.when(recebe_total_clientes, recebe_total_vendas, recebe_vendas_vencer, recebe_vendas_vh).done(function() {
+                                debugger;
+                            
+                                echarts.init(document.querySelector("#trafficChart")).setOption({
                                         tooltip: {
                                             trigger: 'item'
                                         },
@@ -218,31 +256,8 @@
                                             data: dados
                                         }]
                                     });
-
-                                    console.log("aqui esta normal:" + recebe_total_vendas);
-                                },
-                                error: function(xhr, status, error) {
-
-                                },
                             });
-
-                            console.log("fora do sucesso:" + recebe_total_vendas);
                         });
-
-
-                        // recebe_valores.push({
-                        //     value: 50,
-                        //     name: "Clientes"
-                        // }, {
-                        //     value: 100,
-                        //     name: "Vendas"
-                        // });
-
-
-                        // document.addEventListener("DOMContentLoaded", () => {
-
-
-                        // });
                     </script>
 
                 </div>
