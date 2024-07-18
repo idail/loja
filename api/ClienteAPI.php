@@ -90,6 +90,13 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebeBuscaTotalCliente = $clienteControladora->BuscaTotalClientes();
 
         echo json_encode($recebeBuscaTotalCliente);
+    }else if($recebeProcessoCliente === "recebe_consultar_email_cliente")
+    {
+        $recebeCodigoCliente = $_GET["valor_codigo_cliente_venda"];
+
+        $resultadoBuscaEmailCliente = $clienteControladora->BuscarEmailCliente($recebeCodigoCliente);
+
+        echo json_encode($resultadoBuscaEmailCliente);
     }
 }else if($_SERVER["REQUEST_METHOD"] === "DELETE")
 {

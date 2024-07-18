@@ -211,7 +211,6 @@ class Venda implements VendaInterface{
         try{
             if($this->getFiltro_Venda() === "cliente" && !empty($this->getValor_Filtro_Venda()))
             {
-                //$recebeNomeClienteV = $this->getValor_Filtro_Venda();
                 $instrucaoBuscarVenda = "select * from vendas as v where v.codigo_cliente_vendas = :recebe_codigo_cliente_vendas";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->bindValue(":recebe_codigo_cliente_vendas",$this->getValor_Filtro_Venda());
@@ -372,7 +371,7 @@ class Venda implements VendaInterface{
         }
     }
 
-    public function AtualizarPagamento()
+    public function AtualizarPagamento():string
     {
         try{
             $instrucaoAtualizarPagamento = "update vendas set pago_venda = :recebe_pagamento_venda where codigo_venda = :recebe_codigo_venda";

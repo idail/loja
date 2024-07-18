@@ -274,4 +274,21 @@ class Cliente implements ClienteInterface
             return $excecao->getMessage();
         }
     }
+
+    public function BuscarEmailCliente():string
+    {
+        try{
+            $instrucaoBuscaEmailCliente = "select email_cliente from clientes where codigo_cliente = :recebe_codigo_cliente";
+            $comandoBuscaEmailCliente = Conexao::Obtem()->prepare($instrucaoBuscaEmailCliente);
+            $comandoBuscaEmailCliente->bindValue(":recebe_codigo_cliente",$this->getCodigo_Cliente());
+            $comandoBuscaEmailCliente->execute();
+            $recebe_email_cliente = $comandoBuscaEmailCliente->fetch(PDO::FETCH_ASSOC);
+
+            return $recebe_email_cliente;
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return $excecao->getMessage();
+        }
+    }
 }

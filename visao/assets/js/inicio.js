@@ -5,7 +5,8 @@ $(document).ready(function (e) {
 
   let url_inicio = window.location.href;
 
-  if (url_inicio === "http://localhost/loja/visao/index.php") {
+  if (url_inicio === "http://localhost/loja/visao/index.php" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda" || url_inicio === 
+  "http://localhost/loja/visao/index.php?pagina=consulta_clientes" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_produtos" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda") {
 
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
     $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").hide();
@@ -128,7 +129,7 @@ $("#visualizarVendasAVencer").click(function (e) {
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' id='informarPagamento' data-param-codigo='" +
             retorno_venda_vencer[vendas].codigo_venda +
             "'></i></a></td>" +
-            "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança'></i></a></td>" +
+            "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança' data-param-codigo-cliente='" + retorno_venda_vencer[vendas].codigo_cliente_vendas  + "' id='EncaminharEmailCobranca'></i></a></td>" +
             "</tr>";
         }
 
@@ -291,4 +292,11 @@ $(document).on("click", "#informarPagamento", function (e) {
       );
     },
   });
+});
+
+
+$(document).on("click","#EncaminharEmailCobranca",function(e){
+  e.preventDefault();
+
+  let recebeCodigoClienteVenda = $(this).data("param-codigo-cliente");
 });

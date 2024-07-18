@@ -75,5 +75,14 @@ class ClienteControladora{
 
         return $resultadoBuscaTotalClientes;
     }
+
+    public function BuscarEmailCliente($recebe_codigo_cliente)
+    {
+        $this->cliente->setCodigo_Cliente($recebe_codigo_cliente);
+
+        $resultadoBuscaEmailCliente = $this->cliente->BuscarEmailCliente();
+
+        return $resultadoBuscaEmailCliente;
+    }
 }
 ?>
