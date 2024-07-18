@@ -317,8 +317,9 @@ class Venda implements VendaInterface{
     {
         $registro_vendas_vencer = array();
         try{
-            $instrucaoBuscaVendasVencer = "select * from vendas where data_pagamento_venda = CURDATE() + INTERVAL 10 DAY";
+            $instrucaoBuscaVendasVencer = "select * from vendas where data_pagamento_venda = CURDATE() + INTERVAL 10 DAY and pago_venda = :recebe_pago_venda";
             $comandoBuscaVendasVencer = Conexao::Obtem()->prepare($instrucaoBuscaVendasVencer);
+            $comandoBuscaVendasVencer->bindValue(":recebe_pago_venda",0);
             $comandoBuscaVendasVencer->execute();
             $registro_vendas_vencer = $comandoBuscaVendasVencer->fetchAll(PDO::FETCH_ASSOC);
             return $registro_vendas_vencer;
@@ -335,8 +336,9 @@ class Venda implements VendaInterface{
     {
         $registro_vendas_vencer_hoje = array();
         try{
-            $instrucaoBuscaVendasVencerHoje = "select * from vendas where data_pagamento_venda = CURDATE()";
+            $instrucaoBuscaVendasVencerHoje = "select * from vendas where data_pagamento_venda = CURDATE() and pago_venda = :recebe_pago_venda";
             $comandoBuscaVendasVencerHoje = Conexao::Obtem()->prepare($instrucaoBuscaVendasVencerHoje);
+            $comandoBuscaVendasVencerHoje->bindValue(":recebe_pago_venda",0);
             $comandoBuscaVendasVencerHoje->execute();
             $registro_vendas_vencer_hoje = $comandoBuscaVendasVencerHoje->fetchAll(PDO::FETCH_ASSOC);
             return $registro_vendas_vencer_hoje;
@@ -370,7 +372,7 @@ class Venda implements VendaInterface{
         }
     }
 
-    public function AtualizarPagamento():int
+    public function AtualizarPagamento()
     {
         try{
             $instrucaoAtualizarPagamento = "update vendas set pago_venda = :recebe_pagamento_venda where codigo_venda = :recebe_codigo_venda";
@@ -379,7 +381,10 @@ class Venda implements VendaInterface{
             $comandoAtualizarPagamento->bindValue(":recebe_codigo_venda",$this->getCodigo_Venda());
             $resultadoAtualizarPagamento = $comandoAtualizarPagamento->execute();
             
-            return $resultadoAtualizarPagamento;
+            if($resultadoAtualizarPagamento)
+                return "Pagamento atualizado";
+            else 
+                return "Pagamento não atualizado";
         }catch (PDOException $exception) {
             return $exception->getMessage();
         } catch (Exception $excecao) {
