@@ -6,14 +6,14 @@ $(document).ready(function (e) {
   let url_inicio = window.location.href;
 
   if (
-    url_inicio === "http://localhost/loja/visao/index.php" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php" ||
     url_inicio ===
-      "http://localhost/loja/visao/index.php?pagina=consulta_venda" ||
+      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
     url_inicio ===
-      "http://localhost/loja/visao/index.php?pagina=consulta_clientes" ||
+      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
     url_inicio ===
-      "http://localhost/loja/visao/index.php?pagina=consulta_produtos" ||
-    url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda"
+      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
   ) {
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
     $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").hide();

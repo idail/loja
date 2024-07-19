@@ -2,7 +2,7 @@ $(document).ready(function () {
   let url_venda = window.location.href;
 
   if (
-    url_venda === "http://localhost/loja/visao/index.php?pagina=cadastro_venda"
+    url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
   ) {
     let recebeTabelaCadastrarVendas = document.querySelector(
       "#listagem-produtos-venda"
@@ -102,7 +102,7 @@ $(document).ready(function () {
       },
     });
   } else if (
-    url_venda === "http://localhost/loja/visao/index.php?pagina=consulta_venda"
+    url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
   ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
@@ -889,6 +889,7 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         $("#registros-vendas").append(recebe_tabela_vendas);
       } else {
         $("#exibi-quantidade-vendas").html("Quantidade de vendas:" + 0);
+        $("#registros-vendas").html("");
         $("#registros-vendas").append(
           "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
         );

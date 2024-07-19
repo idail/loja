@@ -2,9 +2,9 @@
 require("Conexao.php");
 require("ClienteInterface.php");
 
-require("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
-require("./vendor/phpmailer/phpmailer/src/SMTP.php");
-require("./vendor/phpmailer/phpmailer/src/Exception.php");
+require("../vendor/phpmailer/phpmailer/src/PHPMailer.php");
+require("../vendor/phpmailer/phpmailer/src/SMTP.php");
+require("../vendor/phpmailer/phpmailer/src/Exception.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPmailer\PHPMailer\SMTP;

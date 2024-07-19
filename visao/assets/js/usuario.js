@@ -14,7 +14,7 @@ $(document).ready(function (e) {
 
   let url_login = window.location.href;
 
-  if (url_login === "http://localhost/loja/visao/acesso/login.php") {
+  if (url_login === "http://idailneto.com.br/loja/visao/acesso/login.php") {
     document.getElementById("exibi-foto-perfil").src =
       "../acesso/imagem_perfil/usuario_sem_foto.jpg";
   }

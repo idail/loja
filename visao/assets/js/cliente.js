@@ -27,7 +27,7 @@ $(document).ready(function (e) {
 
   if (
     url_atual_cliente ===
-    "http://localhost/loja/visao/index.php?pagina=consulta_clientes"
+    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes"
   ){
     listarClientes("todos", "todos")
     $("#valor-filtro-cliente").attr("disabled", true);
