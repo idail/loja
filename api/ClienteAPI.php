@@ -52,6 +52,15 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
                 echo json_encode("Favor verificar o preenchimento dos campos");
             }
         }
+    }else if($recebeProcessoCliente === "recebe_envia_email_cobranca")
+    {
+        $recebeNomeProduto = $_POST["valor_nome_produto_venda"];
+        $recebeValorFinal = $_POST["valor_final_venda"];
+        $recebeNomeCliente = $_POST["valor_final_venda"];
+
+        $recebeEnviarEmailCobranca = $clienteControladora->EncaminharEmailCobranca($recebeNomeCliente,$recebeNomeProduto,$recebeNomeCliente);
+
+        echo json_encode($recebeEnviarEmailCobranca);
     }
 }else if($_SERVER["REQUEST_METHOD"] === "GET")
 {

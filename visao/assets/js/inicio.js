@@ -5,9 +5,16 @@ $(document).ready(function (e) {
 
   let url_inicio = window.location.href;
 
-  if (url_inicio === "http://localhost/loja/visao/index.php" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda" || url_inicio === 
-  "http://localhost/loja/visao/index.php?pagina=consulta_clientes" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_produtos" || url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda") {
-
+  if (
+    url_inicio === "http://localhost/loja/visao/index.php" ||
+    url_inicio ===
+      "http://localhost/loja/visao/index.php?pagina=consulta_venda" ||
+    url_inicio ===
+      "http://localhost/loja/visao/index.php?pagina=consulta_clientes" ||
+    url_inicio ===
+      "http://localhost/loja/visao/index.php?pagina=consulta_produtos" ||
+    url_inicio === "http://localhost/loja/visao/index.php?pagina=consulta_venda"
+  ) {
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
     $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").hide();
 
@@ -129,7 +136,10 @@ $("#visualizarVendasAVencer").click(function (e) {
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' id='informarPagamento' data-param-codigo='" +
             retorno_venda_vencer[vendas].codigo_venda +
             "'></i></a></td>" +
-            "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança' data-param-codigo-cliente='" + retorno_venda_vencer[vendas].codigo_cliente_vendas  + "' id='EncaminharEmailCobranca'></i></a></td>" +
+            "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança' data-param-codigo-cliente='" +
+            retorno_venda_vencer[vendas].codigo_cliente_vendas +
+            "' data-param-nome-produto='" + retorno_venda_vencer[vendas].nome_produto_venda + "' data-param-valor-final='" + recebeValorFVBR + "'" +
+            "data-param-nome-cliente='" + retorno_venda_vencer[vendas].nome_cliente_venda + "' id='EncaminharEmailCobranca'></i></a></td>" +
             "</tr>";
         }
 
@@ -256,7 +266,7 @@ $(document).on("click", "#informarPagamento", function (e) {
                   "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' id='informarPagamento' data-param-codigo='" +
                   retorno_venda_vencer[vendas].codigo_venda +
                   "'></i></a></td>" +
-                  "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança'></i></a></td>" +
+                  "<td><a href='#'><i class='bi bi-envelope fs-4' title='E-mail de cobrança' id='EncaminharEmailCobranca'></i></a></td>" +
                   "</tr>";
               }
 
@@ -294,9 +304,48 @@ $(document).on("click", "#informarPagamento", function (e) {
   });
 });
 
-
-$(document).on("click","#EncaminharEmailCobranca",function(e){
+$(document).on("click", "#EncaminharEmailCobranca", function (e) {
   e.preventDefault();
 
+  debugger;
+
   let recebeCodigoClienteVenda = $(this).data("param-codigo-cliente");
+  let recebeNomeProdutoVenda = $(this).data("param-nome-produto");
+  let recebeValorFinalVenda = $(this).data("param-valor-final");
+  let recebeNomeClienteVenda = $(this).data("param-nome-cliente");
+
+  $.ajax({
+    url: "../api/ClienteAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_cliente: "recebe_consultar_email_cliente",
+      valor_codigo_cliente_venda:recebeCodigoClienteVenda,
+    },
+    success: function (retorno_email) {
+      debugger;
+
+      $.ajax({
+        url: "../api/ClienteAPI.php",
+        type: "post",
+        dataType: "json",
+        data: {
+          processo_cliente: "recebe_envia_email_cobranca",
+          valor_nome_produto_venda: recebeNomeProdutoVenda,
+          valor_final_venda:recebeValorFinalVenda,
+          valor_nome_cliente_venda:recebeNomeClienteVenda,
+        },
+        success: function (retorno_envia_email) 
+        {
+          debugger;
+          console.log(retorno_envia_email);
+        },
+        error:function(xhr,status,error)
+        {
+
+        },
+      });
+    },
+    error: function (xhr, status, error) {},
+  });
 });

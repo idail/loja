@@ -1,6 +1,15 @@
 <?php
 require("Conexao.php");
 require("ClienteInterface.php");
+
+require("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
+require("./vendor/phpmailer/phpmailer/src/SMTP.php");
+require("./vendor/phpmailer/phpmailer/src/Exception.php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPmailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 class Cliente implements ClienteInterface
 {
     private $codigo_cliente;
@@ -11,6 +20,8 @@ class Cliente implements ClienteInterface
     private $status_cliente;
     private $filtro_cliente;
     private $valor_filtro_cliente;
+    private $valor_produto_email;
+    private $nome_produto_email;
 
     public function setCodigo_Cliente($codigo_cliente)
     {
@@ -90,6 +101,26 @@ class Cliente implements ClienteInterface
     public function getValor_Filtro_Cliente()
     {
         return $this->valor_filtro_cliente;
+    }
+
+    public function setValor_Produto_Email($valor_produto_email)
+    {
+        $this->valor_produto_email = $valor_produto_email;
+    }
+
+    public function getValor_Produto_Email()
+    {
+        return $this->valor_produto_email;
+    }
+
+    public function setNome_Produto_Email($nome_produto_email)
+    {
+        $this->nome_produto_email = $nome_produto_email;
+    }
+
+    public function getNome_Produto_Email()
+    {
+        return $this->nome_produto_email;
     }
 
     public function cadastrarCliente(): int
@@ -284,11 +315,42 @@ class Cliente implements ClienteInterface
             $comandoBuscaEmailCliente->execute();
             $recebe_email_cliente = $comandoBuscaEmailCliente->fetch(PDO::FETCH_ASSOC);
 
-            return $recebe_email_cliente;
+            $recebe_email_localizado = $recebe_email_cliente["email_cliente"];
+
+            return $recebe_email_localizado;
         }catch (PDOException $exception) {
             return $exception->getMessage();
         } catch (Exception $excecao) {
             return $excecao->getMessage();
+        }
+    }
+
+    public function EncaminharEmailCobranca():string
+    {
+        $mail = new PHPMailer(true);
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->CharSet = 'UTF-8';
+        $mail->Host = "smtp.kinghost.net";
+          
+        $mail->SMTPAuth = true;
+        $mail->Username = "eliza@idailneto.com.br";
+        $mail->Password = "Loja@2024";
+        //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPSecure = "ssl";
+        $mail->Port = 465;
+        //$mail->Port = 587;
+        $mail->setFrom("eliza@idailneto.com.br","Informação sobre o pagamento da venda");
+        $mail->addAddress("eliza_regina10@hotmail.com");
+        $mail->isHTML(true);
+        $mail->Subject = "E-mail de cobrança da venda";
+        $mail->Body = "Olá, ".$this->getNome_Cliente()."<br> faltam 10 dias para o vencimento do pagamento do produto:".$this->getNome_Produto_Email()." , no valor de:".$this->getValor_Produto_Email();
+        $mail->AltBody = "Loja Eliza Modas";
+            
+        if ($mail->send()) {
+           return "E-mail de cobrança encaminhado";
+        } else {
+           return "E-mail de cobrança não encaminhado";
         }
     }
 }
