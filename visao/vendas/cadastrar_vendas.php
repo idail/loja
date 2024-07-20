@@ -134,21 +134,23 @@
 
                 <button type="button" class="btn btn-success" id="adicionar-item-venda">Adicionar Item</button>
 
-                <table class="table" id="tabela-listagem-venda">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="col-2">Produto</th>
-                            <th scope="col" class="col-3">Cliente</th>
-                            <th scope="col">Quantidade</th>
-                            <th scope="col">Desconto/Valor</th>
-                            <th scope="col">Valor Final</th>
-                            <th scope="col">Pago Venda</th>
-                            <th scope="col">Pagamento Agendado/Data Agendamento</th>
-                        </tr>
-                    </thead>
-                    <tbody id="listagem-produtos-venda">
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table" id="tabela-listagem-venda">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-2">Produto</th>
+                                <th scope="col" class="col-3">Cliente</th>
+                                <th scope="col">Quantidade</th>
+                                <th scope="col">Desconto/Valor</th>
+                                <th scope="col">Valor Final</th>
+                                <th scope="col">Pago Venda</th>
+                                <th scope="col">Pagamento Agendado/Data Agendamento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listagem-produtos-venda">
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="row mb-3">
                     <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
