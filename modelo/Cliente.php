@@ -332,7 +332,6 @@ class Cliente implements ClienteInterface
         $mail->isSMTP();
         $mail->CharSet = 'UTF-8';
         $mail->Host = "smtp.kinghost.net";
-          
         $mail->SMTPAuth = true;
         $mail->Username = "eliza@idailneto.com.br";
         $mail->Password = "Loja@2024";
@@ -340,12 +339,15 @@ class Cliente implements ClienteInterface
         $mail->SMTPSecure = "ssl";
         $mail->Port = 465;
         //$mail->Port = 587;
-        $mail->setFrom("eliza@idailneto.com.br","Informação sobre o pagamento da venda");
-        $mail->addAddress("eliza_regina10@hotmail.com");
+        $mail->setFrom("eliza@idailneto.com.br");
+        $mail->addAddress($this->getEmail_Cliente());
+        $mail->addCC('idaillopes@gmail.com');
         $mail->isHTML(true);
         $mail->Subject = "E-mail de cobrança da venda";
-        $mail->Body = "Olá, ".$this->getNome_Cliente()."<br> faltam 10 dias para o vencimento do pagamento do produto:".$this->getNome_Produto_Email()." , no valor de:".$this->getValor_Produto_Email();
-        $mail->AltBody = "Loja Eliza Modas";
+        $mail->Body = "Olá, ".$this->getNome_Cliente()." <br><br> Faltam 10 dias para o vencimento do pagamento do produto:".$this->getNome_Produto_Email()." , no valor de:".$this->getValor_Produto_Email()."<br><br>
+        <img src='cid:logo' style='height:100px;width:200px;'>";
+        $mail->addEmbeddedImage('../visao/logo.jpg', 'logo');
+        $mail->AltBody = "";
             
         if ($mail->send()) {
            return "E-mail de cobrança encaminhado";

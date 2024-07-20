@@ -15,8 +15,11 @@ $(document).ready(function (e) {
       "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
     url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
   ) {
+    debugger;
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
     $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").hide();
+    $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").hide();
+    $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").hide();
 
     $.ajax({
       url: "../api/VendaAPI.php",
@@ -325,6 +328,8 @@ $(document).on("click", "#EncaminharEmailCobranca", function (e) {
     success: function (retorno_email) {
       debugger;
 
+      let recebeEmailClienteCobranca = retorno_email;
+
       $.ajax({
         url: "../api/ClienteAPI.php",
         type: "post",
@@ -334,15 +339,23 @@ $(document).on("click", "#EncaminharEmailCobranca", function (e) {
           valor_nome_produto_venda: recebeNomeProdutoVenda,
           valor_final_venda:recebeValorFinalVenda,
           valor_nome_cliente_venda:recebeNomeClienteVenda,
+          valor_email_cliente_venda:recebeEmailClienteCobranca,
         },
         success: function (retorno_envia_email) 
         {
           debugger;
-          console.log(retorno_envia_email);
+          if(retorno_envia_email === "E-mail de cobrança encaminhado")
+          {
+            $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").html(retorno_envia_email);
+            $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").show();
+            $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").fadeOut(4000);
+          }
         },
         error:function(xhr,status,error)
         {
-
+          $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").html("Falha ao encaminhar e-mail:" + error);
+          $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").show();
+          $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").fadeOut(4000);
         },
       });
     },

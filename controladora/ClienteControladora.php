@@ -85,11 +85,12 @@ class ClienteControladora{
         return $resultadoBuscaEmailCliente;
     }
 
-    public function EncaminharEmailCobranca($recebeNomeCliente,$recebeNomeProduto,$recebeValorProduto)
+    public function EncaminharEmailCobranca($recebeNomeCliente,$recebeNomeProduto,$recebeValorProduto,$recebeEmailCliente)
     {
         $this->cliente->setNome_Cliente($recebeNomeCliente);
         $this->cliente->setNome_Produto_Email($recebeNomeProduto);
         $this->cliente->setValor_Produto_Email($recebeValorProduto);
+        $this->cliente->setEmail_Cliente($recebeEmailCliente);
 
         $resultadoEmailCobranca = $this->cliente->EncaminharEmailCobranca();
 

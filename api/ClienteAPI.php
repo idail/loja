@@ -56,9 +56,10 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
     {
         $recebeNomeProduto = $_POST["valor_nome_produto_venda"];
         $recebeValorFinal = $_POST["valor_final_venda"];
-        $recebeNomeCliente = $_POST["valor_final_venda"];
+        $recebeNomeCliente = $_POST["valor_nome_cliente_venda"];
+        $recebeEmailCliente = $_POST["valor_email_cliente_venda"];
 
-        $recebeEnviarEmailCobranca = $clienteControladora->EncaminharEmailCobranca($recebeNomeCliente,$recebeNomeProduto,$recebeNomeCliente);
+        $recebeEnviarEmailCobranca = $clienteControladora->EncaminharEmailCobranca($recebeNomeCliente,$recebeNomeProduto,$recebeValorFinal,$recebeEmailCliente);
 
         echo json_encode($recebeEnviarEmailCobranca);
     }
