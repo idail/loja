@@ -281,7 +281,11 @@ $("#carregar-dados-usuario").click(function (e) {
   e.preventDefault();
   debugger;
 
-  $.ajax({
+  let recebeRequisicaoDadosUsuario = "";
+
+  let recebeDados = "";
+
+  recebeRequisicaoDadosUsuario = $.ajax({
     // url: "http://localhost/software-medicos/api/ProtocolosAPI.php",
     url: "../api/UsuarioAPI.php",
     dataType: "json",
@@ -293,6 +297,8 @@ $("#carregar-dados-usuario").click(function (e) {
     success: function (retorno) {
       debugger;
       if (retorno != "") {
+
+        recebeDados = retorno;
         $("#nome-completo").val(retorno.nome_usuario);
         $("#email-usuario").val(retorno.email_usuario);
         $("#nome-de-usuario").val(retorno.login_usuario);
