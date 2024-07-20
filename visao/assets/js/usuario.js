@@ -218,9 +218,9 @@ $("#cadastro-usuario").on("hidden.bs.modal", function (e) {
   /*document.getElementById("exibi-foto-perfil").src =
     "../usuario/imagem_perfil/usuario_sem_foto.jpg";*/
 
-    document.getElementById("exibi-foto-perfil").src =
+  document.getElementById("exibi-foto-perfil").src =
     "../acesso/imagem_perfil/usuario_sem_foto.jpg";
-   
+
   $("#foto-perfil").val(null);
 });
 
@@ -299,39 +299,46 @@ $("#carregar-dados-usuario").click(function (e) {
       if (retorno != "") {
 
         recebeDados = retorno;
-        $("#nome-completo").val(retorno.nome_usuario);
-        $("#email-usuario").val(retorno.email_usuario);
-        $("#nome-de-usuario").val(retorno.login_usuario);
 
-        if (retorno[0]) {
-          $("#senha-usuario").val(retorno[0]);
-          $("#repetir-senha-usuario").val(retorno[0]);
-        }
-
-        if (retorno.perfil_usuario === "administrador")
-          $("#perfil-admin-sim").prop("checked", "true");
-        else $("#perfil-admin-nao").prop("checked", "true");
-
-        const campo_imagem_usuario = document.querySelector('input[type="file"]');
-        const arquivo = new File(
-          [retorno.imagem_usuario],
-          retorno.imagem_usuario,
-          {
-            type: "image/jpg",
-          }
-        );
-
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(arquivo);
-        campo_imagem_usuario.files = dataTransfer.files;
-
-        document.getElementById("exibi-foto-perfil").src =
-          "acesso/imagem_perfil/" + retorno.imagem_usuario;
-
-        $("#codigo-usuario-logado-alterar").val(retorno.codigo_usuario);
       }
     },
-    error: function (xhr, error, status) {},
+    error: function (xhr, error, status) { },
+  });
+
+  $.when(recebeRequisicaoDadosUsuario).done(function () {
+    debugger;
+    console.log(recebeDados);
+
+    $("#nome-completo").val(recebeDados.nome_usuario);
+    $("#email-usuario").val(recebeDados.email_usuario);
+    $("#nome-de-usuario").val(recebeDados.login_usuario);
+
+    if (recebeDados[0]) {
+      $("#senha-usuario").val(recebeDados[0]);
+      $("#repetir-senha-usuario").val(recebeDados[0]);
+    }
+
+    if (recebeDados.perfil_usuario === "administrador")
+      $("#perfil-admin-sim").prop("checked", "true");
+    else $("#perfil-admin-nao").prop("checked", "true");
+
+    const campo_imagem_usuario = document.querySelector('input[type="file"]');
+    const arquivo = new File(
+      [recebeDados.imagem_usuario],
+      recebeDados.imagem_usuario,
+      {
+        type: "image/jpg",
+      }
+    );
+
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(arquivo);
+    campo_imagem_usuario.files = dataTransfer.files;
+
+    document.getElementById("exibi-foto-perfil").src =
+      "acesso/imagem_perfil/" + recebeDados.imagem_usuario;
+
+    $("#codigo-usuario-logado-alterar").val(recebeDados.codigo_usuario);
   });
 });
 
