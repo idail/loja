@@ -218,7 +218,7 @@ class Venda implements VendaInterface{
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
             }else if($this->getFiltro_Venda() === "todos_venda" && !empty($this->getValor_Filtro_Venda()))
             {
-                $instrucaoBuscarVenda = "select distinct nome_cliente_venda,codigo_cliente_vendas from vendas";
+                $instrucaoBuscarVenda = "select codigo_venda,nome_cliente_venda from vendas";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->execute();
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
@@ -388,6 +388,26 @@ class Venda implements VendaInterface{
             return $exception->getMessage();
         } catch (Exception $excecao) {
             return $excecao->getMessage();
+        }
+    }
+
+    public function ExcluirVenda()
+    {
+        try{
+            $instrucaoExcluirVenda = "delete from vendas where codigo_venda = :recebe_codigo_venda";
+            $comandoExcluirVenda = Conexao::Obtem()->prepare($instrucaoExcluirVenda);
+            $comandoExcluirVenda->bindValue(":recebe_codigo_venda",$this->getCodigo_Venda());
+            $resultadoExcluirVenda = $comandoExcluirVenda->execute();
+            
+            return $resultadoExcluirVenda;
+            /*if($resultadoExcluirVenda)
+                return "Venda excluida com sucesso";
+            else
+                return "Venda não foi excluida";*/
+        }catch (PDOException $exception) {
+            return $exception->getMessage();
+        } catch (Exception $excecao) {
+            return  $excecao->getMessage();
         }
     }
 }

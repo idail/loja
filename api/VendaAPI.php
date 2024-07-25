@@ -87,5 +87,17 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
 
         echo json_encode($resultadoBuscarVendasTotaisMeses);
     }
+}else if($_SERVER["REQUEST_METHOD"] === "DELETE")
+{
+    $processoVenda = json_decode(file_get_contents("php://input",true));
+
+    if(!empty($processoVenda->processo_venda === "recebe_exclui_venda"))
+    {
+        $resultadoExcluirVenda = $vendaControladora->ExcluirVenda($processoVenda->valor_codigo_venda_exclui);
+
+        echo json_encode($processoVenda->valor_codigo_venda_exclui);
+    }else{
+        echo json_encode("Falha ao excluir a venda devido não ter codigo");
+    }
 }
 ?>

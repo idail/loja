@@ -93,5 +93,12 @@ class VendaControladora{
 
         return $resultadoAtualizarPagamento;
     }
+
+    public function ExcluirVenda($recebe_codigo_venda)
+    {
+        $this->venda->setCodigo_Venda($recebe_codigo_venda);
+
+        return $this->venda->ExcluirVenda();
+    }
 }
 ?>

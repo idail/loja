@@ -2,7 +2,8 @@ $(document).ready(function () {
   let url_venda = window.location.href;
 
   if (
-    url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
+    url_venda ===
+    "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
   ) {
     let recebeTabelaCadastrarVendas = document.querySelector(
       "#listagem-produtos-venda"
@@ -26,15 +27,13 @@ $(document).ready(function () {
       type: "get",
       data: {
         processo_produto: "recebe_consultar_produtos",
-        filtro_produto:"todos_produtos",
-        valor_filtro_produto:"todos_produtos"
+        filtro_produto: "todos_produtos",
+        valor_filtro_produto: "todos_produtos",
       },
-      success:function(retorno_produtos)
-      {
+      success: function (retorno_produtos) {
         debugger;
-        
-        if(retorno_produtos.length > 0)
-        {
+
+        if (retorno_produtos.length > 0) {
           $("#lista-produto").html("");
           $("#lista-produto").append(
             "<option value='selecione'>Selecione</option>"
@@ -49,15 +48,14 @@ $(document).ready(function () {
                 "</option>"
             );
           });
-        }else {
+        } else {
           $("#lista-produto").html("");
           $("#lista-produto").append(
             "<option value='selecione'>Selecione</option>"
           );
         }
       },
-      error:function(xhr,status,error)
-      {
+      error: function (xhr, status, error) {
         console.log(error);
       },
     });
@@ -102,7 +100,8 @@ $(document).ready(function () {
       },
     });
   } else if (
-    url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
+    url_venda ===
+    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
   ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
@@ -110,6 +109,10 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
+    $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").hide();
+    $(
+      "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+    ).hide();
 
     listarVendas("todos_venda", "todos_venda");
 
@@ -400,7 +403,8 @@ $("#adicionar-item-venda").click(function (e) {
   //dados = {recebeCodigoPS:recebeQTDPV,};
 
   recebeDadosAtualizarEstoque.push({
-    codigo:recebeCodigoPS,estoque:recebeQTDPV,
+    codigo: recebeCodigoPS,
+    estoque: recebeQTDPV,
   });
 
   console.log(recebeDadosAtualizarEstoque);
@@ -672,7 +676,7 @@ $("#cadastro-venda").click(function (e) {
         valor_pagamentoagendadov: listaPagamentoAgendadoV,
         valor_datapagamentov: listaDataPagamentoV,
         valor_codigocv: listaCodigoClienteV,
-        valor_dadosatualizarestoque:recebeDadosAtualizarEstoque,
+        valor_dadosatualizarestoque: recebeDadosAtualizarEstoque,
         processo_venda: "recebe_cadastro_venda",
       },
       success: function (retorno) {
@@ -801,92 +805,32 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-          // if (
-          //   listaNomeClientes.includes(
-          //     retorno_vendas[vendas].nome_cliente_venda
-          //   )
-          // ) {
-          //   console.log("nome ja consta no array");
-          // } else {
-          //   listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
-          // }
+          listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
 
-          // listaImagensProdutos.push(retorno_vendas[vendas].nome_produto_venda);
+          let registro_exibido = listaNomeClientes.includes(
+            retorno_vendas[vendas].nome_cliente_venda
+          );
 
-          // let recebeValorVendaBR =
-          //   retorno_vendas[vendas].valor_final_venda.toString();
-
-          // let recebeValorVendaBRFinal =
-          //   "R$" + recebeValorVendaBR.replace(".", ",");
-
-          // let recebeValorDescontoV = retorno_vendas[vendas].desconto_venda;
-
-          // let recebePagoV = retorno_vendas[vendas].pago_venda;
-
-          // let recebeAgendamentoV =
-          //   retorno_vendas[vendas].pagamento_agendado_venda;
-
-          // let recebeValorDescontoVString = "";
-          // let recebeValorDescontoBRFinal = "";
-
-          // if (retorno_vendas[vendas].desconto_final_venda != null) {
-          //   recebeValorDescontoVString =
-          //     retorno_vendas[vendas].desconto_final_venda.toString();
-          //   recebeValorDescontoBRFinal =
-          //     "R$" + recebeValorDescontoVString.replace(".", ",");
-          // } else {
-          //   recebeValorDescontoBRFinal = "Não informado";
-          // }
-
-          // let recebeValorFinalDescontoV = "";
-
-          // if (recebeValorDescontoV === 1) recebeValorFinalDescontoV = "Sim";
-          // else recebeValorFinalDescontoV = "Não";
-
-          // let recebeValorPagoV = "";
-
-          // if (recebePagoV === 1) recebeValorPagoV = "Sim";
-          // else recebeValorPagoV = "Não";
-
-          // let recebeValorAgendamentoV = "";
-
-          // if (recebeAgendamentoV === 1) recebeValorAgendamentoV = "Sim";
-          // else recebeValorAgendamentoV = "Não";
-
-          // let recebeDataAgendamentoV = "";
-          // let recebeDataAmericana = "";
-          // let recebeDataBRAgendamentoV = "";
-
-          // if (retorno_vendas[vendas].data_pagamento_venda != null) {
-          //   recebeDataAgendamentoV =
-          //     retorno_vendas[vendas].data_pagamento_venda;
-          //   recebeDataBRAgendamentoV = recebeDataAgendamentoV
-          //     .split("-")
-          //     .reverse()
-          //     .join("/");
-          // } else {
-          //   recebeDataBRAgendamentoV = "Não informado";
-          // }
-
-          recebe_tabela_vendas.innerHTML +=
-            "<tr>" +
-            "<td style='text-align:center;'>" +
-            retorno_vendas[vendas].nome_cliente_venda +
-            "</td>" +
-            // "<td><a href='#'><i class='bi bi-card-image fs-4' title='Ver Imagens' data-bs-toggle='modal' data-bs-target='#visualiza-imagens-vendas' data-backdrop='static' id='carrega-imagens-venda' onclick=visualiza_vendas_cliente(" + retorno_vendas[vendas].codigo_cliente_vendas + ")>" +
-
-            // "</td>" +
-            "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
-            retorno_vendas[vendas].codigo_cliente_vendas +
-            "' data-param2='" +
-            retorno_vendas[vendas].nome_cliente_venda +
-            "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
-            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
-            // retorno_vendas[vendas].codigo_venda +
-            ",event)></i></a></td>" +
-            "</tr>";
+          if (registro_exibido) {
+            console.log(registro_exibido);
+          } else {
+            recebe_tabela_vendas.innerHTML +=
+              "<tr>" +
+              "<td style='text-align:center;'>" +
+              retorno_vendas[vendas].nome_cliente_venda +
+              "</td>" +
+              "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
+              retorno_vendas[vendas].codigo_cliente_vendas +
+              "' data-param2='" +
+              retorno_vendas[vendas].nome_cliente_venda +
+              "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
+              "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiProdutoEspecifico(" +
+              retorno_vendas[vendas].codigo_cliente_vendas +
+              ",event)></i></a></td>" +
+              "</tr>";
+              $("#registros-vendas").append(recebe_tabela_vendas);
+          }
         }
-        $("#registros-vendas").append(recebe_tabela_vendas);
       } else {
         $("#exibi-quantidade-vendas").html("Quantidade de vendas:" + 0);
         $("#registros-vendas").html("");
@@ -899,6 +843,55 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
   });
 }
 
+function excluiProdutoEspecifico(valorCodigoVenda, e) {
+  e.preventDefault();
+
+  debugger;
+
+  let recebeCodigoVenda = valorCodigoVenda;
+
+  let recebeRespostaExcluirPedido = window.confirm(
+    "Tem certeza que deseja excluir o pedido?"
+  );
+
+  if (recebeRespostaExcluirPedido) {
+    $.ajax({
+      url: "../api/VendaAPI.php",
+      type: "DELETE",
+      dataType: "json",
+      cache: false,
+      data: JSON.stringify({
+        processo_venda: "recebe_exclui_venda",
+        valor_codigo_venda_exclui: recebeCodigoVenda,
+      }),
+      success: function (retorno_excluir) {
+        debugger;
+
+        if (retorno_excluir === "Venda excluida com sucesso") {
+          $("#recebe-mensagem-exclusao-realizada-venda").html(retorno_excluir);
+          $("#recebe-mensagem-exclusao-realizada-venda").show();
+          $("#recebe-mensagem-exclusao-realizada-venda").fadeOut(4000);
+        } else {
+          $("#recebe-mensagem-campo-falha-exclusao-venda").html(
+            "Falha ao excluir venda: " + retorno_excluir
+          );
+          $("#recebe-mensagem-campo-falha-exclusao-venda").show();
+          $("#recebe-mensagem-campo-falha-exclusao-venda").fadeOut(4000);
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-exclusao-venda").html(
+          "Falha ao excluir venda: " + error
+        );
+        $("#recebe-mensagem-campo-falha-exclusao-venda").show();
+        $("#recebe-mensagem-campo-falha-exclusao-venda").fadeOut(4000);
+      },
+    });
+  } else {
+    return;
+  }
+}
+
 $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
   e.preventDefault();
 
@@ -906,7 +899,6 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
   let recebeNomeClienteVendas = $(this).data("param2");
 
   $.ajax({
-    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
     url: "../api/VendaAPI.php",
     dataType: "json",
     type: "get",
@@ -914,14 +906,6 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
       processo_venda: "recebe_consultar_vendas_cliente_especifico",
       valor_codigo_cliente_venda: $(this).data("param1"),
     },
-    //   beforeSend: function () {
-    //     debugger;
-    //     $("#registros-clientes").html("");
-    //     $("#registros-clientes").append(
-    //       "<td colspan='5' class='text-center'>Carregando dados</td>"
-    //     );
-    //     $("#registros-clientes").html("");
-    //   },
     success: function (retorno_vendas) {
       debugger;
 
@@ -997,7 +981,9 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
             "<td class='text-center'>" +
             recebeDataPagamentoAgendadoBR +
             "</td>" +
-            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' onclick=''></i></a></td>" +
+            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
+            retorno_vendas[vendas].codigo_venda +
+            "' id='informarPagamento'></i></a></td>" +
             "</tr>";
         }
 
@@ -1008,6 +994,53 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
     },
     error: function (xhr, status, error) {
       console.log(error);
+    },
+  });
+});
+
+$(document).on("click", "#informarPagamento", function (e) {
+  debugger;
+
+  let recebeCodigoVenda = $(this).data("param-codigo");
+
+  $.ajax({
+    url: "../api/VendaAPI.php",
+    type: "post",
+    dataType: "json",
+    data: {
+      processo_venda: "recebe_atualizar_pagamento",
+      valor_codigo_venda: recebeCodigoVenda,
+      metodo: "PUT",
+    },
+    success: function (retorno) {
+      debugger;
+
+      if (retorno === "Pagamento atualizado") {
+        $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").html(retorno);
+        $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").show();
+        $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").fadeOut(4000);
+      } else {
+        $(
+          "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+        ).html("Falha ao informar pagamento: " + retorno);
+        $(
+          "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+        ).show();
+        $(
+          "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+        ).fadeOut(4000);
+      }
+    },
+    error: function (xhr, status, error) {
+      $(
+        "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+      ).html("Falha ao informar pagamento: " + error);
+      $(
+        "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+      ).show();
+      $(
+        "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
+      ).fadeOut(4000);
     },
   });
 });
