@@ -43,11 +43,6 @@
                     <tr>
                         <th scope="col" class="col-4 text-center">Cliente</th>
                         <th scope="col" class="col-4 text-center">Informações Vendas</th>
-                        <!-- <th scope="col">Quantidade</th>
-                        <th scope="col">Desconto/Valor</th>
-                        <th scope="col">Valor Final</th>
-                        <th scope="col">Pago Venda</th>
-                        <th scope="col">Pagamento Agendado/Data Agendamento</th> -->
                         <th scope="col" colspan="3">Opções</th>
                     </tr>
                 </thead>
