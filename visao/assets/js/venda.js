@@ -591,7 +591,15 @@ $("#adicionar-item-venda").click(function (e) {
     }
 
     listaNomeProdutosGravarV.push(recebeNomeProdutoGravar);
-    listaNomeClientesGravarV.push(recebeNomeSCV);
+
+    let verificaCliente = listaNomeClientesGravarV.includes(recebeNomeSCV);
+
+    if(verificaCliente)
+      console.log(listaNomeClientesGravarV);
+    else
+      listaNomeClientesGravarV.push(recebeNomeSCV);  
+
+    
     listaQuantidadeV.push(recebeQTDPV);
     listaDescontoV.push(recebeValorBooleanoDescontoVendaFinal);
     listaValorDescontoV.push(valorDescontoFinalVP);
@@ -599,7 +607,13 @@ $("#adicionar-item-venda").click(function (e) {
     listaPagoV.push(recebePagoVendaBooleanoFinal);
     listaPagamentoAgendadoV.push(recebeAgendarPagamentoBooleanoFinal);
     listaDataPagamentoV.push(recebeDataPagamentoAmericano);
-    listaCodigoClienteV.push(recebeCodigoClienteGravar);
+
+    let verificaCodigoCliente = listaCodigoClienteV.includes(recebeCodigoClienteGravar);
+
+    if(verificaCodigoCliente)
+      console.log(listaCodigoClienteV);
+    else
+      listaCodigoClienteV.push(recebeCodigoClienteGravar);
 
     let linha = $("<tr></tr>");
     let colunaNomeProdutoSV = $("<td></td>").text(recebeNomeProdutoGravar);
@@ -661,47 +675,67 @@ $("#cadastro-venda").click(function (e) {
 
   if (primeiraLinha.find("td").eq(0).text() === "Nenhum registro adicionado") {
   } else {
+
     $.ajax({
-      url: "../api/VendaAPI.php",
+      url: "../api/ClienteVendaAPI.php",
       type: "post",
       dataType: "json",
       data: {
-        valor_nomeprodutov: listaNomeProdutosGravarV,
-        valor_nomeclientev: listaNomeClientesGravarV,
-        valor_quantidadeprodutov: listaQuantidadeV,
-        valor_selecionado_descontov: listaDescontoV,
-        valor_descontoprodutov: listaValorDescontoV,
-        valor_finalv: listaValorTotalV,
-        valor_selecionado_pagov: listaPagoV,
-        valor_pagamentoagendadov: listaPagamentoAgendadoV,
-        valor_datapagamentov: listaDataPagamentoV,
-        valor_codigocv: listaCodigoClienteV,
-        valor_dadosatualizarestoque: recebeDadosAtualizarEstoque,
-        processo_venda: "recebe_cadastro_venda",
+        valor_nomeclientevenda: listaNomeClientesGravarV,
+        valor_codigoclientevenda: listaCodigoClienteV,
+        processo_cliente_venda: "recebe_cadastro_cliente_venda",
       },
-      success: function (retorno) {
-        debugger;
-        if (retorno === "Estoque atualizado") {
-          $("#recebe-mensagem-cadastro-realizado-venda").html(
-            "Venda cadastrada com sucesso"
-          );
-          $("#recebe-mensagem-cadastro-realizado-venda").show();
-          $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
-        } else {
-          $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-            "Falha ao cadastrar venda:" + retorno
-          );
-          $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-          $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+      success: function (retorno) 
+      {
+        if(retorno > 0)
+        {
+          $.ajax({
+            url: "../api/VendaAPI.php",
+            type: "post",
+            dataType: "json",
+            data: {
+              valor_nomeprodutov: listaNomeProdutosGravarV,
+              valor_quantidadeprodutov: listaQuantidadeV,
+              valor_selecionado_descontov: listaDescontoV,
+              valor_descontoprodutov: listaValorDescontoV,
+              valor_finalv: listaValorTotalV,
+              valor_selecionado_pagov: listaPagoV,
+              valor_pagamentoagendadov: listaPagamentoAgendadoV,
+              valor_datapagamentov: listaDataPagamentoV,
+              valor_codigocv: listaCodigoClienteV,
+              valor_dadosatualizarestoque: recebeDadosAtualizarEstoque,
+              processo_venda: "recebe_cadastro_venda",
+            },
+            success: function (retorno) {
+              debugger;
+              if (retorno === "Estoque atualizado") {
+                $("#recebe-mensagem-cadastro-realizado-venda").html(
+                  "Venda cadastrada com sucesso"
+                );
+                $("#recebe-mensagem-cadastro-realizado-venda").show();
+                $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
+              } else {
+                $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+                  "Falha ao cadastrar venda:" + retorno
+                );
+                $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+                $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+              }
+            },
+            error: function (xhr, status, error) {
+              debugger;
+              $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+                "Falha ao cadastrar venda:" + error
+              );
+              $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+              $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+            },
+          });
         }
       },
-      error: function (xhr, status, error) {
-        debugger;
-        $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-          "Falha ao cadastrar venda:" + error
-        );
-        $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-        $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
+      error:function(xhr,status,error)
+      {
+
       },
     });
   }
@@ -805,7 +839,6 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
         );
 
         for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-          listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
 
           let registro_exibido = listaNomeClientes.includes(
             retorno_vendas[vendas].nome_cliente_venda
@@ -829,6 +862,8 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
               ",event)></i></a></td>" +
               "</tr>";
               $("#registros-vendas").append(recebe_tabela_vendas);
+
+              listaNomeClientes.push(retorno_vendas[vendas].nome_cliente_venda);
           }
         }
       } else {

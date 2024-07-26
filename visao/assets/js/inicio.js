@@ -13,7 +13,7 @@ $(document).ready(function (e) {
       "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
     url_inicio ===
       "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" || url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
   ) {
     debugger;
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
