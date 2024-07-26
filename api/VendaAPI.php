@@ -14,7 +14,6 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
     if($recebeProcessoVenda === "recebe_cadastro_venda")
     {
         $recebeNomeProdutoV = $_POST["valor_nomeprodutov"];
-        $recebeNomeClienteV = $_POST["valor_nomeclientev"];
         $recebeQuantidadeProdutoV = $_POST["valor_quantidadeprodutov"];
         $recebeValorSelecionadoDescontoV = $_POST["valor_selecionado_descontov"];
         $recebeDescontoValorV = $_POST["valor_descontoprodutov"];
@@ -26,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $recebeDadosAtualizarEstoque = $_POST["valor_dadosatualizarestoque"];
 
 
-        $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeNomeClienteV,$recebeQuantidadeProdutoV,
+        $resultadoCadastrarVenda = $vendaControladora->CadastrarVenda($recebeNomeProdutoV,$recebeQuantidadeProdutoV,
         $recebeValorSelecionadoDescontoV,$recebeDescontoValorV,$recebeValorV,$recebeValorSelecionadoPagoV,
         $recebePagamentoAgendadoV,$recebeDataAgendamentoProdutoV,$recebeCodigoClienteV);
 

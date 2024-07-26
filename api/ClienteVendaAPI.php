@@ -9,7 +9,7 @@ $clientevendaControladora = new ClienteVendaControladora();
 
 if($_SERVER["REQUEST_METHOD"] === "POST")
 {
-    if($_POST["processo_cliente_venda"] === "processo_cliente_venda")
+    if($_POST["processo_cliente_venda"] === "recebe_cadastro_cliente_venda")
     {
         $recebeNomeClienteVenda = $_POST["valor_nomeclientevenda"];
         $recebeCodigoClienteVenda = $_POST["valor_codigoclientevenda"];
