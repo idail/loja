@@ -677,67 +677,69 @@ $("#cadastro-venda").click(function (e) {
   } else {
 
     $.ajax({
-      url: "../api/ClienteVendaAPI.php",
+      url: "../api/VendaAPI.php",
       type: "post",
       dataType: "json",
       data: {
-        valor_nomeclientevenda: listaNomeClientesGravarV,
-        valor_codigoclientevenda: listaCodigoClienteV,
-        processo_cliente_venda: "recebe_cadastro_cliente_venda",
+        valor_nomeprodutov: listaNomeProdutosGravarV,
+        valor_quantidadeprodutov: listaQuantidadeV,
+        valor_selecionado_descontov: listaDescontoV,
+        valor_descontoprodutov: listaValorDescontoV,
+        valor_finalv: listaValorTotalV,
+        valor_selecionado_pagov: listaPagoV,
+        valor_pagamentoagendadov: listaPagamentoAgendadoV,
+        valor_datapagamentov: listaDataPagamentoV,
+        valor_codigocv: listaCodigoClienteV,
+        valor_dadosatualizarestoque: recebeDadosAtualizarEstoque,
+        processo_venda: "recebe_cadastro_venda",
       },
-      success: function (retorno) 
-      {
-        if(retorno > 0)
-        {
-          $.ajax({
-            url: "../api/VendaAPI.php",
-            type: "post",
-            dataType: "json",
-            data: {
-              valor_nomeprodutov: listaNomeProdutosGravarV,
-              valor_quantidadeprodutov: listaQuantidadeV,
-              valor_selecionado_descontov: listaDescontoV,
-              valor_descontoprodutov: listaValorDescontoV,
-              valor_finalv: listaValorTotalV,
-              valor_selecionado_pagov: listaPagoV,
-              valor_pagamentoagendadov: listaPagamentoAgendadoV,
-              valor_datapagamentov: listaDataPagamentoV,
-              valor_codigocv: listaCodigoClienteV,
-              valor_dadosatualizarestoque: recebeDadosAtualizarEstoque,
-              processo_venda: "recebe_cadastro_venda",
-            },
-            success: function (retorno) {
-              debugger;
-              if (retorno === "Estoque atualizado") {
-                $("#recebe-mensagem-cadastro-realizado-venda").html(
-                  "Venda cadastrada com sucesso"
-                );
-                $("#recebe-mensagem-cadastro-realizado-venda").show();
-                $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
-              } else {
-                $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-                  "Falha ao cadastrar venda:" + retorno
-                );
-                $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-                $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-              }
-            },
-            error: function (xhr, status, error) {
-              debugger;
-              $("#recebe-mensagem-campo-falha-cadastro-venda").html(
-                "Falha ao cadastrar venda:" + error
-              );
-              $("#recebe-mensagem-campo-falha-cadastro-venda").show();
-              $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
-            },
-          });
+      success: function (retorno) {
+        debugger;
+        if (retorno === "Estoque atualizado") {
+          $("#recebe-mensagem-cadastro-realizado-venda").html(
+            "Venda cadastrada com sucesso"
+          );
+          $("#recebe-mensagem-cadastro-realizado-venda").show();
+          $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
+        } else {
+          $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+            "Falha ao cadastrar venda:" + retorno
+          );
+          $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+          $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
         }
       },
-      error:function(xhr,status,error)
-      {
-
+      error: function (xhr, status, error) {
+        debugger;
+        $("#recebe-mensagem-campo-falha-cadastro-venda").html(
+          "Falha ao cadastrar venda:" + error
+        );
+        $("#recebe-mensagem-campo-falha-cadastro-venda").show();
+        $("#recebe-mensagem-campo-falha-cadastro-venda").fadeOut(4000);
       },
     });
+
+    // $.ajax({
+    //   url: "../api/ClienteVendaAPI.php",
+    //   type: "post",
+    //   dataType: "json",
+    //   data: {
+    //     valor_nomeclientevenda: listaNomeClientesGravarV,
+    //     valor_codigoclientevenda: listaCodigoClienteV,
+    //     processo_cliente_venda: "recebe_cadastro_cliente_venda",
+    //   },
+    //   success: function (retorno) 
+    //   {
+    //     if(retorno > 0)
+    //     {
+          
+    //     }
+    //   },
+    //   error:function(xhr,status,error)
+    //   {
+
+    //   },
+    // });
   }
 
   // let recebeNomeProdutoSV = $("#lista-produto").val();

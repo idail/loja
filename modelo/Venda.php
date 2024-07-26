@@ -217,7 +217,7 @@ class Venda implements VendaInterface{
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
             }else if($this->getFiltro_Venda() === "todos_venda" && !empty($this->getValor_Filtro_Venda()))
             {
-                $instrucaoBuscarVenda = "select codigo_venda,nome_cliente_venda,codigo_cliente_vendas from vendas";
+                $instrucaoBuscarVenda = "select codigo_venda,codigo_cliente_vendas from vendas";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->execute();
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
