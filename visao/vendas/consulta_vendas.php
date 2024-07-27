@@ -13,18 +13,19 @@
             </div>
 
 
-            <label class="col-sm-1 col-form-label" id="titulo-filtro">Filtro</label>
+            <!-- <label class="col-sm-1 col-form-label" id="titulo-filtro">Filtro</label>
             <div class="col-sm-2" id="lista-filtro-venda">
                 <select class="form-select" aria-label="Default select example" id="filtro-venda">
                     <option selected value="selecione">Selecione</option>
                     <option value="cliente">Nome</option>
                     <option value="todos_venda">Todos</option>
                 </select>
-            </div>
+            </div> -->
 
             <!-- <div class="col-sm-2">
                 <input type="text" class="form-control" name="valor-filtro-venda" placeholder="Informe o filtro que deseja pesquisar" id="valor-filtro-venda">
             </div> -->
+
 
             <div class="col-sm-2">
                 <button type="button" class="btn btn-primary" id="buscar-venda">Pesquisar</button>
@@ -41,9 +42,9 @@
             <table class="table" id="listagem-vendas">
                 <thead>
                     <tr>
-                        <th scope="col" class="col-4 text-center">Cliente</th>
-                        <th scope="col" class="col-4 text-center">Informações Vendas</th>
-                        <th scope="col" colspan="3">Opções</th>
+                        <!-- <th scope="col" class="col-4 text-center">Cliente</th> -->
+                        <th scope="col" class="col-9 text-center" colspan="1">Informações Vendas</th>
+                        <th scope="col" class="text-center" colspan="3">Opções</th>
                     </tr>
                 </thead>
                 <tbody id="registros-vendas">

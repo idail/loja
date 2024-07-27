@@ -162,10 +162,11 @@ class Venda implements VendaInterface{
     {
         try{
             for ($venda=0; $venda < count($this->getNome_Produto_Venda()); $venda++) { 
-                $instrucaoCadastrarVenda = "insert into vendas(nome_produto_venda,quantidade_produtos_venda,desconto_venda,desconto_final_venda,valor_final_venda,pago_venda,
+                $instrucaoCadastrarVenda = "insert into vendas(nome_cliente_venda,nome_produto_venda,quantidade_produtos_venda,desconto_venda,desconto_final_venda,valor_final_venda,pago_venda,
                 pagamento_agendado_venda,data_pagamento_venda,codigo_cliente_vendas)values(:recebe_nome_produto_venda,:recebe_quantidade_produtos_venda,:recebe_desconto_venda,
                 :recebe_desconto_final_venda,:recebe_valor_final_venda,:recebe_pago_venda,:recebe_pagamento_agendado_venda,:recebe_data_pagamento_venda,:recebe_codigo_cliente_vendas)";
                 $comandoCadastrarVenda = Conexao::Obtem()->prepare($instrucaoCadastrarVenda);
+                $comandoCadastrarVenda->bindValue(":nome_cliente_venda",$this->getNome_Cliente_Venda()[$venda]);
                 $comandoCadastrarVenda->bindValue(":recebe_nome_produto_venda",$this->getNome_Produto_Venda()[$venda]);
                 $comandoCadastrarVenda->bindValue(":recebe_quantidade_produtos_venda",$this->getQuantidade_Produtos_Venda()[$venda]);
     
@@ -217,7 +218,7 @@ class Venda implements VendaInterface{
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);
             }else if($this->getFiltro_Venda() === "todos_venda" && !empty($this->getValor_Filtro_Venda()))
             {
-                $instrucaoBuscarVenda = "select codigo_venda,codigo_cliente_vendas from vendas";
+                $instrucaoBuscarVenda = "select distinct codigo_cliente_vendas,nome_cliente_venda from vendas";
                 $comandoBuscarVenda = Conexao::Obtem()->prepare($instrucaoBuscarVenda);
                 $comandoBuscarVenda->execute();
                 $registros_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC);

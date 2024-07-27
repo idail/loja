@@ -9,9 +9,10 @@ class VendaControladora{
         $this->venda = new Venda();
     }
 
-    public function CadastrarVenda($recebeNomePV,$recebeQuantidadePV,$recebeDescontoV,$recebeDescontoFV,$recebeValorFV,
+    public function CadastrarVenda($recebeNomeClienteV,$recebeNomePV,$recebeQuantidadePV,$recebeDescontoV,$recebeDescontoFV,$recebeValorFV,
     $recebePagoV,$recebePagamentoAV,$recebeDataPV,$recebeCodigoClienteV)
     {
+        $this->venda->setNome_Cliente_Venda($recebeNomeClienteV);
         $this->venda->setNome_Produto_Venda($recebeNomePV);
         $this->venda->setQuantidade_Produtos_Venda($recebeQuantidadePV);
         $this->venda->setDesconto_Venda($recebeDescontoV);
