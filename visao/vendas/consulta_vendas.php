@@ -44,7 +44,7 @@
                     <tr>
                         <!-- <th scope="col" class="col-4 text-center">Cliente</th> -->
                         <th scope="col" class="col-9 text-center" colspan="1">Informações Vendas</th>
-                        <th scope="col" class="text-center" colspan="3">Opções</th>
+                        <!-- <th scope="col" class="text-center" colspan="3">Opções</th> -->
                     </tr>
                 </thead>
                 <tbody id="registros-vendas">
