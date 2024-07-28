@@ -114,7 +114,7 @@ $(document).ready(function () {
       "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
     ).hide();
 
-    listarVendas("todos_venda", "todos_venda");
+    //listarVendas("todos_venda", "todos_venda");
 
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
