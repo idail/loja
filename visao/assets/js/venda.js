@@ -105,8 +105,8 @@ $(document).ready(function () {
   ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
-    // $("#recebe-mensagem-exclusao-realizada-venda").hide();
-    // $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
+    $("#recebe-mensagem-exclusao-realizada-venda").hide();
+    $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
     $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").hide();
@@ -990,7 +990,10 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
         
                 $("#registros-vendas-cliente").append(recebe_tabela_vendas);
               } else {
-                console.log(retorno_vendas);
+                $("#registros-vendas-cliente").html("");
+                $("#registros-vendas-cliente").append(
+                  "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                );
               }
             },
             error: function (xhr, status, error) {
