@@ -105,8 +105,8 @@ $(document).ready(function () {
   ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
-    $("#recebe-mensagem-exclusao-realizada-venda").hide();
-    $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
+    // $("#recebe-mensagem-exclusao-realizada-venda").hide();
+    // $("#recebe-mensagem-campo-falha-exclusao-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
     $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").hide();
