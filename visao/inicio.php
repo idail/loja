@@ -414,19 +414,27 @@ require("../api/VerificaSessao.php");
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="" data-bs-toggle="collapse" href="vendas/relatorio_venda.php">
+                <a class="nav-link collapsed" data-bs-target="#relatorios-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-card-list"></i><span>Relatório de Vendas</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
+
+                <ul id="relatorios-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="vendas/relatorio_venda.php">
+                            <i class="bi bi-circle"></i><span>Gerar</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             <!-- <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="bi bi-card-list"></i><span>Relatorios</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="charts-chartjs.html">
-                            <i class="bi bi-circle"></i><span>Chart.js</span>
+                        <a href="vendas/relatorio_venda.php">
+                            <i class="bi bi-circle"></i><span>Gerar</span>
                         </a>
                     </li>
                     <li>
@@ -440,8 +448,9 @@ require("../api/VerificaSessao.php");
                         </a>
                     </li>
                 </ul>
-            </li>
-
+            </li> -->
+            
+            <!--
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gem"></i><span>Icons</span><i class="bi bi-chevron-down ms-auto"></i>

@@ -1,7 +1,9 @@
 <?php
-$dados = "<h1>Olá , <span>Idail Neto</span></h1>";
+require(__DIR__ . "../../../vendor/autoload.php");
+$dados = "<h1>Olá , <span>Idail Neto</span></h1><br>";
+$dados .= __DIR__;
 
-use Dompdf\Dompdf;
+use  Dompdf\Dompdf;
 
 $dompdf = new Dompdf(['enable_remote' => true]);
 
