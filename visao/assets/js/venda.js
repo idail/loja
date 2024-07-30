@@ -21,6 +21,8 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").hide();
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
 
+    $("#cadastro-venda").prop("disabled",true);
+
     $.ajax({
       url: "../api/ProdutoAPI.php",
       dataType: "json",
@@ -113,6 +115,11 @@ $(document).ready(function () {
     $(
       "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
     ).hide();
+
+    $("#exibi-quantidade-vendas").html("Quantidade de vendas:" + 0);
+    $("#registros-vendas").append(
+      "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+    );
 
     //listarVendas("todos_venda", "todos_venda");
 
@@ -630,6 +637,8 @@ $("#adicionar-item-venda").click(function (e) {
 
     $("#listagem-produtos-venda").append(linha);
 
+    $("#cadastro-venda").prop("disabled",false);
+
     // let recebeListaProduto = document.querySelector("#lista-produto");
 
     // recebeListaProduto.selectedIndex = 0;
@@ -672,7 +681,7 @@ $("#cadastro-venda").click(function (e) {
       type: "post",
       dataType: "json",
       data: {
-        valor_nomeclientev:listaNomeClientesGravarV,
+        valor_nomeclientev: listaNomeClientesGravarV,
         valor_nomeprodutov: listaNomeProdutosGravarV,
         valor_quantidadeprodutov: listaQuantidadeV,
         valor_selecionado_descontov: listaDescontoV,
@@ -693,6 +702,8 @@ $("#cadastro-venda").click(function (e) {
           );
           $("#recebe-mensagem-cadastro-realizado-venda").show();
           $("#recebe-mensagem-cadastro-realizado-venda").fadeOut(4000);
+
+          atualizaContasVencer();
         } else {
           $("#recebe-mensagem-campo-falha-cadastro-venda").html(
             "Falha ao cadastrar venda:" + retorno
@@ -847,7 +858,9 @@ function listarVendas(recebeFiltroV, recebeValorFiltroV) {
             "<tr>" +
             "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
             retorno_vendas[vendas].codigo_cliente_vendas +
-            "' data-param2='" + retorno_vendas[vendas].nome_cliente_venda + "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
+            "' data-param2='" +
+            retorno_vendas[vendas].nome_cliente_venda +
+            "' title='Visualizar Vendas' data-bs-toggle='modal' data-bs-target='#visualiza-vendas-cliente' data-backdrop='static' id='visualizarVendasEspecificaCliente'></i></a></td>" +
             "</tr>";
           $("#registros-vendas").append(recebe_tabela_vendas);
 
@@ -894,7 +907,7 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
           $("#recebe-mensagem-exclusao-realizada-venda").show();
           $("#recebe-mensagem-exclusao-realizada-venda").fadeOut(4000);
 
-
+          atualizaContasVencer();
 
           $.ajax({
             url: "../api/VendaAPI.php",
@@ -906,25 +919,26 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
             },
             success: function (retorno_vendas) {
               debugger;
-        
+
               if (retorno_vendas.length > 0) {
                 let recebe_tabela_vendas = document.querySelector(
                   "#registros-vendas-cliente"
                 );
-        
+
                 $("#registros-vendas-cliente").html("");
-        
+
                 $("#exibi-nome-cliente").html(recebeNomeClienteVendas);
-        
+
                 for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
-                  let recebeDescontoVenda = retorno_vendas[vendas].desconto_venda;
+                  let recebeDescontoVenda =
+                    retorno_vendas[vendas].desconto_venda;
                   let recebeValorDescontoVenda =
                     retorno_vendas[vendas].desconto_final_venda.toString();
-        
+
                   let recebeDescontoVF = "";
                   if (recebeDescontoVenda === 1) recebeDescontoVF = "Sim";
                   else recebeDescontoVF = "Não";
-        
+
                   let recebeValorDescontoF = "";
                   if (recebeValorDescontoVenda > 0) {
                     recebeValorDescontoF =
@@ -933,14 +947,15 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
                     recebeValorDescontoF =
                       "R$" + recebeValorDescontoVenda.replace(".", ",");
                   }
-        
+
                   let recebeValorFinal =
                     retorno_vendas[vendas].valor_final_venda.toString();
-        
-                  let recebeValorFVBR = "R$" + recebeValorFinal.replace(".", ",");
-        
+
+                  let recebeValorFVBR =
+                    "R$" + recebeValorFinal.replace(".", ",");
+
                   let recebePagoVenda = retorno_vendas[vendas].pago_venda;
-        
+
                   let recebeDataPagamentoAgendadoBR = "";
                   if (retorno_vendas[vendas].pagamento_agendado_venda === 1) {
                     recebeDataPagamentoAgendadoBR = retorno_vendas[
@@ -952,11 +967,11 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
                   } else {
                     recebeDataPagamentoAgendadoBR = "Não informado";
                   }
-        
+
                   let recebePagoFV = "";
                   if (recebePagoVenda === 1) recebePagoFV = "Sim";
                   else recebePagoFV = "Não";
-        
+
                   recebe_tabela_vendas +=
                     "<tr>" +
                     "<td class='text-center'>" +
@@ -981,29 +996,42 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
                     "</td>" +
                     "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
                     retorno_vendas[vendas].codigo_venda +
-                    "' data-param-codigo-cliente='" + retorno_vendas[vendas].codigo_cliente_vendas + "' data-param-nome-cliente='" + recebeNomeClienteVendas + "' id='informarPagamento'></i></a></td>" +
+                    "' data-param-codigo-cliente='" +
+                    retorno_vendas[vendas].codigo_cliente_vendas +
+                    "' data-param-nome-cliente='" +
+                    recebeNomeClienteVendas +
+                    "' id='informarPagamento'></i></a></td>" +
                     "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
-                      retorno_vendas[vendas].codigo_venda +
-                      ",event)></i></a></td>" +
+                    retorno_vendas[vendas].codigo_venda +
+                    ",event)></i></a></td>" +
                     "</tr>";
                 }
-        
+
                 $("#registros-vendas-cliente").append(recebe_tabela_vendas);
               } else {
                 $("#registros-vendas-cliente").html("");
                 $("#registros-vendas-cliente").append(
-                  "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                  "<td colspan='7' class='text-center'>Nenhum registro localizado</td>"
                 );
               }
             },
             error: function (xhr, status, error) {
-              console.log(error);
+              $(
+                "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+              ).html(error);
+              $(
+                "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+              ).show();
+              $(
+                "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+              ).fadeOut(4000);
+
+              $("#registros-vendas-cliente").html("");
+              $("#registros-vendas-cliente").append(
+                "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+              );
             },
           });
-
-
-
-
         } else {
           $("#recebe-mensagem-campo-falha-exclusao-venda").html(
             "Falha ao excluir venda: " + retorno_excluir
@@ -1119,20 +1147,38 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
             "</td>" +
             "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
             retorno_vendas[vendas].codigo_venda +
-            "' data-param-codigo-cliente='" + retorno_vendas[vendas].codigo_cliente_vendas + "' data-param-nome-cliente='" + recebeNomeClienteVendas + "' id='informarPagamento'></i></a></td>" +
+            "' data-param-codigo-cliente='" +
+            retorno_vendas[vendas].codigo_cliente_vendas +
+            "' data-param-nome-cliente='" +
+            recebeNomeClienteVendas +
+            "' id='informarPagamento'></i></a></td>" +
             "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
-              retorno_vendas[vendas].codigo_venda +
-              ",event)></i></a></td>" +
+            retorno_vendas[vendas].codigo_venda +
+            ",event)></i></a></td>" +
             "</tr>";
         }
 
         $("#registros-vendas-cliente").append(recebe_tabela_vendas);
       } else {
-        console.log(retorno_vendas);
+        $("#registros-vendas-cliente").html("");
+        $("#registros-vendas-cliente").append(
+          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+        );
       }
     },
     error: function (xhr, status, error) {
-      console.log(error);
+      $("#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico").html(
+        error
+      );
+      $("#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico").show();
+      $("#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico").fadeOut(
+        4000
+      );
+
+      $("#registros-vendas-cliente").html("");
+      $("#registros-vendas-cliente").append(
+        "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+      );
     },
   });
 });
@@ -1159,11 +1205,19 @@ $(document).on("click", "#informarPagamento", function (e) {
       debugger;
 
       if (retorno === "Pagamento atualizado") {
-        $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").html(retorno);
-        $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").show();
-        $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").fadeOut(4000);
+        $(
+          "#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico"
+        ).html(retorno);
+        $(
+          "#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico"
+        ).show();
+        $(
+          "#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico"
+        ).fadeOut(4000);
 
         console.log("codigo recebido:" + recebeCodigoClienteVenda);
+
+        atualizaContasVencer();
 
         $.ajax({
           url: "../api/VendaAPI.php",
@@ -1175,25 +1229,25 @@ $(document).on("click", "#informarPagamento", function (e) {
           },
           success: function (retorno_vendas) {
             debugger;
-      
+
             if (retorno_vendas.length > 0) {
               let recebe_tabela_vendas = document.querySelector(
                 "#registros-vendas-cliente"
               );
-      
+
               $("#registros-vendas-cliente").html("");
-      
+
               $("#exibi-nome-cliente").html(recebeNomeClienteVenda);
-      
+
               for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
                 let recebeDescontoVenda = retorno_vendas[vendas].desconto_venda;
                 let recebeValorDescontoVenda =
                   retorno_vendas[vendas].desconto_final_venda.toString();
-      
+
                 let recebeDescontoVF = "";
                 if (recebeDescontoVenda === 1) recebeDescontoVF = "Sim";
                 else recebeDescontoVF = "Não";
-      
+
                 let recebeValorDescontoF = "";
                 if (recebeValorDescontoVenda > 0) {
                   recebeValorDescontoF =
@@ -1202,14 +1256,14 @@ $(document).on("click", "#informarPagamento", function (e) {
                   recebeValorDescontoF =
                     "R$" + recebeValorDescontoVenda.replace(".", ",");
                 }
-      
+
                 let recebeValorFinal =
                   retorno_vendas[vendas].valor_final_venda.toString();
-      
+
                 let recebeValorFVBR = "R$" + recebeValorFinal.replace(".", ",");
-      
+
                 let recebePagoVenda = retorno_vendas[vendas].pago_venda;
-      
+
                 let recebeDataPagamentoAgendadoBR = "";
                 if (retorno_vendas[vendas].pagamento_agendado_venda === 1) {
                   recebeDataPagamentoAgendadoBR = retorno_vendas[
@@ -1221,11 +1275,11 @@ $(document).on("click", "#informarPagamento", function (e) {
                 } else {
                   recebeDataPagamentoAgendadoBR = "Não informado";
                 }
-      
+
                 let recebePagoFV = "";
                 if (recebePagoVenda === 1) recebePagoFV = "Sim";
                 else recebePagoFV = "Não";
-      
+
                 recebe_tabela_vendas +=
                   "<tr>" +
                   "<td class='text-center'>" +
@@ -1250,21 +1304,37 @@ $(document).on("click", "#informarPagamento", function (e) {
                   "</td>" +
                   "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
                   retorno_vendas[vendas].codigo_venda +
-                  "' data-param-codigo-cliente='" + retorno_vendas[vendas].codigo_cliente_vendas + "' id='informarPagamento'></i></a></td>" +
+                  "' data-param-codigo-cliente='" +
+                  retorno_vendas[vendas].codigo_cliente_vendas +
+                  "' id='informarPagamento'></i></a></td>" +
                   "</tr>";
               }
-      
+
               $("#registros-vendas-cliente").append(recebe_tabela_vendas);
             } else {
-              console.log(retorno_vendas);
+              $("#registros-vendas-cliente").html("");
+              $("#registros-vendas-cliente").append(
+                "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+              );
             }
           },
           error: function (xhr, status, error) {
-            console.log(error);
+            $(
+              "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+            ).html(error);
+            $(
+              "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+            ).show();
+            $(
+              "#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico"
+            ).fadeOut(4000);
+
+            $("#registros-vendas-cliente").html("");
+            $("#registros-vendas-cliente").append(
+              "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+            );
           },
         });
-
-
       } else {
         $(
           "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
@@ -1291,17 +1361,17 @@ $(document).on("click", "#informarPagamento", function (e) {
   });
 });
 
-$("#filtro-venda").change(function (e) {
-  e.preventDefault();
+// $("#filtro-venda").change(function (e) {
+//   e.preventDefault();
 
-  let recebeValorSelecionadoBC = $(this).val();
+//   let recebeValorSelecionadoBC = $(this).val();
 
-  if (recebeValorSelecionadoBC === "todos_venda") {
-    $("#lista-cliente-venda").prop("disabled", true);
-  } else {
-    $("#lista-cliente-venda").prop("disabled", false);
-  }
-});
+//   if (recebeValorSelecionadoBC === "todos_venda") {
+//     $("#lista-cliente-venda").prop("disabled", true);
+//   } else {
+//     $("#lista-cliente-venda").prop("disabled", false);
+//   }
+// });
 
 $("#buscar-venda").click(function (e) {
   e.preventDefault();
@@ -1350,7 +1420,6 @@ $("#buscar-venda").click(function (e) {
           for (let vendas = 0; vendas < retorno_vendas.length; vendas++) {
             recebe_tabela_vendas.innerHTML +=
               "<tr>" +
-              
               "<td style='text-align:center;'><a href='#'><i class='bi bi-handbag fs-4' data-param1='" +
               retorno_vendas[vendas].codigo_cliente_vendas +
               "' data-param2='" +
@@ -1367,8 +1436,44 @@ $("#buscar-venda").click(function (e) {
         }
       },
       error: function (xhr, status, error) {
-        console.log(error);
+        $("#recebe-mensagem-campo-falha-buscar-venda").html(
+          "Falha ao buscar venda:" + error
+        );
+        $("#recebe-mensagem-campo-falha-buscar-venda").show();
+        $("#recebe-mensagem-campo-falha-buscar-venda").fadeOut(4000);
       },
     });
   }
 });
+
+function atualizaContasVencer() {
+  $.ajax({
+    url: "../api/VendaAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_venda: "recebe_consultar_vendas_vencer",
+    },
+    success: function (retorno_venda_vencer) {
+      debugger;
+      let recebe_quantidade_vendas_vencer = retorno_venda_vencer.length;
+
+      if (recebe_quantidade_vendas_vencer != 0) {
+        $("#exibi-quantidade-vendas-vencer").html("");
+        $("#exibi-quantidade-vendas-vencer").html(
+          recebe_quantidade_vendas_vencer
+        );
+        $("#total-vendas-vencer").html("");
+        $("#total-vendas-vencer").html(recebe_quantidade_vendas_vencer);
+      } else {
+        $("#exibi-quantidade-vendas-vencer").html("");
+        $("#exibi-quantidade-vendas-vencer").html(0);
+        $("#total-vendas-vencer").html("");
+        $("#total-vendas-vencer").html(0);
+      }
+    },
+    error: function (xhr, status, error) {
+      alert(error);
+    },
+  });
+}

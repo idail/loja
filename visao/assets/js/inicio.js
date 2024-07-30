@@ -20,6 +20,7 @@ $(document).ready(function (e) {
     $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").hide();
     $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").hide();
     $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").hide();
+    $("#recebe-mensagem-falha-localizar-email-cobranca-vendas-vencer-encaminhar").hide();
 
     $.ajax({
       url: "../api/VendaAPI.php",
@@ -359,6 +360,10 @@ $(document).on("click", "#EncaminharEmailCobranca", function (e) {
         },
       });
     },
-    error: function (xhr, status, error) {},
+    error: function (xhr, status, error) {
+      $("#recebe-mensagem-falha-localizar-email-cobranca-vendas-vencer-encaminhar").html("Falha ao buscar e-mail do cliente:" + error);
+      $("#recebe-mensagem-falha-localizar-email-cobranca-vendas-vencer-encaminhar").show();
+      $("#recebe-mensagem-falha-localizar-email-cobranca-vendas-vencer-encaminhar").fadeOut(4000);
+    },
   });
 });
