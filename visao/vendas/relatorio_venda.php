@@ -1,17 +1,17 @@
 <?php
 require(__DIR__ . "../../../vendor/autoload.php");
 $dados = "<h1>Olá , <span>Idail Neto</span></h1><br>";
-$dados .= __DIR__;
 
-use  Dompdf\Dompdf;
 
-$dompdf = new Dompdf(['enable_remote' => true]);
+// use  Dompdf\Dompdf;
 
-$dompdf->loadHtml($dados);
+// $dompdf = new Dompdf(['enable_remote' => true]);
 
-$dompdf->setPaper('A4', 'portrait');
+// $dompdf->loadHtml($dados);
 
-$dompdf->render();
+// $dompdf->setPaper('A4', 'portrait');
 
-$dompdf->stream();
+// $dompdf->render();
+
+// $dompdf->stream();
 ?>

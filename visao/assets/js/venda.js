@@ -1477,3 +1477,25 @@ function atualizaContasVencer() {
     },
   });
 }
+
+$("#relatorio-vendas").click(function(e){
+  e.preventDefault();
+
+  debugger;
+  $.ajax({
+    url: "../api/VendaAPI.php",
+    dataType: "json",
+    type: "get",
+    data: {
+      processo_venda: "recebe_consultar_vendas_relatorio",
+    },
+    success: function (retorno_vendas) {
+      debugger;
+      console.log(retorno_vendas);
+    },
+    error:function(xhr,status,error)
+    {
+
+    },
+  });
+});

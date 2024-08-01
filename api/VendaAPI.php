@@ -86,6 +86,11 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
         $resultadoBuscarVendasTotaisMeses = $vendaControladora->BuscarVendasMeses();
 
         echo json_encode($resultadoBuscarVendasTotaisMeses);
+    }else if($recebeProcessoVenda === "recebe_consultar_vendas_relatorio")
+    {
+        $resultadoBuscaVendasRelatorio = $vendaControladora->BuscaVendasRelatorio();
+
+        echo json_encode($resultadoBuscaVendasRelatorio);
     }
 }else if($_SERVER["REQUEST_METHOD"] === "DELETE")
 {

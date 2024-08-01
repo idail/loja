@@ -100,5 +100,10 @@ class VendaControladora{
 
         return $this->venda->ExcluirVenda();
     }
+
+    public function BuscaVendasRelatorio()
+    {
+        return $this->venda->VendasRelatorio();
+    }
 }
 ?>

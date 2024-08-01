@@ -421,7 +421,7 @@ require("../api/VerificaSessao.php");
                 <ul id="relatorios-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="vendas/relatorio_venda.php">
-                            <i class="bi bi-circle"></i><span>Gerar</span>
+                            <i class="bi bi-circle" id="relatorio-vendas"></i><span>Gerar</span>
                         </a>
                     </li>
                 </ul>
