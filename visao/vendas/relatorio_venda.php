@@ -20,35 +20,35 @@ try{
 
     // Ler os registros retornado do BD
     while($registro_venda = $comandoBuscarVenda->fetchAll(PDO::FETCH_ASSOC)){
-        //var_dump($row_usuario);
+        var_dump($registro_venda);
         extract($registro_venda);
-        $dados .= "ID: $codigo_venda <br>";
-        $dados .= "Nome: $nome_cliente_venda <br>";
-        $dados .= "Produto: $nome_produto_venda <br>";
-        $dados .= "Quantidade:$quantidade_produtos_venda <br>";
-        $dados .= "Desconto:$desconto_venda<br>";
-        $dados .= "Desconto Total:$desconto_final_venda<br>";
-        $dados .= "Valor Total:$valor_final_venda<br>";
-        $dados .= "Pago:$pago_venda<br>";
-        $dados .= "Pagamento agendado:$pagamento_agendado_venda<br>";
-        $dados .= "Data:$data_pagamento_venda<br>";
-        $dados .= "Codigo Cliente:$codigo_cliente_vendas<br>";
-        $dados .= "<hr>";
+        //$dados .= "ID: $codigo_venda <br>";
+        // $dados .= "Nome: $nome_cliente_venda <br>";
+        // $dados .= "Produto: $nome_produto_venda <br>";
+        // $dados .= "Quantidade:$quantidade_produtos_venda <br>";
+        // $dados .= "Desconto:$desconto_venda<br>";
+        // $dados .= "Desconto Total:$desconto_final_venda<br>";
+        // $dados .= "Valor Total:$valor_final_venda<br>";
+        // $dados .= "Pago:$pago_venda<br>";
+        // $dados .= "Pagamento agendado:$pagamento_agendado_venda<br>";
+        // $dados .= "Data:$data_pagamento_venda<br>";
+        // $dados .= "Codigo Cliente:$codigo_cliente_vendas<br>";
+        // $dados .= "<hr>";
     }
 
-    $options = new Options();
+    // $options = new Options();
 
-    $dompdf = new Dompdf(['enable_remote' => true]);
+    // $dompdf = new Dompdf(['enable_remote' => true]);
 
-    $options->set('defaultFont', 'Relatório Vendas');
+    // $options->set('defaultFont', 'Relatório Vendas');
 
-    $dompdf->loadHtml($dados);
+    // $dompdf->loadHtml($dados);
 
-    $dompdf->setPaper('A4', 'portrait');
+    // $dompdf->setPaper('A4', 'portrait');
 
-    $dompdf->render();
+    // $dompdf->render();
 
-    $dompdf->stream();
+    // $dompdf->stream();
 }catch(PDOException $excecao)
 {
     echo $excecao->getMessage();
