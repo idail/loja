@@ -341,7 +341,7 @@ class Cliente implements ClienteInterface
         //$mail->Port = 587;
         $mail->setFrom("eliza@idailneto.com.br");
         $mail->addAddress($this->getEmail_Cliente());
-        $mail->addCC('idaillopes@gmail.com');
+        $mail->addCC('eliza_regina10@hotmail.com');
         $mail->isHTML(true);
         $mail->Subject = "E-mail de cobrança da venda";
         $mail->Body = "Olá, ".$this->getNome_Cliente()." <br><br> Faltam 10 dias para o vencimento do pagamento do produto:".$this->getNome_Produto_Email()." , no valor de:".$this->getValor_Produto_Email()."<br><br>
