@@ -68,17 +68,36 @@ try{
 
     foreach($registros_venda as $vendas)
     {
+        $recebeDesconto = "";
+        $recebePagamentoAgendado = "";
+        $recebePago = "";
+
+        if($vendas["desconto_venda"] === 1)
+            $recebeDesconto = "Sim";
+        else
+            $recebeDesconto = "Não";
+
+        if($vendas["pago_venda"] === 1)
+            $recebePago = "Sim";
+        else
+            $recebePago = "Não";
+
+        if($vendas["pagamento_agendado_venda"] === 1)
+            $recebePagamentoAgendado = "Sim";
+        else
+            $recebePagamentoAgendado = "Não";
+
         $dados .= "<tbody>";
         $dados .= "<tr>";
         $dados .= "<td>" . $vendas["nome_cliente_venda"] . "</td>";
         $dados .= "<td>" . $vendas["nome_produto_venda"] . "</td>";
         $dados .= "<td>" . $vendas["quantidade_produtos_venda"] . "</td>";
-        $dados .= "<td>" . $vendas["desconto_venda"] . "</td>";
+        $dados .= "<td>" . $recebeDesconto . "</td>";
         $dados .= "<td>" . $vendas["desconto_final_venda"] . "</td>";
         $dados .= "<td>" . $vendas["valor_final_venda"] . "</td>";
-        $dados .= "<td>" . $vendas["pago_venda"] . "</td>";
-        $dados .= "<td>" . $vendas["pagamento_agendado_venda"] . "</td>";
-        $dados .= "<td>" . $vendas["data_pagamento_venda"] . "</td>";
+        $dados .= "<td>" . $recebePago . "</td>";
+        $dados .= "<td>" . $recebePagamentoAgendado . "</td>";
+        $dados .= "<td>" . date('d/m/Y', strtotime($vendas["data_pagamento_venda"])) . "</td>";
         $dados .= "</tr>";
         $dados .= "</tbody>";
     }

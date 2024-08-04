@@ -112,7 +112,7 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
     $("#recebe-mensagem-campo-vazio-busca-venda").hide();
     $("#recebe-mensagem-pagamento-atualizado-vendas-cliente-especifico").hide();
-    $("#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico").html();
+    $("#recebe-mensagem-campo-falha-buscar-venda-cliente-especifico").hide();
     $(
       "#recebe-mensagem-falha-pagamento-atualizado-vendas-cliente-especifico"
     ).hide();
