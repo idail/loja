@@ -8,12 +8,15 @@ $(document).ready(function (e) {
   if (
     url_inicio === "http://idailneto.com.br/loja/visao/index.php" ||
     url_inicio ===
-      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
+    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
     url_inicio ===
-      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
+    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
     url_inicio ===
-      "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" || url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
+    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_produtos" ||
+    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_clientes"
   ) {
     debugger;
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
@@ -47,7 +50,7 @@ $(document).ready(function (e) {
           $("#total-vendas-vencer").html(0);
         }
       },
-      error: function (xhr, status, error) {},
+      error: function (xhr, status, error) { },
     });
   }
 });
@@ -154,7 +157,7 @@ $("#visualizarVendasAVencer").click(function (e) {
         );
       }
     },
-    error: function (xhr, status, error) {},
+    error: function (xhr, status, error) { },
   });
 });
 
@@ -284,7 +287,7 @@ $(document).on("click", "#informarPagamento", function (e) {
               );
             }
           },
-          error: function (xhr, status, error) {},
+          error: function (xhr, status, error) { },
         });
       } else {
         $("#recebe-mensagem-falha-pagamento-atualizado-vendas-vencer").html(
@@ -324,7 +327,7 @@ $(document).on("click", "#EncaminharEmailCobranca", function (e) {
     type: "get",
     data: {
       processo_cliente: "recebe_consultar_email_cliente",
-      valor_codigo_cliente_venda:recebeCodigoClienteVenda,
+      valor_codigo_cliente_venda: recebeCodigoClienteVenda,
     },
     success: function (retorno_email) {
       debugger;
@@ -338,22 +341,19 @@ $(document).on("click", "#EncaminharEmailCobranca", function (e) {
         data: {
           processo_cliente: "recebe_envia_email_cobranca",
           valor_nome_produto_venda: recebeNomeProdutoVenda,
-          valor_final_venda:recebeValorFinalVenda,
-          valor_nome_cliente_venda:recebeNomeClienteVenda,
-          valor_email_cliente_venda:recebeEmailClienteCobranca,
+          valor_final_venda: recebeValorFinalVenda,
+          valor_nome_cliente_venda: recebeNomeClienteVenda,
+          valor_email_cliente_venda: recebeEmailClienteCobranca,
         },
-        success: function (retorno_envia_email) 
-        {
+        success: function (retorno_envia_email) {
           debugger;
-          if(retorno_envia_email === "E-mail de cobrança encaminhado")
-          {
+          if (retorno_envia_email === "E-mail de cobrança encaminhado") {
             $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").html(retorno_envia_email);
             $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").show();
             $("#recebe-mensagem-email-cobranca-vendas-vencer-encaminhado").fadeOut(4000);
           }
         },
-        error:function(xhr,status,error)
-        {
+        error: function (xhr, status, error) {
           $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").html("Falha ao encaminhar e-mail:" + error);
           $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").show();
           $("#recebe-mensagem-falha-email-cobranca-vendas-vencer-encaminhar").fadeOut(4000);
