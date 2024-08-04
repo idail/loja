@@ -558,6 +558,8 @@ require("../api/VerificaSessao.php");
                         require("vendas/cadastrar_vendas.php");
                     } else if ($_GET["pagina"] === "consulta_venda") {
                         require("vendas/consulta_vendas.php");
+                    } else if($_GET["pagina"] === "relatorio_venda.php") {
+                        require("vendas/relatorio_venda.php");
                     }
                 } else {
                     require("menu_rapido/menu_rapido.php");

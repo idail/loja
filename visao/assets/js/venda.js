@@ -158,6 +158,9 @@ $(document).ready(function () {
       },
       error: function (xhr, status, error) {},
     });
+  }else if(url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=relatorio_venda")
+  {
+    
   }
 });
 
