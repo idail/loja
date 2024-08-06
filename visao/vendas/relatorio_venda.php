@@ -91,8 +91,8 @@ try{
         $dados .= "<td>" . $vendas["nome_cliente_venda"] . "</td>";
         $dados .= "<td>" . $vendas["nome_produto_venda"] . "</td>";
         $dados .= "<td>" . $vendas["quantidade_produtos_venda"] . "</td>";
-        $dados .= "<td>" . $recebeDesconto . " - R$" . $vendas["desconto_final_venda"]. "</td>";
-        $dados .= "<td>" . "R$".$vendas["valor_final_venda"] . "</td>";
+        $dados .= "<td>" . $recebeDesconto . " - R$" .str_replace('.', ',', $vendas["desconto_final_venda"]) . "</td>";
+        $dados .= "<td>" . "R$".str_replace('.', ',', $vendas["valor_final_venda"]). "</td>";
         $dados .= "<td>" . $recebePago . "</td>";
         $dados .= "<td>" . $recebePagamentoAgendado . "</td>";
         $dados .= "<td>" . date('d/m/Y', strtotime($vendas["data_pagamento_venda"])) . "</td>";
