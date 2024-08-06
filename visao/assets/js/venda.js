@@ -21,7 +21,7 @@ $(document).ready(function () {
     $("#recebe-mensagem-campo-vazio-cadastro-venda").hide();
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
 
-    $("#cadastro-venda").prop("disabled",true);
+    $("#cadastro-venda").prop("disabled", true);
 
     $.ajax({
       url: "../api/ProdutoAPI.php",
@@ -159,9 +159,10 @@ $(document).ready(function () {
       },
       error: function (xhr, status, error) {},
     });
-  }else if(url_venda === "http://idailneto.com.br/loja/visao/index.php?pagina=relatorio_venda")
-  {
-    
+  } else if (
+    url_venda ===
+    "http://idailneto.com.br/loja/visao/index.php?pagina=relatorio_venda"
+  ) {
   }
 });
 
@@ -641,7 +642,7 @@ $("#adicionar-item-venda").click(function (e) {
 
     $("#listagem-produtos-venda").append(linha);
 
-    $("#cadastro-venda").prop("disabled",false);
+    $("#cadastro-venda").prop("disabled", false);
 
     // let recebeListaProduto = document.querySelector("#lista-produto");
 
@@ -1124,8 +1125,20 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
           }
 
           let recebePagoFV = "";
-          if (recebePagoVenda === 1) recebePagoFV = "Sim";
-          else recebePagoFV = "Não";
+          let htmlInformarPago = "";
+          if (recebePagoVenda === 1)
+          {
+            recebePagoFV = "Sim";
+          }else {
+            htmlInformarPago = "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
+            retorno_vendas[vendas].codigo_venda +
+            "' data-param-codigo-cliente='" +
+            retorno_vendas[vendas].codigo_cliente_vendas +
+            "' data-param-nome-cliente='" +
+            recebeNomeClienteVendas +
+            "' id='informarPagamento'></i></a></td>";
+            recebePagoFV = "Não";
+          } 
 
           recebe_tabela_vendas +=
             "<tr>" +
@@ -1149,13 +1162,7 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
             "<td class='text-center'>" +
             recebeDataPagamentoAgendadoBR +
             "</td>" +
-            "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
-            retorno_vendas[vendas].codigo_venda +
-            "' data-param-codigo-cliente='" +
-            retorno_vendas[vendas].codigo_cliente_vendas +
-            "' data-param-nome-cliente='" +
-            recebeNomeClienteVendas +
-            "' id='informarPagamento'></i></a></td>" +
+            htmlInformarPago +
             "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
             retorno_vendas[vendas].codigo_venda +
             ",event)></i></a></td>" +
@@ -1306,11 +1313,9 @@ $(document).on("click", "#informarPagamento", function (e) {
                   "<td class='text-center'>" +
                   recebeDataPagamentoAgendadoBR +
                   "</td>" +
-                  "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
+                  "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
                   retorno_vendas[vendas].codigo_venda +
-                  "' data-param-codigo-cliente='" +
-                  retorno_vendas[vendas].codigo_cliente_vendas +
-                  "' id='informarPagamento'></i></a></td>" +
+                  ",event)></i></a></td>" +
                   "</tr>";
               }
 
@@ -1481,25 +1486,3 @@ function atualizaContasVencer() {
     },
   });
 }
-
-$("#relatorio-vendas").click(function(e){
-  e.preventDefault();
-
-  debugger;
-  $.ajax({
-    url: "../api/VendaAPI.php",
-    dataType: "json",
-    type: "get",
-    data: {
-      processo_venda: "recebe_consultar_vendas_relatorio",
-    },
-    success: function (retorno_vendas) {
-      debugger;
-      console.log(retorno_vendas);
-    },
-    error:function(xhr,status,error)
-    {
-
-    },
-  });
-});

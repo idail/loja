@@ -53,15 +53,14 @@ try{
     $dados .= "<table class='table'>";
     $dados .= "<thead>";
     $dados .= "<tr>";
-    $dados .= "<td>Cliente</td>";
-    $dados .= "<td>Produto</td>";
-    $dados .= "<td>Quantidade</td>";
-    $dados .= "<td>Desconto</td>";
-    $dados .= "<td>Desconto(R$)</td>";
-    $dados .= "<td>Valor</td>";
-    $dados .= "<td>Pago</td>";
-    $dados .= "<td>Agendado</td>";
-    $dados .= "<td>Data</td>";
+    $dados .= "<th>Cliente</th>";
+    $dados .= "<th>Produto</th>";
+    $dados .= "<th>Quantidade</th>";
+    $dados .= "<th>Desconto/Valor</th>";
+    $dados .= "<th>Valor</th>";
+    $dados .= "<th>Pago</th>";
+    $dados .= "<th>Agendado</th>";
+    $dados .= "<th>Data</th>";
     $dados .= "</tr>";
 
     // Ler os registros retornado do BD
@@ -92,9 +91,8 @@ try{
         $dados .= "<td>" . $vendas["nome_cliente_venda"] . "</td>";
         $dados .= "<td>" . $vendas["nome_produto_venda"] . "</td>";
         $dados .= "<td>" . $vendas["quantidade_produtos_venda"] . "</td>";
-        $dados .= "<td>" . $recebeDesconto . "</td>";
-        $dados .= "<td>" . $vendas["desconto_final_venda"] . "</td>";
-        $dados .= "<td>" . $vendas["valor_final_venda"] . "</td>";
+        $dados .= "<td>" . $recebeDesconto . " - R$" . $vendas["desconto_final_venda"]. "</td>";
+        $dados .= "<td>" . "R$".$vendas["valor_final_venda"] . "</td>";
         $dados .= "<td>" . $recebePago . "</td>";
         $dados .= "<td>" . $recebePagamentoAgendado . "</td>";
         $dados .= "<td>" . date('d/m/Y', strtotime($vendas["data_pagamento_venda"])) . "</td>";

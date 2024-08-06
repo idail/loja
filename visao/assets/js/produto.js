@@ -460,6 +460,8 @@ $("#alterar-produto").click(function (e) {
                 );
                 $("#recebe-mensagem-alterar-realizado-produto").show();
                 $("#recebe-mensagem-alterar-realizado-produto").fadeOut(4000);
+
+                listarProdutos("todos", "todos");
               } else {
                 $("#recebe-mensagem-campo-falha-alterar-produto").html(
                   "Falha ao alterar produto"
