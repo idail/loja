@@ -3,20 +3,22 @@ $(document).ready(function (e) {
   $("#remove-ponteiros-2").removeClass("bi bi-three-dots");
   $("#remove-ponteiros-3").removeClass("bi bi-three-dots");
 
+  debugger;
+
   let url_inicio = window.location.href;
 
   if (
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php" ||
+    url_inicio === "https://idailneto.com.br/loja/visao/index.php" ||
     url_inicio ===
-    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
+    "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
     url_inicio ===
-    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
+    "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes" ||
     url_inicio ===
-    "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_produtos" ||
-    url_inicio === "http://idailneto.com.br/loja/visao/index.php?pagina=cadastro_clientes"
+    "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos" ||
+    url_inicio === "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda" ||
+    url_inicio === "https://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda" ||
+    url_inicio === "https://idailneto.com.br/loja/visao/index.php?pagina=cadastro_produtos" ||
+    url_inicio === "https://idailneto.com.br/loja/visao/index.php?pagina=cadastro_clientes"
   ) {
     debugger;
     $("#recebe-mensagem-pagamento-atualizado-vendas-vencer").hide();
