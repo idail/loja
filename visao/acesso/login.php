@@ -105,7 +105,7 @@
 
                     <div class="col-12">
                       <p class="small mb-0">Não possui uma conta?<a href="#" data-bs-toggle="modal" data-bs-target="#cadastro-usuario" data-backdrop="static">Cadastrar Usuario</a></p>
-                      <p class="small mt-2">Esqueceu sua senha?<a href="#" data-bs-toggle="modal" data-bs-target="" data-backdrop="static">Clique aqui</a></p>
+                      <p class="small mt-2">Esqueceu sua senha?<a href="#" data-bs-toggle="modal" data-bs-target="#esqueci-minha-senha-usuario" data-backdrop="static">Clique aqui</a></p>
                     </div>
                   </form>
 
@@ -133,6 +133,7 @@
 
               <?php
               require("cadastro_usuario.php");
+              require("alterar_senha.php");
               ?>
 
 
