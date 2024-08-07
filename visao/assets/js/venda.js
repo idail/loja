@@ -979,7 +979,7 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
                     recebePagoFV = "Sim";
                   } else {
                     htmlInformarPago =
-                      "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
+                      "<td><a href=''><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
                       retorno_vendas[vendas].codigo_venda +
                       "' data-param-codigo-cliente='" +
                       retorno_vendas[vendas].codigo_cliente_vendas +
@@ -1011,15 +1011,8 @@ function excluiVendaEspecifico(valorCodigoVenda, e) {
                     "<td class='text-center'>" +
                     recebeDataPagamentoAgendadoBR +
                     "</td>" +
-                    "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
-                    retorno_vendas[vendas].codigo_venda +
-                    "' data-param-codigo-cliente='" +
-                    retorno_vendas[vendas].codigo_cliente_vendas +
-                    "' data-param-nome-cliente='" +
-                    recebeNomeClienteVendas +
-                    "' id='informarPagamento'></i></a></td>" +
                     htmlInformarPago +
-                    "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
+                    "<td><a href=''><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
                     retorno_vendas[vendas].codigo_venda +
                     ",event)></i></a></td>" +
                     "</tr>";
@@ -1143,7 +1136,7 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
             recebePagoFV = "Sim";
           } else {
             htmlInformarPago =
-              "<td><a href='#'><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
+              "<td><a href=''><i class='bi bi-cash-coin fs-4' title='Venda Paga' data-param-codigo='" +
               retorno_vendas[vendas].codigo_venda +
               "' data-param-codigo-cliente='" +
               retorno_vendas[vendas].codigo_cliente_vendas +
@@ -1176,7 +1169,7 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
             recebeDataPagamentoAgendadoBR +
             "</td>" +
             htmlInformarPago +
-            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
+            "<td><a href=''><i class='bi bi-trash-fill fs-4' title='Excluir Venda' onclick=excluiVendaEspecifico(" +
             retorno_vendas[vendas].codigo_venda +
             ",event)></i></a></td>" +
             "</tr>";
@@ -1209,6 +1202,8 @@ $(document).on("click", "#visualizarVendasEspecificaCliente", function (e) {
 
 $(document).on("click", "#informarPagamento", function (e) {
   debugger;
+
+  e.preventDefault();
 
   let recebeCodigoVenda = $(this).data("param-codigo");
 
