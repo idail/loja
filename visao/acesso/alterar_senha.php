@@ -43,6 +43,9 @@
 
             </div>
             <div class="modal-footer">
+
+                <button id="alterar-senha-usuario" class="btn btn-primary w-100" type="button">Alterar Senha</button>
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>

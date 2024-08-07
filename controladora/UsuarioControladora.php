@@ -75,4 +75,9 @@ class UsuarioControladora
         if(!empty($resultadoBuscarUsuarioAlteracao))
             return $resultadoBuscarUsuarioAlteracao;
     }
+
+    public function AlterarSenhaUsuario($recebe_email_alterar_usuario,$recebe_senha_criptografada,$recebe_senha_nao_criptografada)
+    {
+
+    }
 }

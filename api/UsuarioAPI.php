@@ -117,6 +117,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 echo json_encode("Favor verificar os dados preenchidos");
             }
         }
+    } elseif ($recebeProcessoUsuario === "recebe_alterar_senha_usuario") {
+        if ($_POST["metodo"] === "put") {
+            $tamanhoSenha = 10;
+            $caracteresPermitidos = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_!@#';
+
+            $nova_senha_usuario = '';
+            for ($i = 0; $i < $tamanhoSenha; $i++) {
+                $nova_senha_usuario .= $caracteresPermitidos[rand(0, strlen($caracteresPermitidos))];
+            }
+            $recebe_senha_criptografada = md5($nova_senha_usuario);
+
+            echo json_encode($recebe_senha_criptografada);
+        }
     }
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $recebeProcessoUsuario = $_GET["processo_usuario"];
@@ -128,3 +141,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
+?>

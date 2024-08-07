@@ -12,9 +12,15 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-falha-alterar-usuario").hide();
   $("#recebe-mensagem-alteraracao-sendo-realizada-usuario").hide();
 
+  $("#recebe-mensagem-alteracao-senha-realizado-usuario").hide();
+  $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").hide();
+  $("#recebe-mensagem-campo-falha-alteracao-senha-usuario").hide();
+
   let url_login = window.location.href;
 
-  if (url_login === "http://idailneto.com.br/loja/visao/acesso/login.php") {
+  if (
+    url_login === "https://www.idailneto.com.br/loja/visao/acesso/login.php"
+  ) {
     document.getElementById("exibi-foto-perfil").src =
       "../acesso/imagem_perfil/usuario_sem_foto.jpg";
   }
@@ -297,12 +303,10 @@ $("#carregar-dados-usuario").click(function (e) {
     success: function (retorno) {
       debugger;
       if (retorno != "") {
-
         recebeDados = retorno;
-
       }
     },
-    error: function (xhr, error, status) { },
+    error: function (xhr, error, status) {},
   });
 
   $.when(recebeRequisicaoDadosUsuario).done(function () {
@@ -467,5 +471,34 @@ $("#alterar-conta-usuario").click(function (e) {
     );
     $("#recebe-mensagem-campo-vazio-alterar-usuario").show();
     $("#recebe-mensagem-campo-vazio-alterar-usuario").fadeOut(4000);
+  }
+});
+
+$("#alterar-senha-usuario").click(function (e) {
+  e.preventDefault();
+
+  debugger;
+
+  let recebeEmailUsuario = $("#email-usuario").val();
+
+  if (recebeEmailUsuario === "") {
+    $.ajax({
+      url: "../api/UsuarioAPI.php",
+      dataType: "json",
+      type: "post",
+      data: { processo_usuario: "recebe_alterar_senha_usuario", metodo: "put" },
+      success: function (retorno_alterar_senha) {
+        debugger;
+
+        console.log(retorno_alterar_senha);
+      },
+      error: function (xhr, status, error) {},
+    });
+  } else {
+    $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").html(
+      "Favor preencher o e-mail do usuário para alteração de senha"
+    );
+    $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").show();
+    $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").fadeOut(4000);
   }
 });

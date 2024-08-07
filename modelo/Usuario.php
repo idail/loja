@@ -2,6 +2,15 @@
 
 require("UsuarioInterface.php");
 require("Conexao.php");
+
+require("../vendor/phpmailer/phpmailer/src/PHPMailer.php");
+require("../vendor/phpmailer/phpmailer/src/SMTP.php");
+require("../vendor/phpmailer/phpmailer/src/Exception.php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPmailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -241,4 +250,68 @@ class Usuario implements UsuarioInterface
 
         return $registro_usuario;
     }
+
+    public function BuscarCodigoUsuarioPorEmail():array
+    {
+        try{
+            $instrucaoBuscaEmailUsuario = "select codigo_usuario from usuario where email_usuario = :recebe_email_usuario";
+            $comandoBuscaUsuarioEmail = Conexao::Obtem()->prepare($instrucaoBuscaEmailUsuario);
+            $comandoBuscaUsuarioEmail->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
+            $comandoBuscaUsuarioEmail->execute();
+            return $comandoBuscaUsuarioEmail->fetch(PDO::FETCH_ASSOC);
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        } 
+    }
+
+    public function AlterarSenhaUsuario():string
+    {
+        try{
+            $instrucaoAlterarSenhaUsuario = "update usuario set senha_usuario = :recebe_senha_alterada where codigo_usuario = :recebe_codigo_usuario";
+            $comandoAlterarSenhaUsuario = Conexao::Obtem()->prepare($instrucaoAlterarSenhaUsuario);
+            $comandoAlterarSenhaUsuario->bindValue(":recebe_senha_alterada",$this->getSenha_Usuario());
+            $comandoAlterarSenhaUsuario->bindValue(":recebe_codigo_usuario",$this->getCodigo_Usuario());
+            $resultadoAlterarSenhaUsuario = $comandoAlterarSenhaUsuario->execute();
+
+            if($resultadoAlterarSenhaUsuario)
+            {
+                $recebe_senha_descriptografada = $this->getSenha_Descritgrafada();
+                $mail = new PHPMailer(true);
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();
+                $mail->CharSet = 'UTF-8';
+                $mail->Host = "smtp.kinghost.net";
+                
+                $mail->SMTPAuth = true;
+                $mail->Username = "eliza@idailneto.com.br";
+                $mail->Password = "Loja@2024";
+                //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->SMTPSecure = "ssl";
+                $mail->Port = 465;
+                //$mail->Port = 587;
+                $mail->setFrom("eliza@idailneto.com.br","E-mail de alteração de senha painel loja");
+                $mail->addAddress($this->getEmail_Usuario());
+                $mail->isHTML(true);
+                $mail->Subject = "Alteração de senha painel loja";
+                $mail->Body = "Senha alterada com sucesso:$recebe_senha_descriptografada, use-a no próximo acesso ao sistema";
+                $mail->AltBody = "Sistema de Gerencimento de Loja";
+                
+                if ($mail->send()) {
+                    return "Senha alterada com sucesso , e-mail com a nova senha enviado com sucesso, favor verificar seu e-mail";
+                } else {
+                    return "Senha não foi alterada com sucesso";
+                }
+            }
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        } 
+    }    
 }
