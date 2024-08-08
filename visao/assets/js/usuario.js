@@ -479,26 +479,51 @@ $("#alterar-senha-usuario").click(function (e) {
 
   debugger;
 
-  let recebeEmailUsuario = $("#email-usuario").val();
+  let recebeEmailUsuario = $("#email-usuario-alterar-senha").val();
 
   if (recebeEmailUsuario === "") {
-    $.ajax({
-      url: "../api/UsuarioAPI.php",
-      dataType: "json",
-      type: "post",
-      data: { processo_usuario: "recebe_alterar_senha_usuario", metodo: "put" },
-      success: function (retorno_alterar_senha) {
-        debugger;
-
-        console.log(retorno_alterar_senha);
-      },
-      error: function (xhr, status, error) {},
-    });
-  } else {
     $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").html(
       "Favor preencher o e-mail do usuário para alteração de senha"
     );
     $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").show();
     $("#recebe-mensagem-campo-vazio-alteracao-senha-usuario").fadeOut(4000);
+  } else {
+    $.ajax({
+      url: "../../api/UsuarioAPI.php",
+      dataType: "json",
+      type: "post",
+      data: {
+        processo_usuario: "recebe_alterar_senha_usuario",
+        metodo: "put",
+        recebe_email_usuario_alterar_senha: recebeEmailUsuario,
+      },
+      success: function (retorno_alterar_senha) {
+        debugger;
+
+        if (
+          retorno_alterar_senha ===
+          "Senha alterada com sucesso , e-mail com a nova senha enviado com sucesso, favor verificar seu e-mail"
+        ) {
+          $("#recebe-mensagem-alteracao-senha-realizado-usuario").html(
+            retorno_alterar_senha
+          );
+          $("#recebe-mensagem-alteracao-senha-realizado-usuario").show();
+          $("#recebe-mensagem-alteracao-senha-realizado-usuario").fadeOut(4000);
+        } else {
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").html(
+            "Falha ao alterar senha do usuário:" + retorno_alterar_senha
+          );
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
+          $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
+        }
+      },
+      error: function (xhr, status, error) {
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").html(
+          "Falha ao alterar senha do usuário:" + error
+        );
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").show();
+        $("#recebe-mensagem-campo-falha-cadastro-usuario").fadeOut(4000);
+      },
+    });
   }
 });

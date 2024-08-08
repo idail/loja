@@ -119,7 +119,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } elseif ($recebeProcessoUsuario === "recebe_alterar_senha_usuario") {
         if ($_POST["metodo"] === "put") {
-            $tamanhoSenha = 10;
+            $recebeEmailUsuarioSenhaAlterar = $_POST["recebe_email_usuario_alterar_senha"];
+            $tamanhoSenha = 6;
             $caracteresPermitidos = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_!@#';
 
             $nova_senha_usuario = '';
@@ -128,7 +129,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
             $recebe_senha_criptografada = md5($nova_senha_usuario);
 
-            echo json_encode($recebe_senha_criptografada);
+            $resultadoAlterarSenhaUsuario = 
+            $usuarioControladora->AlterarSenhaUsuario($recebeEmailUsuarioSenhaAlterar,$recebe_senha_criptografada,$nova_senha_usuario);
+
+            echo json_encode($resultadoAlterarSenhaUsuario);
         }
     }
 } else if ($_SERVER["REQUEST_METHOD"] === "GET") {

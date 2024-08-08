@@ -78,6 +78,25 @@ class UsuarioControladora
 
     public function AlterarSenhaUsuario($recebe_email_alterar_usuario,$recebe_senha_criptografada,$recebe_senha_nao_criptografada)
     {
+        $registroCodigoLocalizado = $this->BuscarUsuarioPorEmail($recebe_email_alterar_usuario);
 
+        $recebeCodigoUsuarioLocalizado = "";
+
+        foreach($registroCodigoLocalizado as $indice => $valor)
+        {
+            $recebeCodigoUsuarioLocalizado = $valor;
+        }
+
+        $this->usuario->setCodigo_Usuario($recebeCodigoUsuarioLocalizado);
+        $this->usuario->setSenha_Descritgrafada($recebe_senha_nao_criptografada);
+        $this->usuario->setSenha_Usuario($recebe_senha_criptografada);
+
+        return $this->usuario->AlterarSenhaUsuario();
+    }
+
+    public function BuscarUsuarioPorEmail($recebe_email_usuario)
+    {
+        $this->usuario->setEmail_Usuario($recebe_email_usuario);
+        return $this->usuario->BuscarCodigoUsuarioPorEmail();
     }
 }

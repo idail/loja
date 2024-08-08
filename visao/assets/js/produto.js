@@ -21,7 +21,7 @@ $(document).ready(function (e) {
 
   if (
     recebe_url_atual_produtos ===
-    "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos"
+    "https://www.idailneto.com.br/loja/visao/index.php?pagina=consulta_produtos"
   ) {
     $.ajax({
       //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",

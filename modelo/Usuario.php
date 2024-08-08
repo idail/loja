@@ -254,7 +254,7 @@ class Usuario implements UsuarioInterface
     public function BuscarCodigoUsuarioPorEmail():array
     {
         try{
-            $instrucaoBuscaEmailUsuario = "select codigo_usuario from usuario where email_usuario = :recebe_email_usuario";
+            $instrucaoBuscaEmailUsuario = "select codigo_usuario from usuarios where email_usuario = :recebe_email_usuario";
             $comandoBuscaUsuarioEmail = Conexao::Obtem()->prepare($instrucaoBuscaEmailUsuario);
             $comandoBuscaUsuarioEmail->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
             $comandoBuscaUsuarioEmail->execute();
@@ -271,7 +271,7 @@ class Usuario implements UsuarioInterface
     public function AlterarSenhaUsuario():string
     {
         try{
-            $instrucaoAlterarSenhaUsuario = "update usuario set senha_usuario = :recebe_senha_alterada where codigo_usuario = :recebe_codigo_usuario";
+            $instrucaoAlterarSenhaUsuario = "update usuarios set senha_usuario = :recebe_senha_alterada where codigo_usuario = :recebe_codigo_usuario";
             $comandoAlterarSenhaUsuario = Conexao::Obtem()->prepare($instrucaoAlterarSenhaUsuario);
             $comandoAlterarSenhaUsuario->bindValue(":recebe_senha_alterada",$this->getSenha_Usuario());
             $comandoAlterarSenhaUsuario->bindValue(":recebe_codigo_usuario",$this->getCodigo_Usuario());
@@ -297,7 +297,8 @@ class Usuario implements UsuarioInterface
                 $mail->addAddress($this->getEmail_Usuario());
                 $mail->isHTML(true);
                 $mail->Subject = "Alteração de senha painel loja";
-                $mail->Body = "Senha alterada com sucesso:$recebe_senha_descriptografada, use-a no próximo acesso ao sistema";
+                $mail->Body = "Senha alterada com sucesso:$recebe_senha_descriptografada, use-a no próximo acesso ao sistema,
+                você poderá alterá-la na alteração do perfil";
                 $mail->AltBody = "Sistema de Gerencimento de Loja";
                 
                 if ($mail->send()) {

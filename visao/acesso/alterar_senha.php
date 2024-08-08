@@ -17,7 +17,7 @@
                         <form class="row g-3" id="formulario-cadastro-usuario" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">E-mail</label>
-                                <input type="text" name="email-usuario" class="form-control" id="email-usuario" required>
+                                <input type="text" name="email_usuario_alterar_senha" class="form-control" id="email-usuario-alterar-senha" required>
                             </div>
 
                             <div class="col-12">
@@ -38,13 +38,16 @@
                                 </div>
                             </div>
                         </form>
+                        <button id="alterar-senha-usuario" class="btn btn-primary w-100" type="button">Alterar Senha</button>
+
                     </div>
+
                 </div>
 
             </div>
             <div class="modal-footer">
 
-                <button id="alterar-senha-usuario" class="btn btn-primary w-100" type="button">Alterar Senha</button>
+
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
             </div>
