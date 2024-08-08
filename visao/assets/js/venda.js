@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   if (
     url_venda ===
-    "https://idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
+    "https://www.idailneto.com.br/loja/visao/index.php?pagina=cadastro_venda"
   ) {
     let recebeTabelaCadastrarVendas = document.querySelector(
       "#listagem-produtos-venda"
@@ -103,7 +103,7 @@ $(document).ready(function () {
     });
   } else if (
     url_venda ===
-    "https://idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
+    "https://www.idailneto.com.br/loja/visao/index.php?pagina=consulta_venda"
   ) {
     $("#recebe-mensagem-campo-vazio-buscar-venda").hide();
     $("#recebe-mensagem-campo-falha-buscar-venda").hide();
