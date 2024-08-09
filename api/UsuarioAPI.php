@@ -47,7 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $perfilUsuario,
                 $recebeNomeImagem
             );
-            echo json_encode($recebeCadastroUsuario);
+
+            if($recebeCadastroUsuario > 0)
+                echo json_encode($recebeCadastroUsuario);
+            elseif($recebeCadastroUsuario === "email localizado")
+                echo json_encode($recebeCadastroUsuario);
         } else {
             echo json_encode("Favor verificar o preenchimento dos campos");
         }

@@ -23,6 +23,13 @@ class UsuarioControladora
         if (!empty($recebeImagemUsuario))
             $this->usuario->setImagem_Usuario($recebeImagemUsuario);
 
+        $resultadoVerificaDuplicidadeEmail = $this->usuario->VerificaDuplicidadeEmail();
+
+        if($resultadoVerificaDuplicidadeEmail === "email localizado")
+        {
+            return "email localizado";
+        }
+
         $resultadoUsuario = $this->usuario->cadastroUsuario();
         return $resultadoUsuario;
     }

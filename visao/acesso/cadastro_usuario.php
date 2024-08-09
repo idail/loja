@@ -83,7 +83,7 @@
                  </div>
                </div>
 
-                 <!-- <div class="col-12">
+               <!-- <div class="col-12">
                  <div class="form-check">
                    <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
                    <label class="form-check-label" for="acceptTerms">Eu concordo e aceito <a href="#">termos e condições</a></label>
@@ -91,30 +91,36 @@
                  </div>
                </div> -->
 
-                 <div class="col-12">
-                   <button id="criacao-conta" class="btn btn-primary w-100" type="button">Criar Conta</button>
-                 </div>
-                 <div class="col-12">
-                   <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>
-                 </div>
+               <div class="col-12">
+                 <button id="criacao-conta" class="btn btn-primary w-100" type="button">Criar Conta</button>
+               </div>
+               <div class="col-12">
+                 <p class="small mb-0">Já possui uma conta? <a href="#">Faça Login</a></p>
+               </div>
 
-                 <div class="col-12">
-                   <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-realizado-usuario" role="alert">
-                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                   </div>
+               <div class="col-12">
+                 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" id="recebe-mensagem-cadastro-realizado-usuario" role="alert">
+                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                  </div>
+               </div>
 
-                 <div class="col-12">
-                   <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-usuario" role="alert">
-                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                   </div>
+               <div class="col-12">
+                 <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-vazio-cadastro-usuario" role="alert">
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                  </div>
+               </div>
 
-                 <div class="col-12">
-                   <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-cadastro-usuario" role="alert">
-                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                   </div>
+               <div class="col-12">
+                 <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-falha-cadastro-usuario" role="alert">
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                  </div>
+               </div>
+
+               <div class="col-12">
+                 <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-campo-email-duplicado-cadastro-usuario" role="alert">
+                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                 </div>
+               </div>
              </form>
            </div>
          </div>

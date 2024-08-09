@@ -6,6 +6,7 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-vazio-autentica-usuario").hide();
   $("#recebe-mensagem-campo-falha-autentica-usuario").hide();
   $("#recebe-mensagem-autenticacao-realizado-usuario").hide();
+  $("#recebe-mensagem-campo-email-duplicado-cadastro-usuario").hide();
 
   $("#recebe-mensagem-alterar-realizado-usuario").hide();
   $("#recebe-mensagem-campo-vazio-alterar-usuario").hide();
@@ -86,6 +87,10 @@ $("#criacao-conta").click(function (e) {
             var url_inicio = "../../visao/index.php";
             $(window.document.location).attr("href", url_inicio);
           }, 2000);
+        } else if(retorno === "email localizado"){
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-usuario").html("E-mail já cadastrado");
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-usuario").show();
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-usuario").fadeOut(4000);
         } else {
           $("#recebe-mensagem-campo-falha-cadastro-usuario").html(
             "Falha ao cadastrar usuário"

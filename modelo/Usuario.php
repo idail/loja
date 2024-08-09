@@ -314,5 +314,28 @@ class Usuario implements UsuarioInterface
         {
             return $excecao->getMessage();
         } 
-    }    
+    }   
+
+    public function VerificaDuplicidadeEmail():string
+    {
+        try{
+            $instrucaoVerificaEmailDuplicado = "select email_usuario from usuarios where email_usuario = :recebe_email_usuario";
+            $comandoVerificaEmailDuplicado = Conexao::Obtem()->prepare($instrucaoVerificaEmailDuplicado);
+            $comandoVerificaEmailDuplicado->bindValue(":recebe_email_usuario",$this->getEmail_Usuario());
+            $comandoVerificaEmailDuplicado->execute();
+            $resultadoVerificaEmailDuplicado = $comandoVerificaEmailDuplicado->fetch(PDO::FETCH_ASSOC);
+            if(!empty($resultadoVerificaEmailDuplicado))
+            {
+                return "email localizado";
+            }else{
+                return "nenhum email localizado";
+            }
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        }
+    }
 }
