@@ -17,7 +17,7 @@
                         <form class="row g-3" id="formulario-cadastro-usuario" novalidate>
                             <div class="col-12">
                                 <label for="yourName" class="form-label">E-mail</label>
-                                <input type="text" name="email_usuario_alterar_senha" class="form-control" id="email-usuario-alterar-senha" required>
+                                <input type="text" name="email_usuario_alterar_senha" class="form-control" id="email-usuario-alterar-senha" required placeholder="Informa seu email">
                             </div>
 
                             <div class="col-12">
