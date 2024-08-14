@@ -25,14 +25,9 @@ $(document).ready(function (e) {
   $("#selecao-status").hide();
   let url_atual_cliente = window.location.href;
 
-  recebe_titulo_cliente_pesquisado_continuar_exibicao_excluindo_clientes = "";
+  recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes = "";
 
-  recebe_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
-    "";
-
-  recebe_status_cliente_pesquisado_continuar_exibicao_excluindo_clientes = "";
-
-  recebe_filtro_selecionado_status_pesquisado_continuar_exibicao_excluindo_clientes =
+  recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
     "";
 
   debugger;
@@ -81,6 +76,7 @@ $(document).ready(function (e) {
     $("#buscar-cliente").attr("disabled", true);
 
     recebe_filtro_selecionado_clientes = "todos";
+    recebe_valor_filtro_informado_clientes = "todos";
   }
 
   // Maskara para funcionamento do telefone
@@ -94,14 +90,13 @@ $(document).ready(function (e) {
 
     if (recebe_filtro_selecionado_clientes === "todos") {
       $.ajax({
-        //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
         data: {
           processo_cliente: "recebe_consultar_clientes",
-          filtro_cliente: recebeFiltroCliente,
-          valor_filtro_cliente: recebeValorFiltroCliente,
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
         beforeSend: function () {
           debugger;
@@ -197,14 +192,13 @@ $(document).ready(function (e) {
     } else if (recebe_filtro_selecionado_clientes === "nome_cliente") {
       debugger;
       $.ajax({
-        //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
         data: {
           processo_cliente: "recebe_consultar_clientes",
-          filtro_cliente: recebeFiltroCliente,
-          valor_filtro_cliente: recebeValorFiltroCliente,
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
         beforeSend: function () {
           debugger;
@@ -227,9 +221,11 @@ $(document).ready(function (e) {
             );
 
             let recebe_status_cliente = "";
+            dados_clientes = retorno_clientes;
             for (
-              let clientes = 0;
-              clientes < retorno_clientes.length;
+              var clientes = pagina * tamanhoPagina;
+              clientes < retorno_clientes.length &&
+              clientes < (pagina + 1) * tamanhoPagina;
               clientes++
             ) {
               if (retorno_clientes[clientes].status_cliente === 1)
@@ -262,13 +258,29 @@ $(document).ready(function (e) {
                 "</tr>";
             }
             $("#registros-clientes").append(recebe_tabela_clientes);
-          } else {
-            $("#exibi-quantidade-clientes").html(
-              "Quantidade de clientes:" + 0
+
+            $("#numeracao").text(
+              "Página " +
+                (pagina + 1) +
+                " de " +
+                Math.ceil(retorno_clientes.length / tamanhoPagina)
             );
+          } else {
+            $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
             $("#registros-clientes").append(
               "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
             );
+
+            if (pagina == 0) {
+              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+            } else {
+              $("#numeracao").text(
+                "Página " +
+                  (pagina + 1) +
+                  " de " +
+                  Math.ceil(retorno_clientes.length / tamanhoPagina)
+              );
+            }
           }
         },
         error: function (xhr, status, error) {
@@ -281,138 +293,120 @@ $(document).ready(function (e) {
       });
     } else if (recebe_filtro_selecionado_clientes === "status_cliente") {
       $.ajax({
-        // url: "http://localhost/software-medicos/api/ProtocolosAPI.php",
-        url: "../../api/MedicosAPI.php",
+        url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
         data: {
-          processo_protocolos_medicos: "exibir_protocolos_medicos",
-          recebe_filtro_protocolo_medicos:
-            recebe_filtro_selecionado_protocolos_medicos,
-          recebe_busca_protocolo_medicos: "todos_desabilitados_medicos",
+          processo_cliente: "recebe_consultar_clientes",
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
-        success: function (retorno_medicos) {
+        beforeSend: function () {
           debugger;
-          let recebe_tabela_medicos = document.querySelector(
-            "#registros-protocolos-medicos"
+          $("#registros-clientes").html("");
+          $("#registros-clientes").append(
+            "<td colspan='5' class='text-center'>Carregando dados</td>"
           );
-          //e verificado se o valor de retorno e diferente de vazio e sendo entrara no if
-          if (retorno_medicos != "") {
-            //e declarada a variavel recebe_quantidade_registros que ira receber a quantidade de registros de protocolos
-            //que foi retornado na busca do banco de dados
-            let recebe_quantidade_registros = retorno_medicos.length;
-            //com o seletor do jquery e atribuido via html a mensagem abaixo + o valor da variavel recebe_quantidade_registros
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + recebe_quantidade_registros
+          $("#registros-clientes").html("");
+        },
+        success: function (retorno_clientes) {
+          debugger;
+          if (retorno_clientes.length > 0) {
+            let recebe_tabela_clientes = document.querySelector(
+              "#registros-clientes"
             );
-            //com o seletor do jquery e efetuada a limpeza do elemento com id registros_protocolos
-            $("#registros-protocolos-medicos").html("");
-            //e percorrido com laco de repeticao os registros na variavel retorno
-            dados_medicos = retorno_medicos;
-            for (
-              var indice = pagina * tamanhoPagina;
-              indice < retorno_medicos.length &&
-              indice < (pagina + 1) * tamanhoPagina;
-              indice++
-            ) {
-              visualizacao_video = "";
-              if (retorno_medicos[indice].video_protocolo != null) {
-                visualizacao_video =
-                  "<td><a href='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "' id='visualiza-video-protocolo'><i class='fas fa-video fa-lg' title='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualizacao_video =
-                  "<td><a id=''><i class='fas fa-video-slash fa-lg' title='Sem Vídeo'></i></a></td>";
-              }
+            let recebe_quantidade_clientes = retorno_clientes.length;
 
-              visualiza_arquivo_pdf = "";
-              if (retorno_medicos[indice].protocolo != null) {
-                visualiza_arquivo_pdf =
-                  "<td><a href='https://sti.med.br/visao/protocolos/visualiza_pdf/web/viewer.html?file=" +
-                  retorno_medicos[indice].protocolo +
-                  "' class='col-1' target='_blank'><i class='far fa-file-pdf fa-lg' title='" +
-                  retorno_medicos[indice].protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualiza_arquivo_pdf =
-                  "<td><a id=''><i class='fas fa-eye-slash fa-lg ml-1' title='Sem Arquivo'></i></a></td>";
-              }
-              //e atributio a variavel que recebe a tabela incrementando os registros do banco de dados montando o codigo html informado abaixo
-              recebe_tabela_medicos.innerHTML +=
+            $("#exibi-quantidade-clientes").html(
+              "Quantidade de clientes:" + recebe_quantidade_clientes
+            );
+
+            let recebe_status_cliente = "";
+            dados_clientes = retorno_clientes;
+            for (
+              var clientes = pagina * tamanhoPagina;
+              clientes < retorno_clientes.length &&
+              clientes < (pagina + 1) * tamanhoPagina;
+              clientes++
+            ) {
+              if (retorno_clientes[clientes].status_cliente === 1)
+                recebe_status_cliente = "Ativo";
+              else recebe_status_cliente = "Inativo";
+
+              recebe_tabela_clientes.innerHTML +=
                 "<tr>" +
                 "<td>" +
-                retorno_medicos[indice].titulo_protocolo +
+                retorno_clientes[clientes].nome_cliente +
                 "</td>" +
-                visualiza_arquivo_pdf +
-                visualizacao_video +
-                "<td class='espacamento " +
-                recebe_class_ocultar_campos_usuario_nao_administrador_geral +
-                recebe_class_desabilitar_alteracoes_sistema +
-                "'><a href='#' onclick=reabilitar_registro_protocolo(" +
-                retorno_medicos[indice].codigo_protocolo +
-                "," +
-                retorno_medicos[indice].codigo_usuario_protocolo +
-                ",event);>" +
-                "<i class='fas fa-trash-restore fa-lg' title='Reabilitar Protocolo'></i></a>" +
+                "<td>" +
+                retorno_clientes[clientes].telefone_cliente +
                 "</td>" +
-                "<input type='hidden' value='" +
-                retorno_medicos[indice].video_protocolo +
-                "' id='link-video-protocolo'/>" +
+                "<td>" +
+                retorno_clientes[clientes].email_cliente +
+                "</td>" +
+                "<td>" +
+                retorno_clientes[clientes].endereco_cliente +
+                "</td>" +
+                "<td>" +
+                recebe_status_cliente +
+                "</td>" +
+                "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)'></i></a></td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)></i></a></td>" +
                 "</tr>";
             }
-            $("#registros-protocolos-medicos").append(recebe_tabela_medicos);
+            $("#registros-clientes").append(recebe_tabela_clientes);
+
             $("#numeracao").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
-                Math.ceil(retorno_medicos.length / tamanhoPagina)
-            );
-
-            $("#informacoes-protocolos-medicos").attr(
-              "class",
-              "card card-primary"
+                Math.ceil(retorno_clientes.length / tamanhoPagina)
             );
           } else {
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + 0
-            );
-            //com o seletor do jquery e efetuada a limpeza da tabela com id registros-protocolos
-            $("#registros-protocolos-medicos").html("");
-            //com o seletor do jquery e atribuido no final do corpo da tabela via append a estrutura html abaixo
-            $("#registros-protocolos-medicos").append(
+            $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+            $("#registros-clientes").append(
               "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
             );
+
+            if (pagina == 0) {
+              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+            } else {
+              $("#numeracao").text(
+                "Página " +
+                  (pagina + 1) +
+                  " de " +
+                  Math.ceil(retorno_clientes.length / tamanhoPagina)
+              );
+            }
           }
         },
         error: function (xhr, status, error) {
-          $(document).Toasts("create", {
-            class: "bg-warning",
-            title: "Mensagem do Sistema",
-            // subtitle: "Subtitle",
-            body: "Falha ao buscar protocolos médicos:" + error,
-          });
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+            "Falha ao buscar clientes:" + error
+          );
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
         },
       });
     }
   }
-
 
   function paginar_proximo_clientes() {
     debugger;
 
     if (recebe_filtro_selecionado_clientes === "todos") {
       $.ajax({
-        //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
         url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
         data: {
           processo_cliente: "recebe_consultar_clientes",
-          filtro_cliente: recebeFiltroCliente,
-          valor_filtro_cliente: recebeValorFiltroCliente,
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
         beforeSend: function () {
           debugger;
@@ -508,264 +502,204 @@ $(document).ready(function (e) {
     } else if (recebe_filtro_selecionado_clientes === "nome_cliente") {
       debugger;
       $.ajax({
-        // url: "http://localhost/software-medicos/api/ProtocolosAPI.php",
-        url: "../../api/MedicosAPI.php",
+        url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
-        // async: false,
-        // contentType: "application/json",
         data: {
-          processo_protocolos_medicos: "exibir_protocolos_medicos",
-          recebe_filtro_protocolo_medicos:
-            recebe_filtro_selecionado_protocolos_medicos,
-          recebe_busca_protocolo_medicos:
-            recebe_valor_filtro_informado_protocolos_medicos,
+          processo_cliente: "recebe_consultar_clientes",
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
-        success: function (retorno_medicos) {
-          //e.preventDefault();
+        beforeSend: function () {
           debugger;
-          //e declarada a variavel recebe_tabela que com o seletor do jquery recebe o elemento com id registros_protocolos
-          let recebe_tabela_medicos = document.querySelector(
-            "#registros-protocolos-medicos"
+          $("#registros-clientes").html("");
+          $("#registros-clientes").append(
+            "<td colspan='5' class='text-center'>Carregando dados</td>"
           );
-          //e verificado se o valor de retorno e diferente de vazio e sendo entrara no if
-          if (retorno_medicos != "") {
-            //e declarada a variavel recebe_quantidade_registros que ira receber a quantidade de registros de protocolos
-            //que foi retornado na busca do banco de dados
-            let recebe_quantidade_registros = retorno_medicos.length;
-            //com o seletor do jquery e atribuido via html a mensagem abaixo + o valor da variavel recebe_quantidade_registros
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + recebe_quantidade_registros
+          $("#registros-clientes").html("");
+        },
+        success: function (retorno_clientes) {
+          debugger;
+          if (retorno_clientes.length > 0) {
+            let recebe_tabela_clientes = document.querySelector(
+              "#registros-clientes"
             );
-            //com o seletor do jquery e efetuada a limpeza do elemento com id registros_protocolos
-            $("#registros-protocolos-medicos").html("");
-            //e percorrido com laco de repeticao os registros na variavel retorno
-            dados_medicos = retorno_medicos;
-            for (
-              var indice = pagina * tamanhoPagina;
-              indice < retorno_medicos.length &&
-              indice < (pagina + 1) * tamanhoPagina;
-              indice++
-            ) {
-              visualizacao_video = "";
-              if (retorno_medicos[indice].video_protocolo != null) {
-                visualizacao_video =
-                  "<td><a href='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "' id='visualiza-video-protocolo'><i class='fas fa-video fa-lg' title='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualizacao_video =
-                  "<td><a id=''><i class='fas fa-video-slash fa-lg' title='Sem Vídeo'></i></a></td>";
-              }
+            let recebe_quantidade_clientes = retorno_clientes.length;
 
-              visualiza_arquivo_pdf = "";
-              if (retorno_medicos[indice].protocolo != null) {
-                visualiza_arquivo_pdf =
-                  "<td><a href='https://sti.med.br/visao/protocolos/visualiza_pdf/web/viewer.html?file=" +
-                  retorno_medicos[indice].protocolo +
-                  "' class='col-1' target='_blank'><i class='far fa-file-pdf fa-lg' title='" +
-                  retorno_medicos[indice].protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualiza_arquivo_pdf =
-                  "<td><a id=''><i class='fas fa-eye-slash fa-lg ml-1' title='Sem Arquivo'></i></a></td>";
-              }
-              //e atributio a variavel que recebe a tabela incrementando os registros do banco de dados montando o codigo html informado abaixo
-              recebe_tabela_medicos.innerHTML +=
+            $("#exibi-quantidade-clientes").html(
+              "Quantidade de clientes:" + recebe_quantidade_clientes
+            );
+
+            let recebe_status_cliente = "";
+            dados_clientes = retorno_clientes;
+            for (
+              var clientes = pagina * tamanhoPagina;
+              clientes < retorno_clientes.length &&
+              clientes < (pagina + 1) * tamanhoPagina;
+              clientes++
+            ) {
+              if (retorno_clientes[clientes].status_cliente === 1)
+                recebe_status_cliente = "Ativo";
+              else recebe_status_cliente = "Inativo";
+
+              recebe_tabela_clientes.innerHTML +=
                 "<tr>" +
                 "<td>" +
-                retorno_medicos[indice].titulo_protocolo +
+                retorno_clientes[clientes].nome_cliente +
                 "</td>" +
-                visualiza_arquivo_pdf +
-                visualizacao_video +
-                "<td class=" +
-                recebe_class_ocultar_campos_usuario_nao_administrador_geral +
-                recebe_class_desabilitar_alteracoes_sistema +
-                "><a href='https://www.sti.med.br/visao/index.php?pagina=cadastro_protocolo&departamento=medicos&codigo_protocolo=" +
-                retorno_medicos[indice].codigo_protocolo +
-                "'>" +
-                "<i class='fas fa-edit fa-lg' title='Alterar Protocolo'></i></a>" +
+                "<td>" +
+                retorno_clientes[clientes].telefone_cliente +
                 "</td>" +
-                "<td class=" +
-                recebe_class_ocultar_campos_usuario_nao_administrador_geral +
-                recebe_class_desabilitar_alteracoes_sistema +
-                "><a href='#' onclick=desabilitar_registro_protocolo_medicos(" +
-                retorno_medicos[indice].codigo_protocolo +
-                "," +
-                retorno_medicos[indice].codigo_usuario_protocolo +
-                ",event);>" +
-                "<i class='fas fa-trash-alt fa-lg' title='Desabilitar Protocolo'></i></a>" +
+                "<td>" +
+                retorno_clientes[clientes].email_cliente +
                 "</td>" +
+                "<td>" +
+                retorno_clientes[clientes].endereco_cliente +
                 "</td>" +
-                "<td class=" +
-                recebe_class_ocultar_campos_usuario_nao_administrador_geral +
-                recebe_class_desabilitar_alteracoes_sistema +
-                ">" +
-                "<a href='#' onclick=excluir_protocolo_medicos(" +
-                retorno_medicos[indice].codigo_protocolo +
-                ",event);>" +
-                "<i class='fas fa-trash-alt fa-lg' title='Excluir Protocolo'></i></a>" +
+                "<td>" +
+                recebe_status_cliente +
                 "</td>" +
-                "<input type='hidden' value='" +
-                retorno_medicos[indice].video_protocolo +
-                "' id='link-video-protocolo'/>" +
-                "<tr>";
+                "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)'></i></a></td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)></i></a></td>" +
+                "</tr>";
             }
-            //com o seletor do jquery e adicionado os valores da variavel recebe_tabela no corpo da tabela de registros de protocolos
-            $("#registros-protocolos-medicos").append(recebe_tabela_medicos);
+            $("#registros-clientes").append(recebe_tabela_clientes);
 
             $("#numeracao").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
-                Math.ceil(retorno_medicos.length / tamanhoPagina)
+                Math.ceil(retorno_clientes.length / tamanhoPagina)
             );
-
-            $("#informacoes-protocolos-medicos").attr(
-              "class",
-              "card card-primary"
-            );
-            //senao entrara no else
           } else {
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + 0
-            );
-            //com o seletor do jquery e efetuada a limpeza da tabela com id registros-protocolos
-            $("#registros-protocolos-medicos").html("");
-            //com o seletor do jquery e atribuido no final do corpo da tabela via append a estrutura html abaixo
-            $("#registros-protocolos-medicos").append(
+            $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+            $("#registros-clientes").append(
               "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
             );
+
+            if (pagina == 0) {
+              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+            } else {
+              $("#numeracao").text(
+                "Página " +
+                  (pagina + 1) +
+                  " de " +
+                  Math.ceil(retorno_clientes.length / tamanhoPagina)
+              );
+            }
           }
         },
-        //caso ocorra erro na requisicao ajax ira exibir a mensagem de erro abaixo
         error: function (xhr, status, error) {
-          $(document).Toasts("create", {
-            class: "bg-warning",
-            title: "Mensagem do Sistema",
-            // subtitle: "Subtitle",
-            body: "Falha ao buscar protocolos médicos:" + error,
-          });
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+            "Falha ao buscar clientes:" + error
+          );
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
         },
       });
     } else if (recebe_filtro_selecionado_clientes === "status_cliente") {
       $.ajax({
-        // url: "http://localhost/software-medicos/api/ProtocolosAPI.php",
-        url: "../../api/MedicosAPI.php",
+        url: "../api/ClienteAPI.php",
         dataType: "json",
         type: "get",
         data: {
-          processo_protocolos_medicos: "exibir_protocolos_medicos",
-          recebe_filtro_protocolo_medicos:
-            recebe_filtro_selecionado_protocolos_medicos,
-          recebe_busca_protocolo_medicos: "todos_desabilitados_medicos",
+          processo_cliente: "recebe_consultar_clientes",
+          filtro_cliente: recebe_filtro_selecionado_clientes,
+          valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
         },
-        success: function (retorno_medicos) {
+        beforeSend: function () {
           debugger;
-          let recebe_tabela_medicos = document.querySelector(
-            "#registros-protocolos-medicos"
+          $("#registros-clientes").html("");
+          $("#registros-clientes").append(
+            "<td colspan='5' class='text-center'>Carregando dados</td>"
           );
-          //e verificado se o valor de retorno e diferente de vazio e sendo entrara no if
-          if (retorno_medicos != "") {
-            //e declarada a variavel recebe_quantidade_registros que ira receber a quantidade de registros de protocolos
-            //que foi retornado na busca do banco de dados
-            let recebe_quantidade_registros = retorno_medicos.length;
-            //com o seletor do jquery e atribuido via html a mensagem abaixo + o valor da variavel recebe_quantidade_registros
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + recebe_quantidade_registros
+          $("#registros-clientes").html("");
+        },
+        success: function (retorno_clientes) {
+          debugger;
+          if (retorno_clientes.length > 0) {
+            let recebe_tabela_clientes = document.querySelector(
+              "#registros-clientes"
             );
-            //com o seletor do jquery e efetuada a limpeza do elemento com id registros_protocolos
-            $("#registros-protocolos-medicos").html("");
-            //e percorrido com laco de repeticao os registros na variavel retorno
-            dados_medicos = retorno_medicos;
-            for (
-              var indice = pagina * tamanhoPagina;
-              indice < retorno_medicos.length &&
-              indice < (pagina + 1) * tamanhoPagina;
-              indice++
-            ) {
-              visualizacao_video = "";
-              if (retorno_medicos[indice].video_protocolo != null) {
-                visualizacao_video =
-                  "<td><a href='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "' id='visualiza-video-protocolo'><i class='fas fa-video fa-lg' title='" +
-                  retorno_medicos[indice].video_protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualizacao_video =
-                  "<td><a id=''><i class='fas fa-video-slash fa-lg' title='Sem Vídeo'></i></a></td>";
-              }
+            let recebe_quantidade_clientes = retorno_clientes.length;
 
-              visualiza_arquivo_pdf = "";
-              if (retorno_medicos[indice].protocolo != null) {
-                visualiza_arquivo_pdf =
-                  "<td><a href='https://sti.med.br/visao/protocolos/visualiza_pdf/web/viewer.html?file=" +
-                  retorno_medicos[indice].protocolo +
-                  "' class='col-1' target='_blank'><i class='far fa-file-pdf fa-lg' title='" +
-                  retorno_medicos[indice].protocolo +
-                  "'></i></a></td>";
-              } else {
-                visualiza_arquivo_pdf =
-                  "<td><a id=''><i class='fas fa-eye-slash fa-lg ml-1' title='Sem Arquivo'></i></a></td>";
-              }
-              //e atributio a variavel que recebe a tabela incrementando os registros do banco de dados montando o codigo html informado abaixo
-              recebe_tabela_medicos.innerHTML +=
+            $("#exibi-quantidade-clientes").html(
+              "Quantidade de clientes:" + recebe_quantidade_clientes
+            );
+
+            let recebe_status_cliente = "";
+            dados_clientes = retorno_clientes;
+            for (
+              var clientes = pagina * tamanhoPagina;
+              clientes < retorno_clientes.length &&
+              clientes < (pagina + 1) * tamanhoPagina;
+              clientes++
+            ) {
+              if (retorno_clientes[clientes].status_cliente === 1)
+                recebe_status_cliente = "Ativo";
+              else recebe_status_cliente = "Inativo";
+
+              recebe_tabela_clientes.innerHTML +=
                 "<tr>" +
-                
                 "<td>" +
-                retorno_medicos[indice].titulo_protocolo +
+                retorno_clientes[clientes].nome_cliente +
                 "</td>" +
-                visualiza_arquivo_pdf +
-                visualizacao_video +
-                "<td class='espacamento " +
-                recebe_class_ocultar_campos_usuario_nao_administrador_geral +
-                recebe_class_desabilitar_alteracoes_sistema +
-                "'><a href='#' onclick=reabilitar_registro_protocolo(" +
-                retorno_medicos[indice].codigo_protocolo +
-                "," +
-                retorno_medicos[indice].codigo_usuario_protocolo +
-                ",event);>" +
-                "<i class='fas fa-trash-restore fa-lg' title='Reabilitar Protocolo'></i></a>" +
+                "<td>" +
+                retorno_clientes[clientes].telefone_cliente +
                 "</td>" +
-                "<input type='hidden' value='" +
-                retorno_medicos[indice].video_protocolo +
-                "' id='link-video-protocolo'/>" +
+                "<td>" +
+                retorno_clientes[clientes].email_cliente +
+                "</td>" +
+                "<td>" +
+                retorno_clientes[clientes].endereco_cliente +
+                "</td>" +
+                "<td>" +
+                recebe_status_cliente +
+                "</td>" +
+                "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)'></i></a></td>" +
+                "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                retorno_clientes[clientes].codigo_cliente +
+                ",event)></i></a></td>" +
                 "</tr>";
             }
-            $("#registros-protocolos-medicos").append(recebe_tabela_medicos);
+            $("#registros-clientes").append(recebe_tabela_clientes);
+
             $("#numeracao").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
-                Math.ceil(retorno_medicos.length / tamanhoPagina)
-            );
-
-            $("#informacoes-protocolos-medicos").attr(
-              "class",
-              "card card-primary"
+                Math.ceil(retorno_clientes.length / tamanhoPagina)
             );
           } else {
-            $("#exibi-quantidade-protocolos-medicos").html(
-              "Quantidade de protocolos médicos:" + 0
-            );
-            //com o seletor do jquery e efetuada a limpeza da tabela com id registros-protocolos
-            $("#registros-protocolos-medicos").html("");
-            //com o seletor do jquery e atribuido no final do corpo da tabela via append a estrutura html abaixo
-            $("#registros-protocolos-medicos").append(
+            $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+            $("#registros-clientes").append(
               "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
             );
+
+            if (pagina == 0) {
+              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+            } else {
+              $("#numeracao").text(
+                "Página " +
+                  (pagina + 1) +
+                  " de " +
+                  Math.ceil(retorno_clientes.length / tamanhoPagina)
+              );
+            }
           }
         },
         error: function (xhr, status, error) {
-          $(document).Toasts("create", {
-            class: "bg-warning",
-            title: "Mensagem do Sistema",
-            // subtitle: "Subtitle",
-            body: "Falha ao buscar protocolos médicos:" + error,
-          });
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+            "Falha ao buscar clientes:" + error
+          );
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+          $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
         },
       });
     }
@@ -775,7 +709,6 @@ $(document).ready(function (e) {
 function listarClientes(filtroCliente, valorFiltroCliente) {
   debugger;
   $.ajax({
-    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
     url: "../api/ClienteAPI.php",
     dataType: "json",
     type: "get",
@@ -897,128 +830,127 @@ function listarClientes(filtroCliente, valorFiltroCliente) {
 
 recebe_registros_clientes_pesquisa_nome = "";
 
-  function configura_proximo_nome_clientes() {
-    if (
-      pagina <
-      recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina - 1
-    ) {
-      pagina++;
-    }
+function configura_proximo_nome_clientes() {
+  if (
+    pagina <
+    recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina - 1
+  ) {
+    pagina++;
   }
+}
 
-  function configura_anterior_nome_clientes() {
-    if (pagina > 0) {
-      pagina--;
-    }
+function configura_anterior_nome_clientes() {
+  if (pagina > 0) {
+    pagina--;
   }
+}
 
-  function configura_botao_proximo_nome_clientes() {
-    debugger;
-    console.log(
-      Math.ceil(
-        recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina
-      ) - 1
-    );
+function configura_botao_proximo_nome_clientes() {
+  debugger;
+  console.log(
+    Math.ceil(recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina) -
+      1
+  );
 
-    $("#proximo-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_nome.length <= tamanhoPagina ||
-        pagina >=
-          Math.ceil(
-            recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina
-          ) -
-            1
-    );
+  $("#proximo-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_nome.length <= tamanhoPagina ||
+      pagina >=
+        Math.ceil(
+          recebe_registros_clientes_pesquisa_nome.length / tamanhoPagina
+        ) -
+          1
+  );
+}
+
+function configura_botao_anterior_nome_clientes() {
+  debugger;
+  $("#anterior-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_nome.length <= tamanhoPagina ||
+      pagina == 0
+  );
+}
+
+recebe_registros_clientes_pesquisa_status = "";
+
+function configura_proximo_status_clientes() {
+  if (
+    pagina <
+    recebe_registros_clientes_pesquisa_status.length / tamanhoPagina - 1
+  ) {
+    pagina++;
   }
+}
 
-  function configura_botao_anterior_nome_clientes() {
-    debugger;
-    $("#anterior-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_nome.length <= tamanhoPagina ||
-        pagina == 0
-    );
+function configura_anterior_status_clientes() {
+  if (pagina > 0) {
+    pagina--;
   }
+}
 
-  recebe_registros_clientes_pesquisa_excluidos = "";
+function configura_botao_proximo_status_clientes() {
+  debugger;
+  $("#proximo-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_status.length <= tamanhoPagina ||
+      pagina >=
+        Math.ceil(
+          recebe_registros_clientes_pesquisa_status.length / tamanhoPagina
+        ) -
+          1
+  );
+}
 
-  function configura_proximo_excluidos_clientes() {
-    if (
-      pagina <
-      recebe_registros_clientes_pesquisa_excluidos.length / tamanhoPagina - 1
-    ) {
-      pagina++;
-    }
+function configura_botao_anterior_status_clientes() {
+  debugger;
+  $("#anterior-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_status.length <= tamanhoPagina ||
+      pagina == 0
+  );
+}
+
+recebe_registros_clientes_pesquisa_todos = "";
+
+function configura_proximo_todos_clientes() {
+  debugger;
+  if (
+    pagina <
+    recebe_registros_clientes_pesquisa_todos.length / tamanhoPagina - 1
+  ) {
+    pagina++;
   }
+}
 
-  function configura_anterior_excluidos_clientes() {
-    if (pagina > 0) {
-      pagina--;
-    }
+function configura_anterior_todos_clientes() {
+  debugger;
+  if (pagina > 0) {
+    pagina--;
   }
+}
 
-  function configura_botao_proximo_excluidos_clientes() {
-    debugger;
-    $("#proximo-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_excluidos.length <= tamanhoPagina ||
-        pagina >=
-          Math.ceil(
-            recebe_registros_clientes_pesquisa_excluidos.length / tamanhoPagina
-          ) -
-            1
-    );
-  }
+function configura_botao_proximo_todos_clientes() {
+  debugger;
+  $("#proximo-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_todos.length <= tamanhoPagina ||
+      pagina >=
+        Math.ceil(
+          recebe_registros_clientes_pesquisa_todos.length / tamanhoPagina
+        ) -
+          1
+  );
+}
 
-  function configura_botao_anterior_excluidos_clientes() {
-    debugger;
-    $("#anterior-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_excluidos.length <= tamanhoPagina ||
-        pagina == 0
-    );
-  }
-
-  recebe_registros_clientes_pesquisa_todos = "";
-
-  function configura_proximo_todos_clientes() {
-    debugger;
-    if (
-      pagina <
-      recebe_registros_clientes_pesquisa_todos.length / tamanhoPagina - 1
-    ) {
-      pagina++;
-    }
-  }
-
-  function configura_anterior_todos_clientes() {
-    debugger;
-    if (pagina > 0) {
-      pagina--;
-    }
-  }
-
-  function configura_botao_proximo_todos_clientes() {
-    debugger;
-    $("#proximo-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_todos.length <= tamanhoPagina ||
-        pagina >=
-          Math.ceil(
-            recebe_registros_clientes_pesquisa_todos.length / tamanhoPagina
-          ) -
-            1
-    );
-  }
-
-  function configura_botao_anterior_todos_clientes() {
-    debugger;
-    $("#anterior-clientes").prop(
-      "disabled",
-      recebe_registros_clientes_pesquisa_todos.length <= tamanhoPagina ||
-        pagina == 0
-    );
-  }
+function configura_botao_anterior_todos_clientes() {
+  debugger;
+  $("#anterior-clientes").prop(
+    "disabled",
+    recebe_registros_clientes_pesquisa_todos.length <= tamanhoPagina ||
+      pagina == 0
+  );
+}
 
 $("#filtro-cliente").change(function (e) {
   e.preventDefault();
@@ -1071,7 +1003,361 @@ function excluiClienteEspecifico(recebeCodigoClienteEspecifico, e) {
               $("#recebe-mensagem-exclusao-realizado-cliente").show();
               $("#recebe-mensagem-exclusao-realizado-cliente").fadeOut(4000);
 
-              listarClientes("todos", "todos");
+              //listarClientes("todos", "todos");
+
+              let url_cliente = window.location.href;
+
+              if (
+                url_cliente ===
+                "https://www.idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes"
+              ) {
+                if (
+                  recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes ===
+                  "nome_cliente"
+                ) {
+                  $.ajax({
+                    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+                    url: "../api/ClienteAPI.php",
+                    dataType: "json",
+                    type: "get",
+                    data: {
+                      processo_cliente: "recebe_consultar_clientes",
+                      filtro_cliente:
+                        recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                      valor_filtro_cliente:
+                        recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                    },
+                    beforeSend: function () {
+                      debugger;
+                      $("#registros-clientes").html("");
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Carregando dados</td>"
+                      );
+                      $("#registros-clientes").html("");
+                    },
+                    success: function (retorno_clientes) {
+                      debugger;
+                      if (retorno_clientes.length > 0) {
+                        recebe_registros_clientes_pesquisa_nome =
+                          retorno_clientes;
+                        configura_anterior_nome_clientes();
+                        configura_proximo_nome_clientes();
+                        configura_botao_anterior_nome_clientes();
+                        configura_botao_proximo_nome_clientes();
+
+                        let recebe_tabela_clientes = document.querySelector(
+                          "#registros-clientes"
+                        );
+                        let recebe_quantidade_clientes =
+                          retorno_clientes.length;
+
+                        $("#exibi-quantidade-clientes").html(
+                          "Quantidade de clientes:" + recebe_quantidade_clientes
+                        );
+
+                        let recebe_status_cliente = "";
+                        dados_clientes = retorno_clientes;
+                        for (
+                          var clientes = pagina * tamanhoPagina;
+                          clientes < retorno_clientes.length &&
+                          clientes < (pagina + 1) * tamanhoPagina;
+                          clientes++
+                        ) {
+                          if (retorno_clientes[clientes].status_cliente === 1)
+                            recebe_status_cliente = "Ativo";
+                          else recebe_status_cliente = "Inativo";
+
+                          recebe_tabela_clientes.innerHTML +=
+                            "<tr>" +
+                            "<td>" +
+                            retorno_clientes[clientes].nome_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].telefone_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].email_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].endereco_cliente +
+                            "</td>" +
+                            "<td>" +
+                            recebe_status_cliente +
+                            "</td>" +
+                            "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)'></i></a></td>" +
+                            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)></i></a></td>" +
+                            "</tr>";
+                        }
+                        $("#registros-clientes").append(recebe_tabela_clientes);
+
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      } else {
+                        $("#exibi-quantidade-clientes").html(
+                          "Quantidade de clientes:" + 0
+                        );
+                        $("#registros-clientes").append(
+                          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                        );
+
+                        if (pagina == 0) {
+                          $("#numeracao").text(
+                            "Página " + (pagina + 1) + " de 1"
+                          );
+                        } else {
+                          $("#numeracao").text(
+                            "Página " +
+                              (pagina + 1) +
+                              " de " +
+                              Math.ceil(retorno_clientes.length / tamanhoPagina)
+                          );
+                        }
+                      }
+                    },
+                    error: function (xhr, status, error) {
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                        "Falha ao buscar clientes:" + error
+                      );
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                      $(
+                        "#recebe-mensagem-falha-buscar-clientes-filtro"
+                      ).fadeOut(4000);
+                    },
+                  });
+                } else if (
+                  recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes ===
+                  "status_cliente"
+                ) {
+                  $.ajax({
+                    //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
+                    url: "../api/ClienteAPI.php",
+                    dataType: "json",
+                    type: "get",
+                    data: {
+                      processo_cliente: "recebe_consultar_clientes",
+                      filtro_cliente:
+                        recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                      valor_filtro_cliente:
+                        recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                    },
+                    beforeSend: function () {
+                      debugger;
+                      $("#registros-clientes").html("");
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Carregando dados</td>"
+                      );
+                      $("#registros-clientes").html("");
+                    },
+                    success: function (retorno_clientes) {
+                      debugger;
+                      if (retorno_clientes.length > 0) {
+                        recebe_registros_clientes_pesquisa_excluidos =
+                          retorno_clientes;
+                        configura_anterior_status_clientes();
+                        configura_proximo_status_clientes();
+                        configura_botao_anterior_status_clientes();
+                        configura_botao_proximo_status_clientes();
+
+                        let recebe_tabela_clientes = document.querySelector(
+                          "#registros-clientes"
+                        );
+                        let recebe_quantidade_clientes =
+                          retorno_clientes.length;
+
+                        $("#exibi-quantidade-clientes").html(
+                          "Quantidade de clientes:" + recebe_quantidade_clientes
+                        );
+
+                        let recebe_status_cliente = "";
+                        dados_clientes = retorno_clientes;
+                        for (
+                          var clientes = pagina * tamanhoPagina;
+                          clientes < retorno_clientes.length &&
+                          clientes < (pagina + 1) * tamanhoPagina;
+                          clientes++
+                        ) {
+                          if (retorno_clientes[clientes].status_cliente === 1)
+                            recebe_status_cliente = "Ativo";
+                          else recebe_status_cliente = "Inativo";
+
+                          recebe_tabela_clientes.innerHTML +=
+                            "<tr>" +
+                            "<td>" +
+                            retorno_clientes[clientes].nome_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].telefone_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].email_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].endereco_cliente +
+                            "</td>" +
+                            "<td>" +
+                            recebe_status_cliente +
+                            "</td>" +
+                            "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)'></i></a></td>" +
+                            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)></i></a></td>" +
+                            "</tr>";
+                        }
+                        $("#registros-clientes").append(recebe_tabela_clientes);
+
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      } else {
+                        $("#exibi-quantidade-clientes").html(
+                          "Quantidade de clientes:" + 0
+                        );
+                        $("#registros-clientes").append(
+                          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                        );
+
+                        if (pagina == 0) {
+                          $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+                        } else {
+                          $("#numeracao").text(
+                            "Página " +
+                              (pagina + 1) +
+                              " de " +
+                              Math.ceil(retorno_clientes.length / tamanhoPagina)
+                          );
+                        }
+                      }
+                    },
+                    error: function (xhr, status, error) {
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                        "Falha ao buscar clientes:" + error
+                      );
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                      $(
+                        "#recebe-mensagem-falha-buscar-clientes-filtro"
+                      ).fadeOut(4000);
+                    },
+                  });
+                }else{
+                  recebe_filtro_selecionado_clientes = "todos";
+                  recebe_valor_filtro_informado_clientes = "todos";
+                  
+                  $.ajax({
+                    url: "../api/ClienteAPI.php",
+                    dataType: "json",
+                    type: "get",
+                    data: {
+                      processo_cliente: "recebe_consultar_clientes",
+                      filtro_cliente: recebe_filtro_selecionado_clientes,
+                      valor_filtro_cliente: recebe_valor_filtro_informado_clientes,
+                    },
+                    beforeSend: function () {
+                      debugger;
+                      $("#registros-clientes").html("");
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Carregando dados</td>"
+                      );
+                      $("#registros-clientes").html("");
+                    },
+                    success: function (retorno_clientes) {
+                      debugger;
+                      if (retorno_clientes.length > 0) {
+                        let recebe_tabela_clientes = document.querySelector(
+                          "#registros-clientes"
+                        );
+                        let recebe_quantidade_clientes = retorno_clientes.length;
+            
+                        $("#exibi-quantidade-clientes").html(
+                          "Quantidade de clientes:" + recebe_quantidade_clientes
+                        );
+            
+                        recebe_registros_clientes_pesquisa_todos = retorno_clientes;
+            
+                        dados_clientes = retorno_clientes;
+                        for (
+                          var clientes = pagina * tamanhoPagina;
+                          clientes < retorno_clientes.length &&
+                          clientes < (pagina + 1) * tamanhoPagina;
+                          clientes++
+                        ) {
+                          if (retorno_clientes[clientes].status_cliente === 1)
+                            recebe_status_cliente = "Ativo";
+                          else recebe_status_cliente = "Inativo";
+            
+                          recebe_tabela_clientes.innerHTML +=
+                            "<tr>" +
+                            "<td>" +
+                            retorno_clientes[clientes].nome_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].telefone_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].email_cliente +
+                            "</td>" +
+                            "<td>" +
+                            retorno_clientes[clientes].endereco_cliente +
+                            "</td>" +
+                            "<td>" +
+                            recebe_status_cliente +
+                            "</td>" +
+                            "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)'></i></a></td>" +
+                            "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                            retorno_clientes[clientes].codigo_cliente +
+                            ",event)></i></a></td>" +
+                            "</tr>";
+                        }
+                        $("#registros-clientes").append(recebe_tabela_clientes);
+            
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      } else {
+                        $("#exibi-quantidade-clientes").html("Quantidade de clientes:" + 0);
+                        $("#registros-clientes").append(
+                          "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                        );
+            
+                        if (pagina == 0) {
+                          $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+                        } else {
+                          $("#numeracao").text(
+                            "Página " +
+                              (pagina + 1) +
+                              " de " +
+                              Math.ceil(retorno_clientes.length / tamanhoPagina)
+                          );
+                        }
+                      }
+                    },
+                    error: function (xhr, status, error) {
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                        "Falha ao buscar clientes:" + error
+                      );
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                      $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(4000);
+                    },
+                  });
+                }
+              }
             } else {
               $("#recebe-mensagem-campo-falha-exclusao-cliente").html(
                 "Falha ao excluir cliente:" + retorno
@@ -1239,6 +1525,11 @@ $("#buscar-cliente").click(function (e) {
   debugger;
   let recebeFiltroCliente = $("#filtro-cliente").val();
 
+  recebe_filtro_selecionado_clientes = recebeFiltroCliente;
+
+  recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
+    recebeFiltroCliente;
+
   if (
     recebeFiltroCliente === "nome_cliente" ||
     recebeFiltroCliente === "status_cliente" ||
@@ -1246,6 +1537,12 @@ $("#buscar-cliente").click(function (e) {
   ) {
     if (recebeFiltroCliente === "nome_cliente") {
       let recebeValorFiltroCliente = $("#valor-filtro-cliente").val();
+
+      recebe_valor_filtro_informado_clientes = recebeValorFiltroCliente;
+
+      recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
+        recebeValorFiltroCliente;
+
       if (recebeValorFiltroCliente != "") {
         $.ajax({
           //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -1342,6 +1639,8 @@ $("#buscar-cliente").click(function (e) {
         "#valor-filtro-status-cliente"
       ).val();
       if (recebeValorFiltroClienteStatus != "") {
+        recebe_valor_filtro_informado_clientes = recebeValorFiltroCliente;
+
         let recebeValorFiltroStatus = 0;
         $.ajax({
           //url: "http://localhost/software-medicos/api/NotificacaoAPI.php",
@@ -1435,6 +1734,8 @@ $("#buscar-cliente").click(function (e) {
       }
     } else if (recebeFiltroCliente === "todos") {
       let recebeValorFiltroCliente = "todos";
+
+      recebe_valor_filtro_informado_clientes = recebeValorFiltroCliente;
       $.ajax({
         url: "../api/ClienteAPI.php",
         dataType: "json",

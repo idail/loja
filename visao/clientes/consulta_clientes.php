@@ -52,18 +52,20 @@
             </tbody>
         </table>
         <!-- End Default Table Example -->
+
+        <div class="card-footer clearfix">
+            <ul class="pagination pagination-sm m-0 justify-content-center">
+                <li class="page-item"><input type="button" class="btn btn-primary mr-2" style="margin-right: 10px;" id="anterior-clientes" value="Anterior"></li>
+                <!-- <li class="page-item"><a class="page-link" href="#" id="sequencia-medicos"></a></li>
+            <li class="page-item"><a class="page-link" href="#" id="anterior-medicos"></a></li> -->
+                <span id="numeracao"></span>
+                <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                <li class="page-item"><input type="button" class="btn btn-primary ml-2" style="margin-left: 10px;" id="proximo-clientes" value="Próximo"></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="card-footer clearfix">
-        <ul class="pagination pagination-sm m-0 justify-content-center">
-            <li class="page-item"><input type="button" class="btn btn-primary mr-2" id="anterior-clientes" value="Anterior"></li>
-            <!-- <li class="page-item"><a class="page-link" href="#" id="sequencia-medicos"></a></li>
-            <li class="page-item"><a class="page-link" href="#" id="anterior-medicos"></a></li> -->
-            <span id="numeracao"></span>
-            <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
-            <li class="page-item"><input type="button" class="btn btn-primary ml-2" id="proximo-clientes" value="Próximo"></li>
-        </ul>
-    </div>
+
 
     <div class="col-12">
         <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" id="recebe-mensagem-falha-buscar-clientes-filtro" role="alert">
