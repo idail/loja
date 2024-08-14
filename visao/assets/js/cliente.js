@@ -30,6 +30,11 @@ $(document).ready(function (e) {
   recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
     "";
 
+  recebe_filtro_cliente_pesquisado_continuar_exibicao_alterando_clientes = "";
+
+  recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_alterando_clientes =
+    "";
+
   debugger;
   dados_clientes = "";
   tamanhoPagina = 10;
@@ -1541,6 +1546,9 @@ $("#buscar-cliente").click(function (e) {
   recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
     recebeFiltroCliente;
 
+  recebe_filtro_cliente_pesquisado_continuar_exibicao_alterando_clientes =
+    recebe_filtro_selecionado_clientes;
+
   if (
     recebeFiltroCliente === "nome_cliente" ||
     recebeFiltroCliente === "status_cliente" ||
@@ -1552,6 +1560,9 @@ $("#buscar-cliente").click(function (e) {
       recebe_valor_filtro_informado_clientes = recebeValorFiltroCliente;
 
       recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
+        recebeValorFiltroCliente;
+
+      recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_alterando_clientes =
         recebeValorFiltroCliente;
 
       if (recebeValorFiltroCliente != "") {
@@ -1581,7 +1592,6 @@ $("#buscar-cliente").click(function (e) {
             configura_anterior_nome_clientes();
             configura_botao_proximo_nome_clientes();
             configura_botao_anterior_nome_clientes();
-            
 
             if (retorno_clientes.length > 0) {
               let recebe_tabela_clientes = document.querySelector(
@@ -1680,7 +1690,8 @@ $("#buscar-cliente").click(function (e) {
       if (recebeValorFiltroClienteStatus != "") {
         recebe_valor_filtro_informado_clientes = recebeValorFiltroClienteStatus;
 
-        recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes = recebeValorFiltroClienteStatus;
+        recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes =
+          recebeValorFiltroClienteStatus;
 
         let recebeValorFiltroStatus = 0;
         $.ajax({
@@ -1708,7 +1719,6 @@ $("#buscar-cliente").click(function (e) {
             configura_anterior_status_clientes();
             configura_botao_proximo_status_clientes();
             configura_botao_anterior_status_clientes();
-            
 
             if (retorno_clientes.length > 0) {
               let recebe_tabela_clientes = document.querySelector(
@@ -1957,7 +1967,367 @@ $("#alterar-cliente").click(function (e) {
             $("#recebe-mensagem-alterar-realizado-cliente").show();
             $("#recebe-mensagem-alterar-realizado-cliente").fadeOut(4000);
 
-            listarClientes("todos", "todos");
+            //listarClientes("todos", "todos");
+
+            let url_cliente = window.location.href;
+
+            if (
+              url_cliente ===
+              "https://www.idailneto.com.br/loja/visao/index.php?pagina=consulta_clientes"
+            ) {
+              if (
+                recebe_filtro_cliente_pesquisado_continuar_exibicao_alterando_clientes ===
+                "nome_cliente"
+              ) {
+                $.ajax({
+                  url: "../api/ClienteAPI.php",
+                  dataType: "json",
+                  type: "get",
+                  data: {
+                    processo_cliente: "recebe_consultar_clientes",
+                    filtro_cliente:
+                      recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                    valor_filtro_cliente:
+                      recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                  },
+                  beforeSend: function () {
+                    debugger;
+                    $("#registros-clientes").html("");
+                    $("#registros-clientes").append(
+                      "<td colspan='5' class='text-center'>Carregando dados</td>"
+                    );
+                    $("#registros-clientes").html("");
+                  },
+                  success: function (retorno_clientes) {
+                    debugger;
+                    if (retorno_clientes.length > 0) {
+                      recebe_registros_clientes_pesquisa_nome =
+                        retorno_clientes;
+                      configura_anterior_nome_clientes();
+                      configura_proximo_nome_clientes();
+                      configura_botao_anterior_nome_clientes();
+                      configura_botao_proximo_nome_clientes();
+
+                      let recebe_tabela_clientes = document.querySelector(
+                        "#registros-clientes"
+                      );
+                      let recebe_quantidade_clientes = retorno_clientes.length;
+
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + recebe_quantidade_clientes
+                      );
+
+                      let recebe_status_cliente = "";
+                      dados_clientes = retorno_clientes;
+                      for (
+                        var clientes = pagina * tamanhoPagina;
+                        clientes < retorno_clientes.length &&
+                        clientes < (pagina + 1) * tamanhoPagina;
+                        clientes++
+                      ) {
+                        if (retorno_clientes[clientes].status_cliente === 1)
+                          recebe_status_cliente = "Ativo";
+                        else recebe_status_cliente = "Inativo";
+
+                        recebe_tabela_clientes.innerHTML +=
+                          "<tr>" +
+                          "<td>" +
+                          retorno_clientes[clientes].nome_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].telefone_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].email_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].endereco_cliente +
+                          "</td>" +
+                          "<td>" +
+                          recebe_status_cliente +
+                          "</td>" +
+                          "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)'></i></a></td>" +
+                          "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)></i></a></td>" +
+                          "</tr>";
+                      }
+                      $("#registros-clientes").append(recebe_tabela_clientes);
+
+                      $("#numeracao").text(
+                        "Página " +
+                          (pagina + 1) +
+                          " de " +
+                          Math.ceil(retorno_clientes.length / tamanhoPagina)
+                      );
+                    } else {
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + 0
+                      );
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                      );
+
+                      if (pagina == 0) {
+                        $("#numeracao").text(
+                          "Página " + (pagina + 1) + " de 1"
+                        );
+                      } else {
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      }
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                      "Falha ao buscar clientes:" + error
+                    );
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(
+                      4000
+                    );
+                  },
+                });
+              } else if (
+                recebe_filtro_cliente_pesquisado_continuar_exibicao_alterando_clientes ===
+                "status_cliente"
+              ) {
+                $.ajax({
+                  url: "../api/ClienteAPI.php",
+                  dataType: "json",
+                  type: "get",
+                  data: {
+                    processo_cliente: "recebe_consultar_clientes",
+                    filtro_cliente:
+                      recebe_filtro_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                    valor_filtro_cliente:
+                      recebe_valor_filtro_selecionado_cliente_pesquisado_continuar_exibicao_excluindo_clientes,
+                  },
+                  beforeSend: function () {
+                    debugger;
+                    $("#registros-clientes").html("");
+                    $("#registros-clientes").append(
+                      "<td colspan='5' class='text-center'>Carregando dados</td>"
+                    );
+                    $("#registros-clientes").html("");
+                  },
+                  success: function (retorno_clientes) {
+                    debugger;
+                    if (retorno_clientes.length > 0) {
+                      recebe_registros_clientes_pesquisa_excluidos =
+                        retorno_clientes;
+                      configura_anterior_status_clientes();
+                      configura_proximo_status_clientes();
+                      configura_botao_anterior_status_clientes();
+                      configura_botao_proximo_status_clientes();
+
+                      let recebe_tabela_clientes = document.querySelector(
+                        "#registros-clientes"
+                      );
+                      let recebe_quantidade_clientes = retorno_clientes.length;
+
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + recebe_quantidade_clientes
+                      );
+
+                      let recebe_status_cliente = "";
+                      dados_clientes = retorno_clientes;
+                      for (
+                        var clientes = pagina * tamanhoPagina;
+                        clientes < retorno_clientes.length &&
+                        clientes < (pagina + 1) * tamanhoPagina;
+                        clientes++
+                      ) {
+                        if (retorno_clientes[clientes].status_cliente === 1)
+                          recebe_status_cliente = "Ativo";
+                        else recebe_status_cliente = "Inativo";
+
+                        recebe_tabela_clientes.innerHTML +=
+                          "<tr>" +
+                          "<td>" +
+                          retorno_clientes[clientes].nome_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].telefone_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].email_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].endereco_cliente +
+                          "</td>" +
+                          "<td>" +
+                          recebe_status_cliente +
+                          "</td>" +
+                          "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)'></i></a></td>" +
+                          "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)></i></a></td>" +
+                          "</tr>";
+                      }
+                      $("#registros-clientes").append(recebe_tabela_clientes);
+
+                      $("#numeracao").text(
+                        "Página " +
+                          (pagina + 1) +
+                          " de " +
+                          Math.ceil(retorno_clientes.length / tamanhoPagina)
+                      );
+                    } else {
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + 0
+                      );
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                      );
+
+                      if (pagina == 0) {
+                        $("#numeracao").text(
+                          "Página " + (pagina + 1) + " de 1"
+                        );
+                      } else {
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      }
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                      "Falha ao buscar clientes:" + error
+                    );
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(
+                      4000
+                    );
+                  },
+                });
+              } else {
+                recebe_filtro_selecionado_clientes = "todos";
+                recebe_valor_filtro_informado_clientes = "todos";
+
+                $.ajax({
+                  url: "../api/ClienteAPI.php",
+                  dataType: "json",
+                  type: "get",
+                  data: {
+                    processo_cliente: "recebe_consultar_clientes",
+                    filtro_cliente: recebe_filtro_selecionado_clientes,
+                    valor_filtro_cliente:
+                      recebe_valor_filtro_informado_clientes,
+                  },
+                  beforeSend: function () {
+                    debugger;
+                    $("#registros-clientes").html("");
+                    $("#registros-clientes").append(
+                      "<td colspan='5' class='text-center'>Carregando dados</td>"
+                    );
+                    $("#registros-clientes").html("");
+                  },
+                  success: function (retorno_clientes) {
+                    debugger;
+                    if (retorno_clientes.length > 0) {
+                      let recebe_tabela_clientes = document.querySelector(
+                        "#registros-clientes"
+                      );
+                      let recebe_quantidade_clientes = retorno_clientes.length;
+
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + recebe_quantidade_clientes
+                      );
+
+                      recebe_registros_clientes_pesquisa_todos =
+                        retorno_clientes;
+
+                      dados_clientes = retorno_clientes;
+                      for (
+                        var clientes = pagina * tamanhoPagina;
+                        clientes < retorno_clientes.length &&
+                        clientes < (pagina + 1) * tamanhoPagina;
+                        clientes++
+                      ) {
+                        if (retorno_clientes[clientes].status_cliente === 1)
+                          recebe_status_cliente = "Ativo";
+                        else recebe_status_cliente = "Inativo";
+
+                        recebe_tabela_clientes.innerHTML +=
+                          "<tr>" +
+                          "<td>" +
+                          retorno_clientes[clientes].nome_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].telefone_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].email_cliente +
+                          "</td>" +
+                          "<td>" +
+                          retorno_clientes[clientes].endereco_cliente +
+                          "</td>" +
+                          "<td>" +
+                          recebe_status_cliente +
+                          "</td>" +
+                          "<td><a href='#'><i class='bi bi-person-lines-fill fs-4' title='Editar Cliente' data-bs-toggle='modal' data-bs-target='#edicao-cliente' data-backdrop='static' onclick='carrega_dados_cliente(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)'></i></a></td>" +
+                          "<td><a href='#'><i class='bi bi-trash-fill fs-4' title='Excluir Cliente' onclick=excluiClienteEspecifico(" +
+                          retorno_clientes[clientes].codigo_cliente +
+                          ",event)></i></a></td>" +
+                          "</tr>";
+                      }
+                      $("#registros-clientes").append(recebe_tabela_clientes);
+
+                      $("#numeracao").text(
+                        "Página " +
+                          (pagina + 1) +
+                          " de " +
+                          Math.ceil(retorno_clientes.length / tamanhoPagina)
+                      );
+                    } else {
+                      $("#exibi-quantidade-clientes").html(
+                        "Quantidade de clientes:" + 0
+                      );
+                      $("#registros-clientes").append(
+                        "<td colspan='5' class='text-center'>Nenhum registro localizado</td>"
+                      );
+
+                      if (pagina == 0) {
+                        $("#numeracao").text(
+                          "Página " + (pagina + 1) + " de 1"
+                        );
+                      } else {
+                        $("#numeracao").text(
+                          "Página " +
+                            (pagina + 1) +
+                            " de " +
+                            Math.ceil(retorno_clientes.length / tamanhoPagina)
+                        );
+                      }
+                    }
+                  },
+                  error: function (xhr, status, error) {
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").html(
+                      "Falha ao buscar clientes:" + error
+                    );
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").show();
+                    $("#recebe-mensagem-falha-buscar-clientes-filtro").fadeOut(
+                      4000
+                    );
+                  },
+                });
+              }
+            }
           } else {
             $("#recebe-mensagem-campo-falha-alterar-cliente").html(
               "Falha ao alterar cliente:" + retorno
