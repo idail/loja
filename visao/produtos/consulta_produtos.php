@@ -56,7 +56,7 @@
                 <li class="page-item"><input type="button" class="btn btn-primary mr-2" style="margin-right: 10px;" id="anterior-produtos" value="Anterior"></li>
                 <!-- <li class="page-item"><a class="page-link" href="#" id="sequencia-medicos"></a></li>
             <li class="page-item"><a class="page-link" href="#" id="anterior-medicos"></a></li> -->
-                <span id="numeracao"></span>
+                <span id="numeracao-produtos"></span>
                 <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
                 <li class="page-item"><input type="button" class="btn btn-primary ml-2" style="margin-left: 10px;" id="proximo-produtos" value="Próximo"></li>
             </ul>

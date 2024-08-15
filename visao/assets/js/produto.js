@@ -191,7 +191,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -204,9 +204,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -290,7 +290,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -303,9 +303,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -388,7 +388,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -401,9 +401,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -492,7 +492,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -505,9 +505,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -591,7 +591,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -604,9 +604,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -689,7 +689,7 @@ $(document).ready(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -702,9 +702,9 @@ $(document).ready(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -797,7 +797,7 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         }
         $("#registros-produtos").append(recebe_tabela_produtos);
 
-        $("#numeracao").text(
+        $("#numeracao-produtos").text(
           "Página " +
             (pagina + 1) +
             " de " +
@@ -810,9 +810,9 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         );
 
         if (pagina == 0) {
-          $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+          $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
         } else {
-          $("#numeracao").text(
+          $("#numeracao-produtos").text(
             "Página " +
               (pagina + 1) +
               " de " +
@@ -1240,7 +1240,7 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       }
                       $("#registros-produtos").append(recebe_tabela_produtos);
 
-                      $("#numeracao").text(
+                      $("#numeracao-produtos").text(
                         "Página " +
                           (pagina + 1) +
                           " de " +
@@ -1255,11 +1255,11 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       );
 
                       if (pagina == 0) {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " + (pagina + 1) + " de 1"
                         );
                       } else {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " +
                             (pagina + 1) +
                             " de " +
@@ -1355,7 +1355,7 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       }
                       $("#registros-produtos").append(recebe_tabela_produtos);
 
-                      $("#numeracao").text(
+                      $("#numeracao-produtos").text(
                         "Página " +
                           (pagina + 1) +
                           " de " +
@@ -1370,11 +1370,11 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       );
 
                       if (pagina == 0) {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " + (pagina + 1) + " de 1"
                         );
                       } else {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " +
                             (pagina + 1) +
                             " de " +
@@ -1459,7 +1459,7 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       }
                       $("#registros-produtos").append(recebe_tabela_produtos);
 
-                      $("#numeracao").text(
+                      $("#numeracao-produtos").text(
                         "Página " +
                           (pagina + 1) +
                           " de " +
@@ -1474,11 +1474,11 @@ function excluiProdutoEspecifico(recebeCodigoProdutoEspecificoExcluir, e) {
                       );
 
                       if (pagina == 0) {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " + (pagina + 1) + " de 1"
                         );
                       } else {
-                        $("#numeracao").text(
+                        $("#numeracao-produtos").text(
                           "Página " +
                             (pagina + 1) +
                             " de " +
@@ -1713,7 +1713,7 @@ $("#alterar-produto").click(function (e) {
                             recebe_tabela_produtos
                           );
 
-                          $("#numeracao").text(
+                          $("#numeracao-produtos").text(
                             "Página " +
                               (pagina + 1) +
                               " de " +
@@ -1728,11 +1728,11 @@ $("#alterar-produto").click(function (e) {
                           );
 
                           if (pagina == 0) {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " + (pagina + 1) + " de 1"
                             );
                           } else {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " +
                                 (pagina + 1) +
                                 " de " +
@@ -1836,7 +1836,7 @@ $("#alterar-produto").click(function (e) {
                             recebe_tabela_produtos
                           );
 
-                          $("#numeracao").text(
+                          $("#numeracao-produtos").text(
                             "Página " +
                               (pagina + 1) +
                               " de " +
@@ -1851,11 +1851,11 @@ $("#alterar-produto").click(function (e) {
                           );
 
                           if (pagina == 0) {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " + (pagina + 1) + " de 1"
                             );
                           } else {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " +
                                 (pagina + 1) +
                                 " de " +
@@ -1948,7 +1948,7 @@ $("#alterar-produto").click(function (e) {
                             recebe_tabela_produtos
                           );
 
-                          $("#numeracao").text(
+                          $("#numeracao-produtos").text(
                             "Página " +
                               (pagina + 1) +
                               " de " +
@@ -1963,11 +1963,11 @@ $("#alterar-produto").click(function (e) {
                           );
 
                           if (pagina == 0) {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " + (pagina + 1) + " de 1"
                             );
                           } else {
-                            $("#numeracao").text(
+                            $("#numeracao-produtos").text(
                               "Página " +
                                 (pagina + 1) +
                                 " de " +
@@ -2335,7 +2335,7 @@ $("#buscar-produto").click(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -2348,9 +2348,9 @@ $("#buscar-produto").click(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -2450,7 +2450,7 @@ $("#buscar-produto").click(function (e) {
             }
             $("#registros-produtos").append(recebe_tabela_produtos);
 
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
@@ -2463,9 +2463,9 @@ $("#buscar-produto").click(function (e) {
             );
 
             if (pagina == 0) {
-              $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+              $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
             } else {
-              $("#numeracao").text(
+              $("#numeracao-produtos").text(
                 "Página " +
                   (pagina + 1) +
                   " de " +
@@ -2557,7 +2557,7 @@ $("#buscar-produto").click(function (e) {
           }
           $("#registros-produtos").append(recebe_tabela_produtos);
 
-          $("#numeracao").text(
+          $("#numeracao-produtos").text(
             "Página " +
               (pagina + 1) +
               " de " +
@@ -2570,9 +2570,9 @@ $("#buscar-produto").click(function (e) {
           );
 
           if (pagina == 0) {
-            $("#numeracao").text("Página " + (pagina + 1) + " de 1");
+            $("#numeracao-produtos").text("Página " + (pagina + 1) + " de 1");
           } else {
-            $("#numeracao").text(
+            $("#numeracao-produtos").text(
               "Página " +
                 (pagina + 1) +
                 " de " +
