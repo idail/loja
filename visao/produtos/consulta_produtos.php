@@ -18,7 +18,7 @@
             <!-- <label class="col-sm-1 col-form-label"></label> -->
             <div class="col-sm-2" id="selecao-status">
                 <select class="form-select" aria-label="Default select example" id="valor-filtro-categoria-produto">
-                    
+
                 </select>
             </div>
 
@@ -50,6 +50,17 @@
             </tbody>
         </table>
         <!-- End Default Table Example -->
+
+        <div class="card-footer clearfix">
+            <ul class="pagination pagination-sm m-0 justify-content-center">
+                <li class="page-item"><input type="button" class="btn btn-primary mr-2" style="margin-right: 10px;" id="anterior-produtos" value="Anterior"></li>
+                <!-- <li class="page-item"><a class="page-link" href="#" id="sequencia-medicos"></a></li>
+            <li class="page-item"><a class="page-link" href="#" id="anterior-medicos"></a></li> -->
+                <span id="numeracao"></span>
+                <!-- <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                <li class="page-item"><input type="button" class="btn btn-primary ml-2" style="margin-left: 10px;" id="proximo-produtos" value="Próximo"></li>
+            </ul>
+        </div>
     </div>
 
     <div class="col-12">
