@@ -38,6 +38,7 @@ $(document).ready(function (e) {
   recebe_valor_filtro_informado_produtos = "";
 
   $("#proximo-produtos").click(function () {
+    debugger;
     if (pagina < dados_produtos.length / tamanhoPagina - 1) {
       pagina++;
       paginar_proximo_produtos();
@@ -46,6 +47,7 @@ $(document).ready(function (e) {
   });
 
   $("#anterior-produtos").click(function () {
+    debugger;
     if (pagina > 0) {
       pagina--;
       paginar_anterior_produtos();
@@ -750,6 +752,8 @@ function listarProdutos(filtroProduto, valorFiltroProduto) {
         $("#exibi-quantidade-produtos").html(
           "Quantidade de produtos:" + recebe_quantidade_produtos
         );
+
+        dados_produtos = retorno_produtos;
 
         recebe_registros_produtos_pesquisa_todos = retorno_produtos;
 
@@ -2237,6 +2241,8 @@ $("#filtro-produto").change(function (e) {
 $("#buscar-produto").click(function (e) {
   e.preventDefault();
 
+  debugger;
+
   let recebeFiltroProduto = $("#filtro-produto").val();
 
   recebe_filtro_produto_pesquisado_continuar_exibicao_excluindo_produtos =
@@ -2369,7 +2375,7 @@ $("#buscar-produto").click(function (e) {
       recebeValorFiltroProduto;
 
     recebe_valor_filtro_selecionado_produto_pesquisado_continuar_exibicao_alterando_produtos =
-      recebeFiltroProduto;
+    recebeValorFiltroProduto;
 
     if (recebeValorFiltroProduto != "") {
       $.ajax({
