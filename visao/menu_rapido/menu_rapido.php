@@ -283,6 +283,7 @@
                                 },
                                 success: function(retorno_totais_vendas_meses) {
                                     debugger;
+                                    console.log(retorno_totais_vendas_meses);
                                     for (let index = 0; index < retorno_totais_vendas_meses.length; index++) {
                                         numeros.push(retorno_totais_vendas_meses[index].total_vendas);
                                     }
