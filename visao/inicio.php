@@ -603,6 +603,7 @@ require("../api/VerificaSessao.php");
     <script src="assets/js/jquery.maskMoney.min.js"></script>
     <script src="assets/js/produto.js"></script>
     <script src="assets/js/venda.js"></script>
+    <script src="assets/js/graficos.js"></script>
 </body>
 
 </html>
