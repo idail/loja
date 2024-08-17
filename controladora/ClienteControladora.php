@@ -17,6 +17,13 @@ class ClienteControladora{
         $this->cliente->setEndereco_Cliente($recebeEnderecoCliente);
         $this->cliente->setStatus_Cliente($recebeStatusCliente);
 
+        $resultadoVerificaDuplicidadeEmail = $this->cliente->VerificaDuplicidadeEmailCliente();
+
+        if($resultadoVerificaDuplicidadeEmail === "email localizado")
+        {
+            return $resultadoVerificaDuplicidadeEmail;
+        }
+        
         $resultadoCadastroCliente = $this->cliente->cadastrarCliente();
 
         return $resultadoCadastroCliente;

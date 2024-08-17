@@ -25,7 +25,10 @@ if($_SERVER["REQUEST_METHOD"] === "POST")
             $recebeCadastroCliente = $clienteControladora->CadastroCliente($recebeNomeCliente,$recebeTelefoneCliente,$recebeEmailCliente,
             $recebeEnderecoCliente,$recebeStatusCliente);
 
-            echo json_encode($recebeCadastroCliente);
+            if($recebeCadastroCliente > 0)
+                echo json_encode($recebeCadastroCliente);
+            else
+                echo json_encode($recebeCadastroCliente);
         }else{
             echo json_encode("Favor verificar o preenchimento dos campos");
         }

@@ -6,6 +6,7 @@ $(document).ready(function (e) {
   $("#recebe-mensagem-campo-falha-cadastro-alterar-cliente").hide();
   $("#recebe-mensagem-campo-falha-buscar-cliente").hide();
   $("#recebe-mensagem-falha-buscar-clientes-filtro").hide();
+  $("#recebe-mensagem-campo-email-duplicado-cadastro-cliente").hide();
 
   $("#recebe-mensagem-alterar-realizado-cliente").hide();
   $("#recebe-mensagem-alteraracao-sendo-realizada-cliente").hide();
@@ -1473,17 +1474,21 @@ $("#cadastro-cliente").click(function (e) {
       success: function (retorno) {
         debugger;
 
-        if (retorno != "") {
-          if (retorno === 1) {
-            $("#recebe-mensagem-cadastro-alterar-realizado-cliente").html(
-              "Cliente cadastrado com sucesso"
-            );
-            $("#recebe-mensagem-cadastro-alterar-realizado-cliente").show();
-            $("#recebe-mensagem-cadastro-alterar-realizado-cliente").fadeOut(
-              4000
-            );
-          }
-        } else {
+        console.log(retorno);
+
+        if (retorno > 0 ){
+          $("#recebe-mensagem-cadastro-alterar-realizado-cliente").html(
+            "Cliente cadastrado com sucesso"
+          );
+          $("#recebe-mensagem-cadastro-alterar-realizado-cliente").show();
+          $("#recebe-mensagem-cadastro-alterar-realizado-cliente").fadeOut(
+            4000
+          );
+        } else if(retorno === "email localizado") {
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-cliente").html("E-mail já cadastrado");
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-cliente").show();
+          $("#recebe-mensagem-campo-email-duplicado-cadastro-cliente").fadeOut(4000);
+        } else{
           $("#recebe-mensagem-campo-falha-cadastro-alterar-cliente").html(
             "Falha ao cadastrar cliente:" + retorno
           );

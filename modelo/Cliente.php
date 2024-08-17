@@ -137,9 +137,9 @@ class Cliente implements ClienteInterface
             $comandoCadastroCliente->bindValue(":recebe_status_cliente", $this->getStatus_Cliente());
 
             $resultadoCadastroCliente = $comandoCadastroCliente->execute();
+            $ultimoCodigoCadastrado = Conexao::Obtem()->lastInsertId();
 
-            if (!empty($resultadoCadastroCliente))
-                return $resultadoCadastroCliente;
+            return $ultimoCodigoCadastrado;
         } catch (PDOException $exception) {
             return $exception->getMessage();
         } catch (Exception $excecao) {
@@ -323,6 +323,28 @@ class Cliente implements ClienteInterface
         } catch (Exception $excecao) {
             return $excecao->getMessage();
         }
+    }
+
+    public function VerificaDuplicidadeEmailCliente():string
+    {
+        try{
+            $instrucaoBuscaEmailClienteEsp = "select email_cliente from clientes where email_cliente = :recebe_email_cliente";
+            $comandoBuscaEmailClienteEsp = Conexao::Obtem()->prepare($instrucaoBuscaEmailClienteEsp);
+            $comandoBuscaEmailClienteEsp->bindValue(":recebe_email_cliente",$this->getEmail_Cliente());
+            $comandoBuscaEmailClienteEsp->execute();
+            $resultadoVerificaDuplicidadeEmailC = $comandoBuscaEmailClienteEsp->fetch(PDO::FETCH_ASSOC);
+
+            if(!empty($resultadoVerificaDuplicidadeEmailC["email_cliente"]))
+                return "email localizado";
+            else
+                return "nenhum email localizado";
+        }catch(PDOException $exception)
+        {
+            return $exception->getMessage();
+        }catch(Exception $excecao)
+        {
+            return $excecao->getMessage();
+        } 
     }
 
     public function EncaminharEmailCobranca():string

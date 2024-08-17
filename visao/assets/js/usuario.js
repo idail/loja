@@ -64,7 +64,6 @@ $("#criacao-conta").click(function (e) {
     );
 
     $.ajax({
-      // url: "http://localhost/software-medicos/api/UsuarioAPI.php",
       url: "../../api/UsuarioAPI.php",
       type: "POST",
       dataType: "json",
