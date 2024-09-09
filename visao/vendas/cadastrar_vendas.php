@@ -145,6 +145,7 @@
                                 <th scope="col">Valor Final</th>
                                 <th scope="col">Pago Venda</th>
                                 <th scope="col">Pagamento Agendado/Data Agendamento</th>
+                                <th scope="col">Opções</th>
                             </tr>
                         </thead>
                         <tbody id="listagem-produtos-venda">

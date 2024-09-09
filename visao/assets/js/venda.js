@@ -631,6 +631,8 @@ $("#adicionar-item-venda").click(function (e) {
     let colunaAgendadoPagamentoDataPagamentoVenda = $("<td></td>").text(
       recebeAgendarPagamentoStringFinal + " - " + recebeDataPagamentoAgendadoBR
     );
+    let colunaOpcaoRemoverItem = $("<td><a href=''><i class='bi bi-trash-fill fs-4' title='Excluir Item' onclick=removerItem(" + recebeNomeSCV + "," + recebeNomeProdutoGravar + ", " + recebeQTDPV + ", " + recebeValorBooleanoDescontoVendaFinal + "," +
+    valorDescontoFinalVP + ", " + valorFinalVP + ", " + recebePagoVendaBooleanoFinal + ", " + recebeAgendarPagamentoBooleanoFinal + ", " + recebeDataPagamentoAmericano + ", " + recebeCodigoClienteGravar + ",event)></i></a></td>");
 
     linha.append(colunaNomeProdutoSV);
     linha.append(colunaNomeClienteSV);
@@ -639,6 +641,7 @@ $("#adicionar-item-venda").click(function (e) {
     linha.append(colunaValorFinalVenda);
     linha.append(colunaPagoVenda);
     linha.append(colunaAgendadoPagamentoDataPagamentoVenda);
+    linha.append(colunaOpcaoRemoverItem);
 
     $("#listagem-produtos-venda").append(linha);
 
@@ -671,6 +674,15 @@ $("#adicionar-item-venda").click(function (e) {
     // $("#informacao-qtd-produtos-estoque").html("");
   }
 });
+
+function removerItem(valorNomeClienteV,valorNomeProduto,valorQTDProduto,valorBooleanoDescontoV,valorFinalDesconto,valorTotal,valorPagoBooleano,valorAgendamentoBooleano,valorData,valorCodigoCliente,e)
+{
+  e.preventDefault();
+
+  debugger;
+
+  this.closest("tr").remove();
+}
 
 $("#cadastro-venda").click(function (e) {
   e.preventDefault();
