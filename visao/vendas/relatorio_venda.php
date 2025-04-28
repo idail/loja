@@ -48,7 +48,7 @@ try{
     $dados .= "<title>Painel Loja</title>";
     $dados .= "</head>";
     $dados .= "<body>";
-    $dados .= "<h1>Listagem de Vendas</h1>";
+    $dados .= "<h1>Listagem de Pagamentos</h1>";
     $dados .= "<img src='https://www.idailneto.com.br/loja/visao/vendas/logo.jpg' style='height:90px;width:90px;margin-bottom:10px;'/>";
     $dados .= "<table class='table'>";
     $dados .= "<thead>";
